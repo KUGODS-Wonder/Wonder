@@ -41,7 +41,7 @@ class CustomOnBoardCardWidget extends StatelessWidget {
               Text(
                 subtitle,
                 style: AppTextStyle.regularStyle.copyWith(
-                  color: AppColors.mineShaft.withOpacity(0.65),
+                  color: AppColors.darkGrey.withOpacity(0.65),
                   fontSize: subtitleTextSize ?? Dimens.fontSize16,
                 ),
               ),

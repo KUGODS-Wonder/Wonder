@@ -16,7 +16,7 @@ class CustomTextButton extends StatelessWidget {
     this.title,
     this.height = 52,
     this.child,
-    this.buttonColor = AppColors.kPrimaryColor,
+    this.buttonColor = AppColors.kPrimary100,
     this.buttonWidth,
     this.textFontSize,
     this.addBorder = false,
@@ -45,7 +45,7 @@ class CustomTextButton extends StatelessWidget {
             if (states.contains(MaterialState.pressed)) {
               return buttonColor == Colors.transparent ||
                       buttonColor == Colors.white
-                  ? AppColors.kPrimaryColor.withOpacity(.24)
+                  ? AppColors.kPrimary100.withOpacity(.24)
                   : Colors.white.withOpacity(.14);
             }
 
@@ -57,9 +57,9 @@ class CustomTextButton extends StatelessWidget {
                 (states) => RoundedRectangleBorder(
                   borderRadius: 23.borderRadius,
                   side: BorderSide(
-                    color: buttonColor == AppColors.kPrimaryColor
+                    color: buttonColor == AppColors.kPrimary100
                         ? Colors.white
-                        : AppColors.kPrimaryColor,
+                        : AppColors.kPrimary100,
                     width: 2.w,
                   ),
                 ),
@@ -68,7 +68,7 @@ class CustomTextButton extends StatelessWidget {
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
             if (states.contains(MaterialState.disabled)) {
-              return AppColors.doveGray;
+              return AppColors.middleGrey;
             }
 
             return buttonColor;
@@ -82,7 +82,7 @@ class CustomTextButton extends StatelessWidget {
               fontSize: textFontSize ?? Dimens.fontSize16,
               color: buttonColor == Colors.white ||
                       buttonColor == Colors.transparent
-                  ? AppColors.kPrimaryColor
+                  ? AppColors.kPrimary100
                   : Colors.white,
             ),
           ),

@@ -17,7 +17,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.textStyle,
     this.height = 52,
     this.minWidth = 100,
-    this.buttonColor = AppColors.kPrimaryColor,
+    this.buttonColor = AppColors.kPrimary100,
     this.titleWidget,
     this.addBorder = false,
   })  : assert(
@@ -43,9 +43,9 @@ class CustomElevatedButton extends StatelessWidget {
                 (states) => RoundedRectangleBorder(
                   borderRadius: 10.borderRadius,
                   side: BorderSide(
-                    color: buttonColor == AppColors.kPrimaryColor
+                    color: buttonColor == AppColors.kPrimary100
                         ? Colors.white
-                        : AppColors.kPrimaryColor,
+                        : AppColors.kPrimary100,
                     width: 2.w,
                   ),
                 ),
@@ -56,7 +56,7 @@ class CustomElevatedButton extends StatelessWidget {
             if (states.contains(MaterialState.pressed)) {
               return buttonColor == Colors.transparent ||
                       buttonColor == Colors.white
-                  ? AppColors.kPrimaryColor.withOpacity(.24)
+                  ? AppColors.kPrimary100.withOpacity(.24)
                   : Colors.white.withOpacity(.14);
             }
 
@@ -66,7 +66,7 @@ class CustomElevatedButton extends StatelessWidget {
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
             if (states.contains(MaterialState.disabled)) {
-              return AppColors.doveGray;
+              return AppColors.middleGrey;
             }
             return buttonColor;
           },
@@ -80,7 +80,7 @@ class CustomElevatedButton extends StatelessWidget {
                   fontSize: Dimens.fontSize14,
                   color: buttonColor == Colors.white ||
                           buttonColor == Colors.transparent
-                      ? AppColors.kPrimaryColor
+                      ? AppColors.kPrimary100
                       : Colors.white,
                 ),
           ),

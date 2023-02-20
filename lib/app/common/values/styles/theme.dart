@@ -12,20 +12,20 @@ abstract class AppTheme {
     );
 
     final hintStyle = AppTextStyle.semiBoldStyle.copyWith(
-      color: AppColors.doveGray,
+      color: AppColors.middleGrey,
       fontSize: Dimens.fontSize14,
     );
 
     return ThemeData(
       brightness: Brightness.light,
-      primaryColor: AppColors.kPrimaryColor,
+      primaryColor: AppColors.kPrimary100,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       appBarTheme: const AppBarTheme(
-        color: AppColors.kPrimaryColor,
+        color: AppColors.kPrimary100,
       ),
       primaryTextTheme: AppTextStyle.textTheme,
       buttonTheme: ButtonThemeData(
-        buttonColor: AppColors.kPrimaryColor,
+        buttonColor: AppColors.kPrimary100,
         height: 45.h,
         textTheme: ButtonTextTheme.primary,
         shape: RoundedRectangleBorder(
@@ -57,7 +57,7 @@ abstract class AppTheme {
           backgroundColor: MaterialStateProperty.resolveWith<Color?>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.disabled)) {
-                return AppColors.doveGray;
+                return AppColors.middleGrey;
               }
               return null;
             },
@@ -90,11 +90,11 @@ abstract class AppTheme {
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         elevation: 4,
-        backgroundColor: AppColors.kPrimaryColor,
+        backgroundColor: AppColors.kPrimary100,
       ),
       textTheme: TextTheme(
-        subtitle1: AppTextStyle.regularStyle.copyWith(
-          color: AppColors.mineShaft,
+        titleMedium: AppTextStyle.regularStyle.copyWith(
+          color: AppColors.darkGrey,
           fontSize: Dimens.fontSize14,
         ),
       ),
@@ -137,7 +137,7 @@ abstract class AppTheme {
         ),
       ),
       colorScheme: ColorScheme.fromSwatch().copyWith(
-        secondary: AppColors.kPrimaryColor,
+        secondary: AppColors.kPrimary100,
       ),
     );
   }

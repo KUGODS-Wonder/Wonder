@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 abstract class AppColors {
-  static const Color kPrimaryColor = Color(0xFF1976D2);
-  static const Color mineShaft = Color(0xFF2B2B2B);
-  static const Color doveGray = Color(0xFF646464);
-  static const Color caribbeanGreen = Color(0xFF06C5AC);
-  static const Color amaranth = Color(0xFFea435d);
+  static const Color kPrimary100 = Color(0xFFFF5E5E);
+  static const Color kPrimary80 = Color(0xFFFF8585);
+  static const Color kPrimary60 = Color(0xFFFFC9C9);
+  static const Color reward100 = Color(0xFFFF9E67);
+  static const Color reward80 = Color(0xFFFFD390);
+  static const Color reward60 = Color(0xFFFFF8ED);
   static const Color black = Colors.black;
+  static const Color darkGrey = Color(0xFF333333);
+  static const Color middleGrey = Color(0xFF797979);
+  static const Color lightGrey = Color(0xFF9B9B9B);
+  static const Color faintGrey = Color(0xFFD9D9D9);
   static const Color white = Colors.white;
 }

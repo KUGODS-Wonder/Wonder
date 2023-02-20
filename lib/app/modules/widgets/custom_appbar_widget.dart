@@ -20,7 +20,7 @@ class CustomAppbarWidget extends PreferredSize {
     this.leading,
     this.addBackButton = true,
     this.onBackPress,
-    this.backgroundColor = AppColors.kPrimaryColor,
+    this.backgroundColor = AppColors.kPrimary100,
     this.backbuttonColor = Colors.white,
     this.textColor,
     this.textStyle,
@@ -73,7 +73,7 @@ class CustomAppbarWidget extends PreferredSize {
                   AppTextStyle.boldStyle.copyWith(
                     color: textColor ??
                         (backgroundColor == Colors.white
-                            ? AppColors.mineShaft
+                            ? AppColors.darkGrey
                             : Colors.white),
                     fontSize: Dimens.fontSize18,
                   ),

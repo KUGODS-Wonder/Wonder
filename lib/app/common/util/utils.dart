@@ -31,7 +31,7 @@ abstract class Utils {
           textAlign: TextAlign.center,
           maxLines: 6,
           style: AppTextStyle.semiBoldStyle.copyWith(
-            color: AppColors.mineShaft,
+            color: AppColors.darkGrey,
             fontSize: Dimens.fontSize16,
           ),
         ),
@@ -76,7 +76,7 @@ abstract class Utils {
               Text(message,
                   textAlign: TextAlign.center,
                   style: AppTextStyle.regularStyle.copyWith(
-                    color: AppColors.mineShaft,
+                    color: AppColors.darkGrey,
                     fontSize: Dimens.fontSize16,
                   )),
               SizedBox(height: 20.w),
@@ -215,7 +215,7 @@ abstract class Utils {
                         Strings.gallery,
                         textAlign: TextAlign.center,
                         style: AppTextStyle.semiBoldStyle.copyWith(
-                          color: AppColors.mineShaft,
+                          color: AppColors.darkGrey,
                           fontSize: Dimens.fontSize16,
                         ),
                       )
@@ -247,7 +247,7 @@ abstract class Utils {
                         Strings.camera,
                         textAlign: TextAlign.center,
                         style: AppTextStyle.semiBoldStyle.copyWith(
-                          color: AppColors.mineShaft,
+                          color: AppColors.darkGrey,
                           fontSize: Dimens.fontSize16,
                         ),
                       )

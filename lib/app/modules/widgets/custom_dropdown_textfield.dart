@@ -39,7 +39,7 @@ class CustomDropdownTextField<T> extends StatelessWidget {
                 labelText: title,
                 hintStyle: AppTextStyle.regularStyle.copyWith(
                   fontSize: textFontSize ?? Dimens.fontSize14,
-                  color: AppColors.mineShaft,
+                  color: AppColors.darkGrey,
                 ),
                 floatingLabelBehavior: value == null || item == null
                     ? FloatingLabelBehavior.never
@@ -61,7 +61,7 @@ class CustomDropdownTextField<T> extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: AppTextStyle.regularStyle.copyWith(
                           fontSize: textFontSize ?? Dimens.fontSize14,
-                          color: AppColors.mineShaft,
+                          color: AppColors.darkGrey,
                         ),
                       ),
                     ),

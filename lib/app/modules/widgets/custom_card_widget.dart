@@ -46,7 +46,7 @@ class CustomCardWidget extends StatelessWidget {
             const Spacer(),
             CircleAvatar(
               radius: 12.r,
-              backgroundColor: AppColors.amaranth,
+              backgroundColor: AppColors.kPrimary80,
               child: Text(
                 trailingText!,
                 style: AppTextStyle.regularStyle.copyWith(

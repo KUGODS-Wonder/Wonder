@@ -26,7 +26,7 @@ class CustomRowTextWidget extends StatelessWidget {
           maxLines: 1,
           style: titleStyle ??
               AppTextStyle.regularStyle.copyWith(
-                color: AppColors.mineShaft,
+                color: AppColors.darkGrey,
               ),
         ),
         Text(

@@ -23,7 +23,7 @@ class CustomRichTextWidget extends StatelessWidget {
         text: title,
         style: titleStyle ??
             AppTextStyle.regularStyle.copyWith(
-              color: AppColors.mineShaft,
+              color: AppColors.darkGrey,
               fontSize: Dimens.fontSize14,
             ),
         children: [

@@ -54,7 +54,7 @@ class CustomTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = AppTextStyle.regularStyle.copyWith(
-      color: AppColors.mineShaft,
+      color: AppColors.darkGrey,
       fontSize: Dimens.fontSize15,
     );
 

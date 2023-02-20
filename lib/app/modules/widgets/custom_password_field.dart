@@ -41,7 +41,7 @@ class PasswordFieldWidget extends StatelessWidget {
         prefixIcon: prefixIcon,
         suffixIcon: IconButton(
           onPressed: onObscureIconClick,
-          color: AppColors.kPrimaryColor,
+          color: AppColors.kPrimary100,
           icon: Icon(
             obscureText ? Icons.visibility_off : Icons.visibility,
             size: 20.w,

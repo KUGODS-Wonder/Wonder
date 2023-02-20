@@ -12,7 +12,7 @@ class CustomInkwellWidget extends Material {
           color: Colors.transparent,
           child: InkWell(
             onTap: onTap,
-            splashColor: AppColors.kPrimaryColor.withOpacity(0.24),
+            splashColor: AppColors.kPrimary100.withOpacity(0.24),
             child: child.paddingAll(8),
           ),
         );
