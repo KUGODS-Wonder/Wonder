@@ -1,12 +1,16 @@
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 
 class MapController extends GetxController {
-  //TODO: Implement MapController
+final WalkProvider _walkProvider = WalkProvider.to;
 
   final count = 0.obs;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    var walks = await _walkProvider.getWalks();
+
+    printInfo(info: walks.toString());
   }
 
   @override

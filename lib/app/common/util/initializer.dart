@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:wonder_flutter/app/data/api_helper.dart';
 import 'package:wonder_flutter/app/data/api_helper_impl.dart';
 import 'package:wonder_flutter/app/data/interface_controller/api_interface_controller.dart';
+import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_error_widget.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -58,6 +59,10 @@ class InitialBindings extends Bindings {
   void dependencies() {
     Get.lazyPut<ApiHelper>(
       () => ApiHelperImpl(),
+    );
+
+    Get.lazyPut<WalkProvider>(
+      () => WalkProvider(),
     );
 
     Get.lazyPut<ApiInterfaceController>(
