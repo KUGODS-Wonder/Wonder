@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
+import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 
 import '../controllers/splash_controller.dart';
 
@@ -15,10 +16,14 @@ class SplashView extends GetView<SplashController> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Text(
                 'WONDER',
-                style: TextStyle(fontSize: 30.0, color: AppColors.white),
+                style: AppTextStyle.extraBoldStyle.copyWith(
+                  fontSize: 48.0,
+                  fontStyle: FontStyle.italic,
+                  color: AppColors.white
+                ),
               ),
             ],
           ),
