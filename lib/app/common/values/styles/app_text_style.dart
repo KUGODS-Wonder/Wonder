@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wonder_flutter/app/common/values/app_colors.dart';
 
 import 'dimens.dart';
 
@@ -92,6 +93,20 @@ abstract class AppTextStyle {
   static final TextStyle overline = regularStyle.copyWith(
     fontSize: Dimens.fontSize10,
     letterSpacing: 1.5,
+  );
+
+  static final TextStyle walkTitle = semiBoldStyle.copyWith(
+    fontSize: 20,
+  );
+
+  static final TextStyle walkAddress = lightStyle.copyWith(
+    fontSize: 14,
+    color: AppColors.middleGrey,
+  );
+
+  static final TextStyle walkDescription = regularStyle.copyWith(
+    fontSize: 13,
+    color: AppColors.middleGrey,
   );
 
   static final TextStyle lightStyle = _textStyle.copyWith(
