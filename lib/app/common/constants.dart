@@ -2,6 +2,7 @@ abstract class Constants {
   static const String baseUrl = String.fromEnvironment('B');
 
   static const timeout = Duration(seconds: 5);
+  static const splashTime = Duration(seconds: 2);
   static const String token = 'authToken';
 
   static const String dummyImageUrl =
