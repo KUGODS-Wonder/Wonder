@@ -2,7 +2,7 @@ class Walk {
   String? name;
   String? location;
   String? theme;
-  List<Tags>? tags;
+  List<Tag>? tags;
   int? ratingUp;
   int? requiredWalksLeft;
   int? distance;
@@ -23,9 +23,9 @@ class Walk {
     location = json['location'];
     theme = json['theme'];
     if (json['tags'] != null) {
-      tags = <Tags>[];
+      tags = <Tag>[];
       json['tags'].forEach((v) {
-        tags?.add(Tags.fromJson(v));
+        tags?.add(Tag.fromJson(v));
       });
     }
     ratingUp = json['ratingUp'];
@@ -50,12 +50,12 @@ class Walk {
   }
 }
 
-class Tags {
+class Tag {
   String? name;
 
-  Tags({this.name});
+  Tag({this.name});
 
-  Tags.fromJson(Map<String, dynamic> json) {
+  Tag.fromJson(Map<String, dynamic> json) {
     name = json['name'];
   }
 

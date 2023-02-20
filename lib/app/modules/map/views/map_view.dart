@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
+import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 import '../controllers/map_controller.dart';
@@ -21,7 +22,7 @@ class MapView extends GetView<MapController> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildWalkCard(),
+                _buildWalkContainers(),
                 const SizedBox(height: 20),
               ],
             ),
@@ -63,54 +64,13 @@ class MapView extends GetView<MapController> {
     );
   }
 
-  Widget _buildWalkCard() {
-    return Container(
-      height: 280,
-      width: 300,
-      padding: const EdgeInsets.all(25.0),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Walk',
-                  style: AppTextStyle.walkTitle,
-                ),
-                Text(
-                  'Address',
-                  style: AppTextStyle.walkAddress,
-                ),
-                const SizedBox(height: 5.0),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '2.5 km',
-                  style: AppTextStyle.walkDescription,
-                ),
-                Text(
-                  '20분 소요',
-                  style: AppTextStyle.walkDescription,
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+  Widget _buildWalkContainers() {
+    return Obx(() {
+      if (controller.walks.isNotEmpty) {
+        return SmallWalkContainer(walk: controller.currentWalk);
+      } else {
+        return const SizedBox(height: 1);
+      }
+    });
   }
 }
