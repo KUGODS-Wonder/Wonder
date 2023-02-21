@@ -5,15 +5,14 @@ import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 
 class MapController extends GetxController with GetSingleTickerProviderStateMixin {
   final WalkProvider _walkProvider = WalkProvider.to;
-  final double _maxRotation = 20;
   late PageController pageController;
+  bool _pageControllerInitialized = false;
 
+  final double _maxRotation = 20;
   double cardWidth = 300;
   double cardHeight = 280;
   double _prevScrollX = 0;
   bool _isScrolling = false;
-
-  bool _pageControllerInitialized = false;
 
   AnimationController? _tweenController;
   Tween<double>? _tween;
@@ -110,8 +109,6 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void _setOffset(double value) {
-
-    //원래 setState 였음.
     normalizedOffset.value = value;
   }
 
