@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
@@ -15,8 +16,10 @@ class MapView extends GetView<MapController> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            color: AppColors.extraLightGrey,
+            GoogleMap(
+            mapType: MapType.normal,
+            initialCameraPosition: MapController.kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {},
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -87,8 +90,11 @@ class MapView extends GetView<MapController> {
                   return Obx(() {
                       return Rotation3d(
                         rotationY: controller.currentRotation,
-                        child: SmallWalkContainer(
-                          walk: controller.walks[i],
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 7.5, right: 7.5, top: 10.0),
+                          child: SmallWalkContainer(
+                            walk: controller.walks[i],
+                          ),
                         ),
                       );
                     }
