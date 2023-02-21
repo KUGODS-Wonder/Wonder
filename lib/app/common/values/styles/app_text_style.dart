@@ -99,6 +99,11 @@ abstract class AppTextStyle {
     fontSize: 20,
   );
 
+  static final TextStyle walkIconItemStyle = boldStyle.copyWith(
+    fontSize: 20,
+    color: AppColors.middleGrey,
+  );
+
   static final TextStyle walkAddress = lightStyle.copyWith(
     fontSize: 14,
     color: AppColors.middleGrey,

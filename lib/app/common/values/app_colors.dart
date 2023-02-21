@@ -11,6 +11,12 @@ abstract class AppColors {
   static const Color darkGrey = Color(0xFF333333);
   static const Color middleGrey = Color(0xFF797979);
   static const Color lightGrey = Color(0xFF9B9B9B);
-  static const Color faintGrey = Color(0xFFD9D9D9);
+  static const Color extraLightGrey = Color(0xFFD9D9D9);
+  static const Color faintGrey = Color(0xFFF5F5F5);
   static const Color white = Colors.white;
+
+
+  // Walk theme colors.
+  static const Color defaultWalkColor = Color(0xFFE8F6C4);
+  static const Color foodTourColor = reward60;
 }
