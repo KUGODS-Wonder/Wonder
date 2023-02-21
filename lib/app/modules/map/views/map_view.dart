@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
+import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
@@ -15,7 +16,7 @@ class MapView extends GetView<MapController> {
       body: Stack(
         children: [
           Container(
-            color: AppColors.kPrimary100,
+            color: AppColors.extraLightGrey,
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -67,7 +68,39 @@ class MapView extends GetView<MapController> {
   Widget _buildWalkContainers() {
     return Obx(() {
       if (controller.walks.isNotEmpty) {
-        return SmallWalkContainer(walk: controller.currentWalk);
+        // return SmallWalkContainer(walk: controller.currentWalk);
+        return Listener(
+          onPointerUp: controller.handlePointerUp,
+          child: NotificationListener(
+            onNotification: controller.handleScrollNotifications,
+            child: SizedBox(
+              //Wrap list in a container to control height and padding
+              height: controller.cardHeight,
+              //Use a ListView.builder, calls buildItemRenderer() lazily, whenever it need to display a listItem
+              child: PageView.builder(
+                //Use bounce-style scroll physics, feels better with this demo
+                physics: const BouncingScrollPhysics(),
+                controller: controller.pageController,
+                itemCount: controller.walks.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, i) {
+                  return Obx(() {
+                      return Rotation3d(
+                        rotationY: controller.currentRotation,
+                        child: SmallWalkContainer(
+                          walk: controller.walks[i],
+                        ),
+                      );
+                    }
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+        // WalkCardsWidget(walks: controller.walks, onWalkChange: (walk) {
+        //   printInfo(info: 'onCityChange ${walk.name}}');
+        // });
       } else {
         return const SizedBox(height: 1);
       }
