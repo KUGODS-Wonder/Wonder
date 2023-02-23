@@ -52,7 +52,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   @override
-  void onWalkChange(int index) {
+  void onSwipe(int index) {
     changeIndex(index);
   }
 }

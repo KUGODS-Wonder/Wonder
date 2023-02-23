@@ -4,16 +4,16 @@ import 'package:get/get.dart';
 
 mixin SwipePageControllerMixin on GetxController, GetSingleTickerProviderStateMixin {
 
-  late PageController pageController;
-
   final double maxRotation = 20;
   double cardWidth = 300;
   double cardHeight = 280;
   double _prevScrollX = 0;
   bool _isScrolling = false;
+  int _lastIndex = -1;
 
   AnimationController? _tweenController;
   Tween<double>? _tween;
+  late PageController pageController;
   late Animation<double> _tweenAnim;
 
   RxDouble normalizedOffset = 0.0.obs;
@@ -27,7 +27,7 @@ mixin SwipePageControllerMixin on GetxController, GetSingleTickerProviderStateMi
   }
 
 
-  void onWalkChange(int index);
+  void onSwipe(int index);
 
 
   //Check the notifications bubbling up from the ListView, use them to update our currentOffset and isScrolling state
@@ -44,7 +44,11 @@ mixin SwipePageControllerMixin on GetxController, GetSingleTickerProviderStateMi
       //Calculate the index closest to middle
       //_focusedIndex = (_prevScrollX / (_itemWidth + _listItemPadding)).round();
 
-      onWalkChange(pageController.page!.round());
+      var nextIndex = pageController.page!.round();
+      if (nextIndex != _lastIndex) {
+        _lastIndex = nextIndex;
+        onSwipe(nextIndex);
+      }
     }
     //Scroll Start
     else if (notification is ScrollStartNotification) {
