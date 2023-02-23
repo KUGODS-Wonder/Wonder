@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 
 mixin SwipePageControllerMixin on GetxController, GetSingleTickerProviderStateMixin {
-
+  static const Duration _changePageDuration = Duration(milliseconds: 1000);
   final double maxRotation = 20;
   double cardWidth = 300;
   double cardHeight = 280;
@@ -65,6 +65,12 @@ mixin SwipePageControllerMixin on GetxController, GetSingleTickerProviderStateMi
     if (_isScrolling) {
       _isScrolling = false;
       _startOffsetTweenToZero();
+    }
+  }
+
+  void moveToPage(int page) {
+    if (pageController.hasClients && pageController.page! != page) {
+      pageController.animateToPage(page, duration: _changePageDuration, curve: Curves.elasticOut);
     }
   }
 

@@ -16,11 +16,24 @@ class MapView extends GetView<MapController> {
     return Scaffold(
       body: Stack(
         children: [
-            GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: MapController.kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {},
-          ),
+            Obx(() {
+                return GoogleMap(
+                  mapType: MapType.normal,
+                  initialCameraPosition: MapController.initPos,
+                  onMapCreated: controller.onMapCreated,
+                  onCameraMove: controller.onCameraMove,
+                  onTap: controller.onMapTap,
+                  markers: Set<Marker>.of(controller.markers),
+                  myLocationButtonEnabled: true,
+                  myLocationEnabled: true,
+                  mapToolbarEnabled: false,
+                  zoomControlsEnabled: false,
+                  tiltGesturesEnabled: false,
+                  rotateGesturesEnabled: false,
+                  minMaxZoomPreference: const MinMaxZoomPreference(12, 18),
+                );
+              }
+            ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Column(

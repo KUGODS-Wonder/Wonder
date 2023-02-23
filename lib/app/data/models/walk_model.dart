@@ -1,4 +1,5 @@
 class Walk {
+  int? id;
   String? name;
   String? location;
   String? theme;
@@ -10,7 +11,8 @@ class Walk {
   List<Coordinate>? coordinate;
 
   Walk(
-      {this.name,
+      {this.id,
+      this.name,
       this.location,
       this.theme,
       this.tags,
@@ -21,6 +23,7 @@ class Walk {
       this.coordinate});
 
   Walk.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     location = json['location'];
     theme = json['theme'];
@@ -44,6 +47,7 @@ class Walk {
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
+    data['id'] = id;
     data['name'] = name;
     data['location'] = location;
     data['theme'] = theme;
@@ -85,8 +89,8 @@ class Coordinate {
 
   factory Coordinate.fromJson(Map<String, dynamic> json) {
     return Coordinate(
-      lat: json['lat'].toDouble(),
-      lng: json['lng'].toDouble(),
+      lat: json['lat'] as double,
+      lng: json['lng'] as double,
     );
   }
 
