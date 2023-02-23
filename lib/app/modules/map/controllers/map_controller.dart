@@ -19,7 +19,6 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       zoom: 19.151926040649414);
 
   late PageController pageController;
-  bool _pageControllerInitialized = false;
 
   final double _maxRotation = 20;
   double cardWidth = 300;
@@ -41,8 +40,8 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   @override
   void onInit() async {
     super.onInit();
-    walks.listen(onWalksChange);
     fetchWalks();
+    _initializePageController();
   }
 
   @override
@@ -56,10 +55,6 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void fetchWalks() async {
-    if (!_pageControllerInitialized) {
-      _initializePageController();
-      _pageControllerInitialized = true;
-    }
     walks.clear();
     walks.addAll(await _walkProvider.getWalks());
     changeIndex(walks.isEmpty ? -1 : 0);
@@ -71,8 +66,8 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     }
   }
 
-  void onWalksChange(List<Walk> walks) {
-
+  void onWalkChange(int index) {
+    changeIndex(index);
   }
 
   void _initializePageController() {
@@ -101,7 +96,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       //Calculate the index closest to middle
       //_focusedIndex = (_prevScrollX / (_itemWidth + _listItemPadding)).round();
 
-      // onWalkChange(walks.elementAt(pageController.page!.round() % walks.length));
+      onWalkChange(pageController.page!.round() % walks.length);
     }
     //Scroll Start
     else if (notification is ScrollStartNotification) {
