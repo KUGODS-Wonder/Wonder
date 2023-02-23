@@ -105,8 +105,11 @@ class MapView extends GetView<MapController> {
                         rotationY: controller.currentRotation,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 7.5, right: 7.5, top: 10.0),
-                          child: SmallWalkContainer(
-                            walk: controller.walks[i],
+                          child: Hero(
+                            tag: 'walk-container-${controller.walks[i].id}',
+                            child: SmallWalkContainer(
+                              walk: controller.walks[i],
+                            ),
                           ),
                         ),
                       );

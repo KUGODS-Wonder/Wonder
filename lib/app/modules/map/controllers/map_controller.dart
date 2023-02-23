@@ -101,6 +101,14 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       );
     }
   }
+  void onMapTap(LatLng argument) {
+    print('onMapTap: $argument');
+    fetchWalks();
+  }
+
+  void onStartButtonPressed() {
+    Navigator.of(Get.context!).pushNamed('/map_detail', arguments: currentWalk);
+  }
 
   void _addDefaultMapMarkerIcon() async {
     defaultMarkerIcon = await BitmapDescriptor.fromAssetImage(
@@ -109,8 +117,4 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     );
   }
 
-  void onMapTap(LatLng argument) {
-    print('onMapTap: $argument');
-    fetchWalks();
-  }
 }
