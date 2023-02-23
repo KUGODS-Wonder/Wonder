@@ -108,6 +108,8 @@ class MapView extends GetView<MapController> {
                           child: Hero(
                             tag: 'walk-container-${controller.walks[i].id}',
                             child: SmallWalkContainer(
+                              onSaveButtonPressed: () {},
+                              onStartButtonPressed: controller.onStartButtonPressed,
                               walk: controller.walks[i],
                             ),
                           ),

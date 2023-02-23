@@ -50,6 +50,7 @@ abstract class AppPages {
       name: _Paths.MAP_DETAIL,
       page: () => const MapDetailView(),
       binding: MapDetailBinding(),
+      transition: Transition.zoom,
     ),
   ];
 }

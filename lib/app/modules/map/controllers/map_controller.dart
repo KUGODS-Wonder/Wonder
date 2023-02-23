@@ -5,6 +5,7 @@ import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/swipe_page_controller_mixin.dart';
+import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class MapController extends GetxController with GetSingleTickerProviderStateMixin,SwipePageControllerMixin {
   final WalkProvider _walkProvider = WalkProvider.to;
@@ -58,6 +59,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void getWalksStartingPoints() {
+    markers.clear();
     for (Walk walk in walks) {
       markers.add(Marker(
         markerId: MarkerId(walk.id.toString()),
@@ -107,7 +109,11 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void onStartButtonPressed() {
-    Navigator.of(Get.context!).pushNamed('/map_detail', arguments: currentWalk);
+    Get.toNamed(Routes.MAP_DETAIL, arguments: {
+      'id': currentWalk.id,
+      'walk': currentWalk,
+    });
+    // Navigator.of(Get.context!).pushNamed('/map_detail', arguments: currentWalk);
   }
 
   void _addDefaultMapMarkerIcon() async {

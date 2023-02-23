@@ -8,7 +8,15 @@ import 'package:wonder_flutter/app/modules/widgets/walk_tag.dart';
 
 class SmallWalkContainer extends StatelessWidget {
   final Walk walk;
-  const SmallWalkContainer({Key? key, required this.walk}) : super(key: key);
+  final Function() onStartButtonPressed;
+  final Function() onSaveButtonPressed;
+
+  const SmallWalkContainer({
+    Key? key,
+    required this.walk,
+    required this.onStartButtonPressed,
+    required this.onSaveButtonPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +139,7 @@ class SmallWalkContainer extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildButton(
-                  onPressed: () {},
+                  onPressed: onSaveButtonPressed,
                   color: AppColors.white,
                   outlineColor: AppColors.kPrimary100,
                   child: Row(
@@ -158,7 +166,7 @@ class SmallWalkContainer extends StatelessWidget {
                 ),
                 const SizedBox(width: 10.0),
                 _buildButton(
-                  onPressed: () {},
+                  onPressed: onStartButtonPressed,
                   color: AppColors.kPrimary100,
                   child: Text(
                     '시작',
