@@ -73,9 +73,9 @@ class MapView extends GetView<MapController> {
       if (controller.walks.isNotEmpty) {
         // return SmallWalkContainer(walk: controller.currentWalk);
         return Listener(
-          onPointerUp: controller.handlePointerUp,
+          onPointerUp: controller.onHandlePointerUp,
           child: NotificationListener(
-            onNotification: controller.handleScrollNotifications,
+            onNotification: controller.onHandleScrollNotifications,
             child: SizedBox(
               //Wrap list in a container to control height and padding
               height: controller.cardHeight,
