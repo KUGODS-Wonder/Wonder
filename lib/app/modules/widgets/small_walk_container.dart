@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
@@ -7,26 +8,35 @@ import 'package:wonder_flutter/app/modules/widgets/walk_tag.dart';
 
 
 class SmallWalkContainer extends StatelessWidget {
+  static const Duration _animateDuration = Duration(milliseconds: 300);
   final Walk walk;
   final Function() onStartButtonPressed;
   final Function() onSaveButtonPressed;
+  bool isDetailMode;
+  double detailHeight;
 
-  const SmallWalkContainer({
+  SmallWalkContainer({
     Key? key,
     required this.walk,
     required this.onStartButtonPressed,
     required this.onSaveButtonPressed,
+    this.isDetailMode = false,
+    this.detailHeight = 280,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 280,
-      width: 300,
-      padding: const EdgeInsets.all(25.0),
+    return AnimatedContainer(
+      height: isDetailMode ? detailHeight : 280,
+      width: isDetailMode ? Get.width : 300,
+      duration: _animateDuration,
+      padding: EdgeInsets.symmetric(
+          vertical: isDetailMode ? 0.0: 25.0,
+          horizontal: 25.0
+      ),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(isDetailMode ? 0 : 30),
       ),
       child: Stack(
         children: [
@@ -67,6 +77,7 @@ class SmallWalkContainer extends StatelessWidget {
                   children: [
                     _buildIconItem(
                         'assets/images/increase.png',
+                        isDetailMode: isDetailMode,
                         background: AppColors.faintGrey,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -83,6 +94,7 @@ class SmallWalkContainer extends StatelessWidget {
                     const SizedBox(width: 15.0),
                     _buildIconItem(
                         'assets/images/fireworks.png',
+                        isDetailMode: isDetailMode,
                         background: AppColors.reward60,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -184,14 +196,16 @@ class SmallWalkContainer extends StatelessWidget {
   }
 
   Widget _buildIconItem(String path, {
-      required Color background,
-      Widget? child}) {
-    return Container(
-      height: 75.0,
-      width: 65.0,
+    required Color background,
+    required bool isDetailMode,
+    Widget? child}) {
+    return AnimatedContainer(
+      duration: _animateDuration,
+      height: isDetailMode ? 55.0 : 75.0,
+      width: isDetailMode ? 115.0 : 65.0,
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(isDetailMode ? 10.0 : 0.0),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -207,6 +221,7 @@ class SmallWalkContainer extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _buildButton({
       required Widget child,
