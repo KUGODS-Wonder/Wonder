@@ -155,32 +155,33 @@ class SmallWalkContainer extends StatelessWidget {
           Align(
             alignment: Alignment.topRight,
             child: SizedBox(
-              width: 100.0,
+              width: 150.0,
               height: 40.0,
               child: Stack(
                 children: [
-                  Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: AnimatedContainer(
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      children: [
+                        AnimatedContainer(
                           duration: _animateDuration,
                           decoration: BoxDecoration(
                             color: themeStyle.color,
                             borderRadius: BorderRadius.circular(5.0),
                           ),
-                          width: isDetailMode ? 80.0 : 0.0,
+                          width: isDetailMode ? 120.0 : 0.0,
                           height: 20.0,
                           child: Text(
                             walk.theme!,
+                            textAlign: TextAlign.center,
                             style: AppTextStyle.semiBoldStyle.copyWith(
                               fontSize: 15.0
                             )
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 20.0)
-                    ],
+                        const SizedBox(width: 20.0)
+                      ],
+                    ),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
