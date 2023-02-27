@@ -12,6 +12,7 @@ class SmallWalkContainer extends StatelessWidget {
   final Walk walk;
   final Function() onStartButtonPressed;
   final Function() onSaveButtonPressed;
+  final WalkThemeStyleModel themeStyle;
   bool isDetailMode;
   double detailHeight;
 
@@ -22,7 +23,7 @@ class SmallWalkContainer extends StatelessWidget {
     required this.onSaveButtonPressed,
     this.isDetailMode = false,
     this.detailHeight = 280,
-  }) : super(key: key);
+  }) : themeStyle = AppWalkThemeStyle.getStyle(walk.theme!), super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,59 +74,124 @@ class SmallWalkContainer extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 5.0),
-                Row(
-                  children: [
-                    _buildIconItem(
-                        'assets/images/increase.png',
-                        isDetailMode: isDetailMode,
-                        background: AppColors.faintGrey,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.add_rounded, color: AppColors.middleGrey, size: 14.0),
-                            Text(
-                              '${walk.ratingUp ?? 0}',
-                              style: AppTextStyle.walkIconItemStyle,
-                            ),
-                          ],
-                        )
-                    ),
-                    const SizedBox(width: 15.0),
-                    _buildIconItem(
-                        'assets/images/fireworks.png',
-                        isDetailMode: isDetailMode,
-                        background: AppColors.reward60,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/walking_person.png',
-                              width: 20.0,
-                              height: 20.0
-                            ),
-                            const Icon(Icons.close_rounded, color: AppColors.reward100, size: 14.0),
-                            Text(
-                              '${walk.requiredWalksLeft ?? 0}',
-                              style: AppTextStyle.walkIconItemStyle.copyWith(
-                                color: AppColors.reward100,
+                SizedBox(
+                  width: Get.width,
+                  height: 130.0,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _buildIconItem(
+                          'assets/images/increase.png',
+                          isDetailMode: isDetailMode,
+                          left: 0.0,
+                          top: 0.0,
+                          background: AppColors.faintGrey,
+                          child: Stack(
+                            children: [
+                              AnimatedPositioned(
+                                left: isDetailMode ? 63.0 : 14.0,
+                                top: isDetailMode ? 20.0 : 57.0,
+                                duration: _animateDuration,
+                                child: const Icon(Icons.add_rounded, color: AppColors.middleGrey, size: 14.0)
                               ),
-                            ),
-                          ],
-                        )
-                    ),
-                  ]
+                              AnimatedPositioned(
+                                duration: _animateDuration,
+                                left: isDetailMode ? 80.0 : 30.0,
+                                top: isDetailMode ? 12.0 : 50.0,
+                                child: Text(
+                                  '${walk.ratingUp ?? 0}',
+                                  style: AppTextStyle.walkIconItemStyle,
+                                ),
+                              ),
+                            ],
+                          )
+                      ),
+                      // const SizedBox(width: 15.0),
+                      _buildIconItem(
+                          'assets/images/fireworks.png',
+                          isDetailMode: isDetailMode,
+                          left: 80.0,
+                          detailLeft: 0.0,
+                          top: 0.0,
+                          detailTop: 70.0,
+                          background: AppColors.reward60,
+                          child: Stack(
+                            children: [
+                              AnimatedPositioned(
+                                left: isDetailMode ? 58.0 : 9.0,
+                                top: isDetailMode ? 18.0 : 55.0,
+                                duration: _animateDuration,
+                                child: Image.asset(
+                                  'assets/images/walking_person.png',
+                                  width: 20.0,
+                                  height: 20.0
+                                ),
+                              ),
+                              AnimatedPositioned(
+                                left: isDetailMode ? 75.0 : 26.0,
+                                top: isDetailMode ? 20.0 : 57.0,
+                                duration: _animateDuration,
+                                child: const Icon(Icons.close_rounded, color: AppColors.reward100, size: 14.0)),
+                              AnimatedPositioned(
+                                left: isDetailMode ? 90.0 : 41.0,
+                                top: isDetailMode ? 12.0 : 50.0,
+                                duration: _animateDuration,
+                                child: Text(
+                                  '${walk.requiredWalksLeft ?? 0}',
+                                  style: AppTextStyle.walkIconItemStyle.copyWith(
+                                    color: AppColors.reward100,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                      ),
+                    ]
+                  ),
                 )
               ],
             ),
           ),
           Align(
             alignment: Alignment.topRight,
-            child: Image.asset(
-              AppWalkThemeStyle.getStyle(walk.theme ?? '').path,
-              width: 40.0,
+            child: SizedBox(
+              width: 100.0,
               height: 40.0,
+              child: Stack(
+                children: [
+                  Row(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: AnimatedContainer(
+                          duration: _animateDuration,
+                          decoration: BoxDecoration(
+                            color: themeStyle.color,
+                            borderRadius: BorderRadius.circular(5.0),
+                          ),
+                          width: isDetailMode ? 80.0 : 0.0,
+                          height: 20.0,
+                          child: Text(
+                            walk.theme!,
+                            style: AppTextStyle.semiBoldStyle.copyWith(
+                              fontSize: 15.0
+                            )
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20.0)
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      AppWalkThemeStyle.getStyle(walk.theme ?? '').path,
+                      width: 40.0,
+                      height: 40.0,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Align(
@@ -198,26 +264,37 @@ class SmallWalkContainer extends StatelessWidget {
   Widget _buildIconItem(String path, {
     required Color background,
     required bool isDetailMode,
+    required double left,
+    double? detailLeft,
+    required double top,
+    double? detailTop,
     Widget? child}) {
-    return AnimatedContainer(
+    return AnimatedPositioned(
       duration: _animateDuration,
-      height: isDetailMode ? 55.0 : 75.0,
-      width: isDetailMode ? 115.0 : 65.0,
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(isDetailMode ? 10.0 : 0.0),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            path,
-            width: 38.0,
-            height: 38.0,
-          ),
-          child ?? const SizedBox.shrink()
-        ],
+      left: isDetailMode ? (detailLeft ?? left) : left,
+      top: isDetailMode ? (detailTop ?? top) : top,
+      child: AnimatedContainer(
+        duration: _animateDuration,
+        height: isDetailMode ? 55.0 : 75.0,
+        width: isDetailMode ? 115.0 : 65.0,
+        decoration: BoxDecoration(
+          color: background,
+          borderRadius: BorderRadius.circular(isDetailMode ? 10.0 : 0.0),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 15.0,
+              top: 10.0,
+              child: Image.asset(path, width: 36.0, height: 36.0),
+            ),
+            SizedBox(
+                height: isDetailMode ? 55.0 : 75.0,
+                width: isDetailMode ? 115.0 : 65.0,
+              child: child ?? const SizedBox.shrink()
+            )
+          ],
+        ),
       ),
     );
   }
