@@ -103,8 +103,8 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       );
     }
   }
+
   void onMapTap(LatLng argument) {
-    print('onMapTap: $argument');
     fetchWalks();
   }
 
