@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../models/profile_model.dart';
 
 class ProfileProvider extends GetConnect {
+  static ProfileProvider get to => Get.find();
+
   @override
   void onInit() {
     httpClient.defaultDecoder = (map) {
@@ -13,9 +19,13 @@ class ProfileProvider extends GetConnect {
     httpClient.baseUrl = 'YOUR-API-URL';
   }
 
-  Future<Profile?> getProfile(int id) async {
-    final response = await get('profile/$id');
-    return response.body;
+  Future<Profile> getProfile() async {
+    final response = jsonDecode(await rootBundle.loadString('assets/profile.json'));
+    if (response != null) {
+      return Profile.fromJson(response);
+    } else {
+      throw const HttpException('Failed to load profile');
+    }
   }
 
   Future<Response<Profile>> postProfile(Profile profile) async =>

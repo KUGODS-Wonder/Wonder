@@ -123,6 +123,11 @@ abstract class AppTextStyle {
     color: AppColors.middleGrey,
   );
 
+  static final TextStyle rankStyle = boldStyle.copyWith(
+    fontSize: 32,
+    color: AppColors.reward100,
+  );
+
   static final TextStyle lightStyle = _textStyle.copyWith(
     fontWeight: FontWeight.w300,
   );

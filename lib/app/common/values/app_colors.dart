@@ -7,6 +7,8 @@ abstract class AppColors {
   static const Color reward100 = Color(0xFFFF9E67);
   static const Color reward80 = Color(0xFFFFD390);
   static const Color reward60 = Color(0xFFFFF8ED);
+  static const Color lightReward100 = Color(0xFFFFA927);
+  static const Color lightReward90 = Color(0xFFFBBC05);
   static const Color black = Colors.black;
   static const Color darkGrey = Color(0xFF333333);
   static const Color middleGrey = Color(0xFF797979);
