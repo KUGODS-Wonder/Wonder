@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/modules/middlewares/location_permission_guard.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class SplashController extends GetxController {
@@ -16,7 +17,7 @@ class SplashController extends GetxController {
     await Future.delayed(Constants.splashTime);
 
     // 임시로 맵으로 이동 시킴
-    Get.offNamed(Routes.MAP);
+    recursiveLocationCheck();
 
     // 차후에 로그인 구현되면 아래 코드로 이동 시킬 예정
     //
@@ -35,5 +36,13 @@ class SplashController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void recursiveLocationCheck() async {
+    if (await LocationPermissionGuard.checkLocationPermissions()) {
+      Get.offNamed(Routes.MAP);
+    } else {
+      recursiveLocationCheck();
+    }
   }
 }

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wonder_flutter/app/common/util/exports.dart';
+import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
-import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 import '../controllers/map_controller.dart';
 
@@ -31,6 +30,7 @@ class MapView extends GetView<MapController> {
                   tiltGesturesEnabled: false,
                   rotateGesturesEnabled: false,
                   minMaxZoomPreference: const MinMaxZoomPreference(12, 18),
+                  padding: EdgeInsets.only(bottom: controller.cardHeight, top: 60),
                 );
               }
             ),
@@ -46,37 +46,8 @@ class MapView extends GetView<MapController> {
           ),
         ],
       ),
-      bottomNavigationBar: SizedBox(
-        height: 90,
-        child: BottomNavigationBar(
-          iconSize: 30,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: 'Map',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark),
-              label: 'Bookmarks',
-            ),
-          ],
-          currentIndex: 1,
-          selectedItemColor: AppColors.middleGrey,
-          unselectedItemColor: AppColors.middleGrey,
-          unselectedFontSize: 13.0,
-          selectedFontSize: 13.0,
-          onTap: (index) {
-            if (index == 0) {
-              Get.offNamed(Routes.HOME);
-            } else if (index == 2) {
-              Get.offAllNamed(Routes.SPLASH);
-            }
-          },
-        ),
+      bottomNavigationBar: AppBottomNavigationBar(
+        currentIndex: 1,
       ),
     );
   }
