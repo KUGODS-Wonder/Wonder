@@ -99,6 +99,10 @@ abstract class AppTextStyle {
     fontSize: 20,
   );
 
+  static final TextStyle profileName = semiBoldStyle.copyWith(
+    fontSize: 24,
+  );
+
   static final TextStyle walkIconItemStyle = boldStyle.copyWith(
     fontSize: 20,
     color: AppColors.middleGrey,
@@ -111,6 +115,11 @@ abstract class AppTextStyle {
 
   static final TextStyle walkDescription = regularStyle.copyWith(
     fontSize: 13,
+    color: AppColors.middleGrey,
+  );
+
+  static final TextStyle profileEmailStyle = mediumStyle.copyWith(
+    fontSize: 16,
     color: AppColors.middleGrey,
   );
 

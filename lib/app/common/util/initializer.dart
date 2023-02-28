@@ -61,9 +61,7 @@ class InitialBindings extends Bindings {
       () => ApiHelperImpl(),
     );
 
-    Get.lazyPut<WalkProvider>(
-      () => WalkProvider(),
-    );
+    Get.put<WalkProvider>(WalkProvider());
 
     Get.lazyPut<ApiInterfaceController>(
       () => ApiInterfaceController(),

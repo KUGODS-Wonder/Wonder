@@ -1,26 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:wonder_flutter/app/common/storage/storage.dart';
-import 'package:wonder_flutter/app/data/api_helper.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  final ApiHelper _apiHelper = ApiHelper.to;
+class HomeController extends GetxController with GetSingleTickerProviderStateMixin{
 
-  final RxList _dataList = RxList();
-  List<dynamic> get dataList => _dataList;
-  set dataList(List<dynamic> dataList) => _dataList.addAll(dataList);
+  static const Duration _circularAnimationDuration = Duration(milliseconds: 500);
+
+  late AnimationController circularAnimationController;
+  late Tween<double> _tween;
+  late Animation<double> _tweenAnim;
 
   @override
-  void onReady() {
-    super.onReady();
-
-    // getPosts();
+  void onInit() {
+    super.onInit();
   }
 
-  void getPosts() {
-    _apiHelper.getPosts().futureValue(
-          (value) => dataList = value,
-          retryFunction: getPosts,
-        );
+  @override
+  void onReady() async {
+    super.onReady();
+    await fetchProfile();
+    _initializeCircularAnimation();
   }
 
   void onEditProfileClick() {
@@ -33,7 +32,20 @@ class HomeController extends GetxController {
 
   void onLogoutClick() {
     Storage.clearStorage();
-    // Get.offAllNamed(Routes.HOME);
-    //Specify the INITIAL SCREEN you want to display to the user after logout
+  }
+
+
+  Future fetchProfile() async {
+    await Future.delayed(const Duration(seconds: 1));
+    _initializeCircularAnimation();
+  }
+
+  void _initializeCircularAnimation() {
+    circularAnimationController = AnimationController(
+      vsync: this,
+      duration: _circularAnimationDuration,
+    );
+    _tween = Tween<double>(begin: 0, end: 1);
+    _tweenAnim = _tween.animate(CurvedAnimation(parent: circularAnimationController, curve: Curves.easeIn));
   }
 }
