@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_inkwell_widget.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_text_button.dart';
@@ -304,5 +306,12 @@ abstract class Utils {
     } else {
       return File(croppedFile.path);
     }
+  }
+
+  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
 }
