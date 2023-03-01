@@ -48,8 +48,12 @@
 
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Need location when in use</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Always and when in use!</string>
 
     <key>NSCameraUsageDescription</key>
     <string>camera</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>
