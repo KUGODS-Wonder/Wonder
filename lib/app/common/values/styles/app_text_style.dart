@@ -133,6 +133,11 @@ abstract class AppTextStyle {
     color: AppColors.reward100,
   );
 
+  static final TextStyle rankStatisticsStyle = boldStyle.copyWith(
+    fontSize: 14,
+    color: AppColors.black,
+  );
+
   static final TextStyle lightStyle = _textStyle.copyWith(
     fontWeight: FontWeight.w300,
   );

@@ -314,4 +314,44 @@ abstract class Utils {
     ui.FrameInfo fi = await codec.getNextFrame();
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
+
+  static convertHoursToString(int hours) {
+    var date = DateTime.fromMillisecondsSinceEpoch(hours * 3600000);
+    var items = [
+      {'text': 'year', 'value': date.year - 1970},
+      {'text': 'month', 'value': date.month},
+      {'text': 'day', 'value': date.day},
+      {'text': 'hr', 'value': date.hour},
+    ];
+    var str = '';
+    for (var item in items) {
+      if (item['value'] != 0) {
+        str += '${item['value']} ${item['text']}';
+        if (item['value'] as int > 1) {
+          str += 's ';
+        } else {
+          str += ' ';
+        }
+      }
+    }
+
+    if (str.isEmpty) {
+      str = '0 hr';
+    }
+
+    return str;
+  }
+
+  static convertDistanceToKm(int meters) {
+    var km = meters ~/ 1000;
+    var metersLeft = meters % 1000;
+    String str;
+    if (km == 0) {
+      str = '${metersLeft}m';
+    } else {
+      str = '$km.${metersLeft ~/ 100}km';
+    }
+
+    return str;
+  }
 }

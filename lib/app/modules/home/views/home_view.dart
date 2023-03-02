@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/modules/home/controllers/home_controller.dart';
@@ -28,7 +29,7 @@ class HomeView extends GetView<HomeController> {
               }
             }
 
-            return Column(
+            return Stack(
               children: [
                 const SizedBox(height: 60),
                 Align(
@@ -36,15 +37,61 @@ class HomeView extends GetView<HomeController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        controller.profile.nickname,
-                        style: AppTextStyle.profileName,
+                      SizedBox(
+                        height: 28.0,
+                        child: Text(
+                          controller.profile.nickname,
+                          style: AppTextStyle.profileName,
+                        ),
                       ),
                       Text(
                         controller.profile.email,
                         style: AppTextStyle.profileEmailStyle,
                       ),
-                      _buildRankCircle(),
+                      const SizedBox(height: 5.0),
+                      Row(
+                        children: [
+                          _buildRankCircle(170.0),
+                          const SizedBox(width: 10.0),
+                          SizedBox(
+                            height: 170.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      Utils.convertHoursToString(controller.profile.hoursWalked),
+                                      style: AppTextStyle.rankStatisticsStyle,
+                                    ),
+                                    Text(
+                                        '총 걸은 시간',
+                                        style: AppTextStyle.walkDescription
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      Utils.convertDistanceToKm(controller.profile.totalDistanceWalked),
+                                      style: AppTextStyle.rankStatisticsStyle,
+                                    ),
+                                    Text(
+                                        '총 걸은 거리',
+                                        style: AppTextStyle.walkDescription
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -58,10 +105,10 @@ class HomeView extends GetView<HomeController> {
   }
 
 
-  Widget _buildRankCircle() {
+  Widget _buildRankCircle(double length) {
     return Container(
-      width: 170,
-      height: 170,
+      width: length,
+      height: length,
       alignment: Alignment.centerLeft,
       child: Stack(
         children: [
