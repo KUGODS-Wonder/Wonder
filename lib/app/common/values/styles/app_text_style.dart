@@ -138,6 +138,38 @@ abstract class AppTextStyle {
     color: AppColors.black,
   );
 
+  static final TextStyle profileTitlesStyle = boldStyle.copyWith(
+    fontSize: 24,
+    color: AppColors.black,
+  );
+
+  static final TextStyle leaderboardLocationStyle = boldStyle.copyWith(
+    fontSize: 16,
+    color: AppColors.lightGrey,
+  );
+
+  static final TextStyle leaderboardWeekTitleStyle = boldStyle.copyWith(
+    fontSize: 15,
+    color: AppColors.black,
+  );
+
+  static TextStyle leaderboardTextStyle = AppTextStyle.mediumStyle.copyWith(
+    fontSize: 13.0,
+    color: AppColors.middleGrey,
+  );
+
+  static TextStyle leaderboardKmTextStyle = AppTextStyle.leaderboardTextStyle.copyWith(
+    color: AppColors.black,
+  );
+
+  static TextStyle leaderboardLeaderTextStyle = AppTextStyle.leaderboardTextStyle.copyWith(
+    color: AppColors.reward100,
+  );
+
+  static TextStyle leaderboardLocalUserTextStyle = AppTextStyle.leaderboardTextStyle.copyWith(
+    color: AppColors.reward60,
+  );
+
   static final TextStyle lightStyle = _textStyle.copyWith(
     fontWeight: FontWeight.w300,
   );

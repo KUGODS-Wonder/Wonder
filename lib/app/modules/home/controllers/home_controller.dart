@@ -17,6 +17,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
 
   late Profile profile;
   late LeaderboardData leaderboard;
+  late List<Rank> leaderboardDisplayRanks = <Rank>[];
 
   late AnimationController circularAnimationController;
   late Tween<double> _circularTween;
@@ -58,6 +59,9 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
 
       profile = await profileFuture;
       leaderboard = await leaderboardFuture;
+
+      leaderboardDisplayRanks.add(Rank(nickname: '나', distance: leaderboard.myDistance));
+      leaderboardDisplayRanks.addAll(leaderboard.rank);
     }
     catch (_) {
       return Future.error('프로필 데이터 획득 실패');
