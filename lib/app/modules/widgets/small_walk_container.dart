@@ -106,7 +106,20 @@ class SmallWalkContainer extends StatelessWidget {
                             ],
                           )
                       ),
-                      // const SizedBox(width: 15.0),
+                      Positioned(
+                        top: 7.0,
+                        left: 140.0,
+                        right: 0.0,
+                        // width: 200.0,
+                        child: AnimatedOpacity(
+                          opacity: isDetailMode ? 1.0 : 0.0,
+                          duration: _animateDuration,
+                          child: Text(
+                            '이 산책로를 완주하면 ${walk.ratingUp!}의 보상이 있습니다!',
+                            style: AppTextStyle.rewardDescription,
+                          ),
+                        ),
+                      ),
                       _buildIconItem(
                           'assets/images/fireworks.png',
                           isDetailMode: isDetailMode,
@@ -145,6 +158,19 @@ class SmallWalkContainer extends StatelessWidget {
                               ),
                             ],
                           )
+                      ),
+                      Positioned(
+                        top: 77.0,
+                        left: 140.0,
+                        right: 0.0,
+                        child: AnimatedOpacity(
+                          opacity: isDetailMode ? 1.0 : 0.0,
+                          duration: _animateDuration,
+                          child: Text(
+                            '이 산책로를 앞으로 총 ${walk.requiredWalksLeft!}번 걸으면 랭크 업!',
+                            style: AppTextStyle.rewardDescription,
+                          ),
+                        ),
                       ),
                     ]
                   ),

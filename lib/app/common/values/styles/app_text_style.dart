@@ -118,6 +118,11 @@ abstract class AppTextStyle {
     color: AppColors.middleGrey,
   );
 
+  static final TextStyle rewardDescription = regularStyle.copyWith(
+    fontSize: 13,
+    color: AppColors.darkGrey,
+  );
+
   static final TextStyle profileEmailStyle = mediumStyle.copyWith(
     fontSize: 16,
     color: AppColors.middleGrey,
