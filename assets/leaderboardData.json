@@ -1,0 +1,29 @@
+{
+  "location": "서울특별시 성북구",
+  "month": 3,
+  "week": 1,
+  "myRank": 6,
+  "myDistance": 55200,
+  "rank": [
+    {
+      "nickname": "Nickname1",
+      "distance": 104300
+    },
+    {
+      "nickname": "Nickname1",
+      "distance": 99300
+    },
+    {
+      "nickname": "Nickname1",
+      "distance": 88300
+    },
+    {
+      "nickname": "Nickname1",
+      "distance": 64300
+    },
+    {
+      "nickname": "Nickname1",
+      "distance": 61300
+    }
+  ]
+}
