@@ -42,7 +42,7 @@ class MapDetailView extends GetView<MapDetailController> {
                         initialCameraPosition: MapController.initPos,
                         onMapCreated: controller.onMapCreated,
                         onCameraMove: controller.onCameraMove,
-                        myLocationButtonEnabled: true,
+                        // myLocationButtonEnabled: true,
                         myLocationEnabled: true,
                         mapToolbarEnabled: false,
                         zoomControlsEnabled: false,
