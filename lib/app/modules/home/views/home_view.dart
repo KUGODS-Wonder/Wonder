@@ -233,10 +233,13 @@ class HomeView extends GetView<HomeController> {
             scrollDirection: Axis.horizontal,
             itemCount: controller.profile.medal.length,
             itemBuilder: (context, index) {
-              return Image.asset(
-                AppMedalStyle.getStyle(controller.profile.medal[index].title).imagePath,
-                width: 30.0,
-                height: 30.0,
+              return GestureDetector(
+                onTap: controller.showMedalDetails(index),
+                child: Image.asset(
+                  AppMedalStyle.getStyle(controller.profile.medal[index].title).imagePath,
+                  width: 30.0,
+                  height: 30.0,
+                ),
               );
             },
           ),

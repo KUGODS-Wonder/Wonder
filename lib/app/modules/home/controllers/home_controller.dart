@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:wonder_flutter/app/common/storage/storage.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/data/models/leaderboard_model.dart';
 import 'package:wonder_flutter/app/data/models/profile_model.dart';
 import 'package:wonder_flutter/app/data/providers/leaderboard_provider.dart';
@@ -77,5 +78,9 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     );
     _circularTween = Tween<double>(begin: 0, end: rankProgress);
     circularAnimation = _circularTween.animate(CurvedAnimation(parent: circularAnimationController, curve: Curves.easeInOut));
+  }
+
+  void Function() showMedalDetails(int index) {
+    return () => Utils.showMedalDialog(profile.medal[index]);
   }
 }
