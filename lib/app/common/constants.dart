@@ -1,5 +1,7 @@
 abstract class Constants {
-  static const String baseUrl = String.fromEnvironment('B');
+  static const String baseUrl = 'http://ku-wonder.shop/api/v1';
+  static const String signInUrl = '/members/signin';
+  static const String signUpUrl = '/members/signup';
 
   static const timeout = Duration(seconds: 5);
   static const splashTime = Duration(seconds: 2);

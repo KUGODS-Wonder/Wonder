@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "errorCode": 0,
+  "message": "Ok",
+  "data": {
+    "memberId": 1,
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTI0MjRAbmF2ZXIuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3Nzg0Nzk4MSwiZXhwIjoxNjc3ODUxNTgxfQ.u0JdDhQN9sJrJY1H7-jJTYFQsBiadm-7S6t9c7WM9BM"
+  }
+}
