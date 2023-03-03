@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/login_controller.dart';
+import '../../register/views/register_view.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(padding: EdgeInsets.only(top: 50)),
-          Form(
-            child: Theme(
-                data: ThemeData(
-                    primaryColor: Colors.grey,
-                    inputDecorationTheme: InputDecorationTheme(
-                        labelStyle:
-                            TextStyle(color: Colors.grey, fontSize: 20.0))),
-                child: Container(
-                  padding: EdgeInsets.all(40.0),
-                  // 키보드가 올라와서 만약 스크린 영역을 차지하는 경우 스크롤이 되도록
-                  // SingleChildScrollView으로 감싸 줌
-                  child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.only(top: 50)),
+            Form(
+              child: Theme(
+                  data: ThemeData(
+                      primaryColor: Colors.grey,
+                      inputDecorationTheme: InputDecorationTheme(
+                          labelStyle:
+                              TextStyle(color: Colors.grey, fontSize: 20.0))),
+                  child: Container(
+                    padding: EdgeInsets.all(40.0),
                     child: Column(
                       children: [
                         SizedBox(
@@ -49,7 +47,6 @@ class LoginView extends GetView<LoginController> {
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
                             child: TextField(
-                              //띄어쓰기
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: '  Email'), //박스모양
@@ -77,7 +74,7 @@ class LoginView extends GetView<LoginController> {
                                 border: InputBorder.none,
                               ),
                               keyboardType: TextInputType.text,
-                              obscureText: true, // 비밀번호 안보이도록 하는 것
+                              obscureText: true,
                             ),
                           ),
                         ),
@@ -91,11 +88,17 @@ class LoginView extends GetView<LoginController> {
                               'New user?',
                               style: TextStyle(
                                 fontSize: 20,
-                              ), //sign up 버튼
+                              ),
                             ),
                             ButtonTheme(
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RegisterView()),
+                                  );
+                                },
                                 child: Text(
                                   'SignUp',
                                   style: TextStyle(
@@ -106,7 +109,7 @@ class LoginView extends GetView<LoginController> {
                                 style: TextButton.styleFrom(
                                     primary: Color(0xffFF5E5E)),
                               ),
-                            ), //화살표 버튼 옆으로 보내야
+                            ),
                             SizedBox(width: 18),
                             ElevatedButton(
                               onPressed: () {},
@@ -130,11 +133,9 @@ class LoginView extends GetView<LoginController> {
                         ),
                       ],
                     ),
-                  ),
-                )),
-          ),
-          SingleChildScrollView(
-            child: Container(
+                  )),
+            ),
+            Container(
               height: 25,
               decoration: BoxDecoration(
                 color: Color(0xffCCCCCC),
@@ -144,10 +145,9 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: Container(
+            Container(
               width: double.infinity,
+              color: Color(0xffCCCCCC),
               child: Column(
                 children: [
                   Text(
@@ -158,42 +158,51 @@ class LoginView extends GetView<LoginController> {
                   SizedBox(
                     height: 20,
                   ),
-                  Center(
-                      child: Container(
-                    width: 350,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.white,
+                  SizedBox(
+                    width: 250,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 30,
+                            height: 30,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/google_logo.jpg'),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            '  Sign in with google',
+                            style: TextStyle(color: Colors.black, fontSize: 17),
+                          ),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none, //밑줄 없애기
-                        hintText: 'Sign in with Google',
-                        labelStyle: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ), //박스모양
-                      keyboardType: TextInputType.emailAddress,
+                        backgroundColor: Colors.white,
+                      ),
                     ),
-                  )),
-                  //SizedBox(
-                  //width: double.infinity,
-                  //height: 30,
-                  //child:
-                  //Container(
-                  //color: Color(0xffCCCCCC),
-                  //),
-                  //)
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
+            Container(
+              width: double.infinity,
+              height: 167,
+              color: Color(0xffCCCCCC),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
-//20230223
