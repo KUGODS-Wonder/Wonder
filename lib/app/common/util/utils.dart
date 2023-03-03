@@ -144,7 +144,7 @@ abstract class Utils {
                               fontSize: Dimens.fontSize14,
                             ),
                           ),
-                          Text(medal.comments == null ? '' : "\"${medal.comments}\"",
+                          Text(medal.comments == null ? '' : '"${medal.comments}"',
                               style: AppTextStyle.lightStyle.copyWith(
                                 color: AppColors.middleGrey,
                                 fontSize: Dimens.fontSize10,
