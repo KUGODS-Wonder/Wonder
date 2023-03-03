@@ -11,4 +11,6 @@ abstract class Constants {
   static const String placeHolderBlurHash = 'LEHV6nWB2yk8pyo0adR*.7kCMdnj';
 
   static const double initialZoomLevel = 16.0;
+
+  static const double defaultHorizontalPadding = 24.0;
 }

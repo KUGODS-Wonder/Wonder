@@ -1,8 +1,14 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
+import 'package:wonder_flutter/app/common/values/styles/app_medal_style.dart';
+import 'package:wonder_flutter/app/data/models/profile_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_inkwell_widget.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_text_button.dart';
 import 'package:get/get.dart';
@@ -10,6 +16,9 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 abstract class Utils {
+
+  static DateFormat defaultDateFormatter = DateFormat('yyyy-MM-dd');
+
   static void showDialog(
     String? message, {
     String title = Strings.error,
@@ -93,6 +102,84 @@ abstract class Utils {
         ),
         barrierDismissible: false,
       );
+
+  static void showMedalDialog(Medal medal) {
+    var medalStyle = AppMedalStyle.getStyle(medal.title);
+    Get.dialog(
+      Dialog(
+        insetPadding: const EdgeInsets.symmetric(
+          horizontal: Constants.defaultHorizontalPadding,
+          vertical: 24.0,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 50.0,
+                backgroundColor: AppColors.extraLightGrey,
+                child: Image.asset(
+                  medalStyle.imagePath,
+                  width: 50.0,
+                  height: 50.0,
+                ),
+              ),
+              const SizedBox(width: 5.0),
+              Expanded(
+                child: SizedBox(
+                  height: 100.0,
+                  child: Stack(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            medal.title,
+                            style: AppTextStyle.semiBoldStyle.copyWith(
+                              color: Colors.black,
+                              fontSize: Dimens.fontSize14,
+                            ),
+                          ),
+                          Text(medal.comments == null ? '' : '"${medal.comments}"',
+                              style: AppTextStyle.lightStyle.copyWith(
+                                color: AppColors.middleGrey,
+                                fontSize: Dimens.fontSize10,
+                                fontStyle: FontStyle.italic,
+                              )
+                          ),
+                        ],
+                      ),
+                      Center(
+                        child: Text(medal.description,
+                            style: AppTextStyle.lightStyle.copyWith(
+                              color: AppColors.darkGrey,
+                              fontSize: Dimens.fontSize10,
+                            )
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Text('${defaultDateFormatter.format(medal.date)} 획득',
+                            style: AppTextStyle.mediumStyle.copyWith(
+                              color: AppColors.darkGrey,
+                              fontSize: Dimens.fontSize10,
+                            )
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   static void timePicker(
     Function(String time) onSelectTime, {
@@ -304,5 +391,52 @@ abstract class Utils {
     } else {
       return File(croppedFile.path);
     }
+  }
+
+  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+  }
+
+  static convertHoursToString(int hours) {
+    var date = DateTime.fromMillisecondsSinceEpoch(hours * 3600000);
+    var items = [
+      {'text': 'year', 'value': date.year - 1970},
+      {'text': 'month', 'value': date.month},
+      {'text': 'day', 'value': date.day},
+      {'text': 'hr', 'value': date.hour},
+    ];
+    var str = '';
+    for (var item in items) {
+      if (item['value'] != 0) {
+        str += '${item['value']} ${item['text']}';
+        if (item['value'] as int > 1) {
+          str += 's ';
+        } else {
+          str += ' ';
+        }
+      }
+    }
+
+    if (str.isEmpty) {
+      str = '0 hr';
+    }
+
+    return str;
+  }
+
+  static convertDistanceToKm(int meters) {
+    var km = meters ~/ 1000;
+    var metersLeft = meters % 1000;
+    String str;
+    if (km == 0) {
+      str = '${metersLeft}m';
+    } else {
+      str = '$km.${metersLeft ~/ 100}km';
+    }
+
+    return str;
   }
 }

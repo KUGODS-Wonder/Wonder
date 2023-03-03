@@ -11,44 +11,65 @@ class MapDetailView extends GetView<MapDetailController> {
   const MapDetailView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+
+    var mapWidth = min(Get.width, Get.height);
+    var mapHeight = mapWidth;
+
     return Scaffold(
       body: Container(
         color: Colors.white,
+        height: Get.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: min(Get.width, Get.height),
-              width: min(Get.width, Get.height),
+              height: mapWidth,
+              width: mapHeight,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: GoogleMap(
-                    mapType: MapType.normal,
-                    initialCameraPosition: MapController.initPos,
-                    onMapCreated: controller.onMapCreated,
-                    onCameraMove: controller.onCameraMove,
-                    myLocationButtonEnabled: true,
-                    myLocationEnabled: true,
-                    mapToolbarEnabled: false,
-                    zoomControlsEnabled: false,
-                    tiltGesturesEnabled: false,
-                    rotateGesturesEnabled: false,
-                    scrollGesturesEnabled: false,
-                    minMaxZoomPreference: const MinMaxZoomPreference(12, 18),
+                  child: FutureBuilder(
+                    future: controller.getPolyLineCompleter.future,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return GoogleMap(
+                        mapType: MapType.normal,
+                        polylines: controller.polyLines,
+                        initialCameraPosition: MapController.initPos,
+                        onMapCreated: controller.onMapCreated,
+                        onCameraMove: controller.onCameraMove,
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        mapToolbarEnabled: false,
+                        zoomControlsEnabled: false,
+                        tiltGesturesEnabled: false,
+                        rotateGesturesEnabled: false,
+                        scrollGesturesEnabled: false,
+                        minMaxZoomPreference: const MinMaxZoomPreference(12, 18),
+                      );
+                    }
                   )
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            Hero(
-              tag: 'walk-container-${Get.arguments['id']}',
-              child: SmallWalkContainer(
-                onSaveButtonPressed: () {},
-                onStartButtonPressed: () {},
-                walk: controller.targetWalk,
+            SizedBox(
+              height: Get.height - mapHeight,
+              child: Obx(() {
+                  return Hero(
+                    tag: 'walk-container-${Get.arguments['id']}',
+                    child: SmallWalkContainer(
+                      onSaveButtonPressed: () {},
+                      onStartButtonPressed: () {},
+                      isDetailMode: controller.isDetailMode.value,
+                      walk: controller.targetWalk,
+                      detailHeight: Get.height - mapHeight,
+                    ),
+                  );
+                }
               ),
             )
           ],

@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/swipe_page_controller_mixin.dart';
@@ -29,7 +30,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   @override
   void onInit() async {
     super.onInit();
-    _addDefaultMapMarkerIcon();
+    await _setDefaultMapMarkerIcon();
     fetchWalks();
   }
 
@@ -103,8 +104,8 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       );
     }
   }
+
   void onMapTap(LatLng argument) {
-    print('onMapTap: $argument');
     fetchWalks();
   }
 
@@ -116,11 +117,11 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     // Navigator.of(Get.context!).pushNamed('/map_detail', arguments: currentWalk);
   }
 
-  void _addDefaultMapMarkerIcon() async {
-    defaultMarkerIcon = await BitmapDescriptor.fromAssetImage(
-      const ImageConfiguration(),
-      'assets/images/map_marker.png',
-    );
+  Future _setDefaultMapMarkerIcon() async {
+
+    final Uint8List markerIcon = await Utils.getBytesFromAsset('assets/images/map_marker.png', 100);
+    defaultMarkerIcon =  BitmapDescriptor.fromBytes(markerIcon);
+    return;
   }
 
 }
