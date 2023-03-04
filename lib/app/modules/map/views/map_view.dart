@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
@@ -79,6 +80,7 @@ class MapView extends GetView<MapController> {
                     itemBuilder: (context, index) {
                       return Container(
                         height: 80,
+                        padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
                         decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
