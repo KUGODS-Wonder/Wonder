@@ -18,7 +18,7 @@ part 'app_routes.dart';
 abstract class AppPages {
   const AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.MAP;
 
   static final routes = [
     GetPage(

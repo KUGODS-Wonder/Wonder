@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
+import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
 
 import '../controllers/map_controller.dart';
@@ -44,6 +45,24 @@ class MapView extends GetView<MapController> {
               ],
             ),
           ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                ElevatedButton(
+                  onPressed: controller.slidingUpPanelController.show,
+                  child: const Text('Bookmarks'),
+                ),
+              ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SlidingUpPanel(
+                slidingUpPanelController: controller.slidingUpPanelController
+            ),
+          )
         ],
       ),
       bottomNavigationBar: AppBottomNavigationBar(

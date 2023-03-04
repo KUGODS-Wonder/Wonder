@@ -6,6 +6,7 @@ import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/swipe_page_controller_mixin.dart';
+import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class MapController extends GetxController with GetSingleTickerProviderStateMixin,SwipePageControllerMixin {
@@ -18,6 +19,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   final currentIndex = (-1).obs;
   final RxList<Walk> walks = <Walk>[].obs;
+  final SlidingUpPanelController slidingUpPanelController = SlidingUpPanelController(duration: const Duration(milliseconds: 500));
 
   GoogleMapController? _mapController;
   double zoomVal = Constants.initialZoomLevel;
