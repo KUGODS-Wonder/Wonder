@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/utils.dart';
+import 'package:wonder_flutter/app/data/models/bookmark_model.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/providers/bookmark_provider.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/swipe_page_controller_mixin.dart';
 import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
@@ -11,6 +13,7 @@ import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class MapController extends GetxController with GetSingleTickerProviderStateMixin,SwipePageControllerMixin {
   final WalkProvider _walkProvider = WalkProvider.to;
+  final BookmarkProvider _bookmarkProvider = BookmarkProvider.to;
 
   static const CameraPosition initPos = CameraPosition(
     target: LatLng(37.5889938, 127.0292206),
@@ -19,6 +22,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   final currentIndex = (-1).obs;
   final RxList<Walk> walks = <Walk>[].obs;
+  final RxList<Bookmark> bookmarks = <Bookmark>[].obs;
   final SlidingUpPanelController slidingUpPanelController = SlidingUpPanelController(duration: const Duration(milliseconds: 500));
 
   GoogleMapController? _mapController;
@@ -33,6 +37,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   void onInit() async {
     super.onInit();
     await _setDefaultMapMarkerIcon();
+    fetchBookmarks();
     fetchWalks();
   }
 
@@ -59,6 +64,11 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     walks.addAll(await _walkProvider.getWalks());
     getWalksStartingPoints();
     changeIndex(walks.isEmpty ? -1 : 0);
+  }
+
+  void fetchBookmarks() async {
+    bookmarks.clear();
+    bookmarks.addAll(await _bookmarkProvider.getBookmarks());
   }
 
   void getWalksStartingPoints() {

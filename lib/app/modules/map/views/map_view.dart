@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
 import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
@@ -45,22 +46,66 @@ class MapView extends GetView<MapController> {
               ],
             ),
           ),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Column(
-              children: [
-                const SizedBox(height: 40),
-                ElevatedButton(
-                  onPressed: controller.slidingUpPanelController.show,
-                  child: const Text('Bookmarks'),
-                ),
-              ],
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: ElevatedButton(
+                      onPressed: controller.slidingUpPanelController.show,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white.withOpacity(0.8),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        padding: const EdgeInsets.all(5),
+                      ),
+                      child: const Icon(Icons.bookmark_rounded, color: AppColors.middleGrey),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: SlidingUpPanel(
-                slidingUpPanelController: controller.slidingUpPanelController
+              slidingUpPanelController: controller.slidingUpPanelController,
+              child: Obx(() {
+                  return ListView.builder(
+                    itemCount: controller.bookmarks.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 80,
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(controller.bookmarks[index].title, style: AppTextStyle.bookmarkTitleStyle),
+                                  Text(controller.bookmarks[index].description, style: AppTextStyle.bookmarkDescriptionStyle),
+                                  Text(controller.bookmarks[index].address, style: AppTextStyle.bookmarkAddressStyle),
+                                ],
+                              )
+                            ),
+                            IconButton(onPressed: () {}, icon: const Icon(Icons.edit_rounded)),
+                            IconButton(onPressed: () {}, icon: const Icon(Icons.delete_rounded)),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+              ),
             ),
           )
         ],

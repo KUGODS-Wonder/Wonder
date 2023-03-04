@@ -39,8 +39,14 @@ class SlidingUpPanelController {
 class SlidingUpPanel extends StatefulWidget {
   final SlidingUpPanelController slidingUpPanelController;
   final double ratio;
+  final Widget child;
 
-  const SlidingUpPanel({Key? key, required this.slidingUpPanelController, this.ratio = 0.9}) : super(key: key);
+  const SlidingUpPanel({
+    Key? key,
+    required this.slidingUpPanelController,
+    required this.child,
+    this.ratio = 0.9,
+  }) : super(key: key);
 
   @override
   State<SlidingUpPanel> createState() => _SlidingUpPanelState();
@@ -132,23 +138,25 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
                               ),
                               child: Column(
                                 children: [
-                                  const SizedBox(height: 20),
-                                  Container(
-                                    width: 50,
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  Expanded(
-                                    child: ListView(
-                                      shrinkWrap: true,
+                                  GestureDetector(
+                                    onTap: widget.slidingUpPanelController.hide,
+                                    child: Column(
                                       children: [
-                                        SizedBox.shrink(),
+                                        const SizedBox(height: 20),
+                                        Container(
+                                          width: 50,
+                                          height: 5,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20),
                                       ],
                                     ),
+                                  ),
+                                  Expanded(
+                                    child: widget.child,
                                   )
                                 ]
                               ),
