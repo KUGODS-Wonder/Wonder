@@ -189,9 +189,7 @@ class MapView extends GetView<MapController> {
         padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            return ListView(
               children: [
                 _buildBookmarkSaveTextField(
                     textController: controller.bookmarkTitleTextController,
