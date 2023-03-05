@@ -55,7 +55,7 @@ class MapView extends GetView<MapController> {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: ElevatedButton(
-                      onPressed: controller.slidingUpPanelController.show,
+                      onPressed: controller.bookmarkPanelController.show,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white.withOpacity(0.8),
                         shape: const RoundedRectangleBorder(
@@ -72,43 +72,11 @@ class MapView extends GetView<MapController> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: SlidingUpPanel(
-              slidingUpPanelController: controller.slidingUpPanelController,
-              child: Obx(() {
-                  return ListView.builder(
-                    itemCount: controller.bookmarks.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: 80,
-                        padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(controller.bookmarks[index].title, style: AppTextStyle.bookmarkTitleStyle),
-                                  Text(controller.bookmarks[index].description, style: AppTextStyle.bookmarkDescriptionStyle),
-                                  Text(controller.bookmarks[index].address, style: AppTextStyle.bookmarkAddressStyle),
-                                ],
-                              )
-                            ),
-                            IconButton(onPressed: () {}, icon: const Icon(Icons.edit_rounded)),
-                            IconButton(onPressed: () {}, icon: const Icon(Icons.delete_rounded)),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                }
-              ),
-            ),
+            child: _buildSlidingUpBookmarkPanel(),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: _buildBookmarkSavePanel(onPressed: () {}),
           )
         ],
       ),
@@ -145,7 +113,7 @@ class MapView extends GetView<MapController> {
                           child: Hero(
                             tag: 'walk-container-${controller.walks[i].id}',
                             child: SmallWalkContainer(
-                              onSaveButtonPressed: () {},
+                              onSaveButtonPressed: controller.onSaveButtonPressed,
                               onStartButtonPressed: controller.onStartButtonPressed,
                               walk: controller.walks[i],
                             ),
@@ -166,5 +134,117 @@ class MapView extends GetView<MapController> {
         return const SizedBox(height: 1);
       }
     });
+  }
+
+  Widget _buildSlidingUpBookmarkPanel() {
+    return SlidingUpPanel(
+      slidingUpPanelController: controller.bookmarkPanelController,
+      child: Obx(() {
+        return ListView.builder(
+          itemCount: controller.bookmarks.length,
+          itemBuilder: (context, index) {
+            return Container(
+              height: 80,
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Constants.defaultHorizontalPadding),
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(controller.bookmarks[index].title,
+                              style: AppTextStyle.bookmarkTitleStyle),
+                          Text(controller.bookmarks[index].description,
+                              style: AppTextStyle.bookmarkDescriptionStyle),
+                          Text(controller.bookmarks[index].address,
+                              style: AppTextStyle.bookmarkAddressStyle),
+                        ],
+                      )
+                  ),
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.edit_rounded)),
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.delete_rounded)),
+                ],
+              ),
+            );
+          },
+        );
+      }),
+    );
+  }
+
+  Widget _buildBookmarkSavePanel({required void Function() onPressed}) {
+    return SlidingUpPanel(
+      slidingUpPanelController: controller.bookmarkSavePanelController,
+      ratio: 0.35,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildBookmarkSaveTextField(
+                    textController: controller.bookmarkTitleTextController,
+                    hintText: '저장할 이름을 입력하세요'
+                ),
+                _buildBookmarkSaveTextField(
+                    textController: controller.bookmarkDescriptionTextController,
+                    hintText: '설명을 입력하세요'
+                ),
+                OutlinedButton(
+                onPressed: onPressed,
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: AppColors.white,
+                  fixedSize: Size(constraints.maxWidth, 35.0),
+                  side: const BorderSide(color: AppColors.kPrimary100),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    )
+                  ),
+                child: Text(
+                    '저장',
+                    style: AppTextStyle.boldStyle.copyWith(
+                      color: AppColors.kPrimary100,
+                      fontSize: 16.0,
+                    )
+                  ),
+                ),
+              ],
+            );
+          }
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBookmarkSaveTextField({
+    required TextEditingController textController,
+    required String hintText,
+  }) {
+    return TextField(
+      controller: textController,
+      style: AppTextStyle.mediumStyle.copyWith(
+        color: AppColors.black,
+      ),
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        hintText: hintText,
+        hintStyle: AppTextStyle.lightStyle.copyWith(
+          color: AppColors.lightGrey,
+        ),
+      ),
+    );
   }
 }

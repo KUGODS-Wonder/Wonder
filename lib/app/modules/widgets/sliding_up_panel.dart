@@ -127,7 +127,7 @@ class _SlidingUpPanelState extends State<SlidingUpPanel> with SingleTickerProvid
                             animation: _animation,
                             builder: (context, child) {
                               return SizedBox(
-                                height: initHeight + (constraints.maxHeight * 0.9 - initHeight) * _animation.value,
+                                height: initHeight + (constraints.maxHeight * widget.ratio - initHeight) * _animation.value,
                                 child: child,
                               );
                             },

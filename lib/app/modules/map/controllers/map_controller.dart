@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,24 +13,29 @@ import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class MapController extends GetxController with GetSingleTickerProviderStateMixin,SwipePageControllerMixin {
-  final WalkProvider _walkProvider = WalkProvider.to;
-  final BookmarkProvider _bookmarkProvider = BookmarkProvider.to;
 
+  static const Duration _slidingDuration = Duration(milliseconds: 500);
   static const CameraPosition initPos = CameraPosition(
     target: LatLng(37.5889938, 127.0292206),
     zoom: Constants.initialZoomLevel,
   );
 
+  final _walkProvider = WalkProvider.to;
+  final _bookmarkProvider = BookmarkProvider.to;
+  final bookmarkPanelController = SlidingUpPanelController(duration: _slidingDuration);
+  final bookmarkSavePanelController = SlidingUpPanelController(duration: _slidingDuration);
+  final bookmarkTitleTextController = TextEditingController();
+  final bookmarkDescriptionTextController = TextEditingController();
+
   final currentIndex = (-1).obs;
   final RxList<Walk> walks = <Walk>[].obs;
   final RxList<Bookmark> bookmarks = <Bookmark>[].obs;
-  final SlidingUpPanelController slidingUpPanelController = SlidingUpPanelController(duration: const Duration(milliseconds: 500));
+  final RxList<Marker> markers = <Marker>[].obs;
 
   GoogleMapController? _mapController;
   double zoomVal = Constants.initialZoomLevel;
   late BitmapDescriptor defaultMarkerIcon;
 
-  RxList<Marker> markers = <Marker>[].obs;
 
   Walk get currentWalk => walks[currentIndex.value];
 
@@ -69,6 +75,11 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   void fetchBookmarks() async {
     bookmarks.clear();
     bookmarks.addAll(await _bookmarkProvider.getBookmarks());
+  }
+
+  void showSaveBookmarkPanel() {
+    if (currentIndex.value == -1) return;
+    bookmarkSavePanelController.show();
   }
 
   void getWalksStartingPoints() {
@@ -126,7 +137,11 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       'id': currentWalk.id,
       'walk': currentWalk,
     });
-    // Navigator.of(Get.context!).pushNamed('/map_detail', arguments: currentWalk);
+  }
+
+  void onSaveButtonPressed() {
+    bookmarkSavePanelController.show();
+    bookmarkTitleTextController.text = currentWalk.name ?? '';
   }
 
   Future _setDefaultMapMarkerIcon() async {
@@ -135,5 +150,4 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     defaultMarkerIcon =  BitmapDescriptor.fromBytes(markerIcon);
     return;
   }
-
 }
