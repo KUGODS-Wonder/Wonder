@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/login_controller.dart';
-import '../../register/views/register_view.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
@@ -92,13 +91,7 @@ class LoginView extends GetView<LoginController> {
                             ),
                             ButtonTheme(
                               child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RegisterView()),
-                                  );
-                                },
+                                onPressed: controller.navigateToRegister,
                                 child: Text(
                                   'SignUp',
                                   style: TextStyle(

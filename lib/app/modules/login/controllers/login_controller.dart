@@ -19,5 +19,9 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
+  void navigateToRegister() {
+    Get.toNamed('/register');
+  }
+
   void increment() => count.value++;
 }
