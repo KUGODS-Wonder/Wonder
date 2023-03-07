@@ -7,9 +7,8 @@ import '../controllers/register_controller.dart';
 final RxInt selected = 0.obs;
 
 class RegisterView extends GetView<RegisterController> {
-  const RegisterView({Key? key}) : super(key: key);
-
-  @override
+  RegisterView({Key? key}) : super(key: key);
+  final controller = Get.put(RegisterController());
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset:
@@ -28,7 +27,6 @@ class RegisterView extends GetView<RegisterController> {
                 ),
               ),
               const SizedBox(height: 25),
-              // 여기부터 바꾼 위젯.
               SizedBox(
                 width: 250,
                 child: TextFormField(
@@ -37,14 +35,13 @@ class RegisterView extends GetView<RegisterController> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 10.0),
                     hintText: '  Email',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
                       borderSide: const BorderSide(
-                        color: AppColors.middleGrey,
-                        width: 1.0
-                      ),
+                          color: AppColors.middleGrey, width: 1.0),
                     ),
                   ), //박스모양
                   validator: controller.validateEmail,
@@ -55,18 +52,24 @@ class RegisterView extends GetView<RegisterController> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: 180,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
                       child: TextFormField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none, hintText: '  Nickname'),
+                        key: controller.nicknameFormFieldKey,
+                        controller: controller.nicknameTextController,
                         keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 5.0, horizontal: 10.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: const BorderSide(
+                                color: AppColors.middleGrey, width: 1.0),
+                          ),
+                          hintText: '  Nickname',
+                        ),
+                        validator: controller.validateNickname,
                       ),
                     ),
                     SizedBox(width: 5),
@@ -93,69 +96,70 @@ class RegisterView extends GetView<RegisterController> {
                   ],
                 ),
               ),
+              const SizedBox(height: 25),
               SizedBox(
-                height: 25,
-              ),
-              Container(
                 width: 250,
-                height: 30,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                    ),
-                    borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
                     key: controller.passwordFormFieldKey,
                     controller: controller.passwordTextController,
                     decoration: InputDecoration(
-                        border: InputBorder.none, hintText: '  Password'),
+                        isDense: true,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 10.0),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: const BorderSide(
+                              color: AppColors.middleGrey, width: 1.0),
+                        ),
+                        hintText: '  Password'),
                     keyboardType: TextInputType.text,
                     obscureText: true,
-                    validator: Validators.validatePassword
-                    ),
+                    validator: controller.validatePassword),
               ),
+              const SizedBox(height: 25),
               SizedBox(
-                height: 25,
-              ),
-              Container(
                 width: 250,
-                height: 30,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                    ),
-                    borderRadius: BorderRadius.circular(10)),
                 child: TextFormField(
-                    controller: controller.passwordConfirmTextController,
-                    decoration: InputDecoration(
-                        border: InputBorder.none, hintText: '  Password Confirm'),
-                    keyboardType: TextInputType.text, //닉네임 인풋으로 바꿔야
-                    obscureText: true,
-                    validator: (passwordconfirm) {
-                      //return Validators.validateConfirmPassword(
-                      // passwordconfirm,);
-                    }),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: 250,
-                height: 30,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.grey,
-                    ),
-                    borderRadius: BorderRadius.circular(10)),
-                child: TextFormField(
+                  controller: controller.passwordConfirmTextController,
+                  key: controller.passwordConfirmFormFieldKey,
                   decoration: InputDecoration(
-                      border: InputBorder.none, hintText: '  Adress'),
-                  keyboardType: TextInputType.emailAddress, //닉네임 인풋으로 바꿔야
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 10.0),
+                    hintText: '  Password Confirm',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: const BorderSide(
+                          color: AppColors.middleGrey, width: 1.0),
+                    ),
+                  ),
+                  keyboardType: TextInputType.text, //닉네임 인풋으로 바꿔야
+                  obscureText: true,
+                  validator: controller.validatePasswordConfirm,
                 ),
               ),
+              const SizedBox(height: 25),
               SizedBox(
-                height: 25,
+                width: 250,
+                child: TextFormField(
+                  key: controller.adressFormFieldKey,
+                  controller: controller.adressTextController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 10.0),
+                    hintText: '  Adress',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: const BorderSide(
+                          color: AppColors.middleGrey, width: 1.0),
+                    ),
+                  ),
+                  validator: controller.validateAdress, //닉네임 인풋으로 바꿔야
+                ),
               ),
+              const SizedBox(height: 25),
               Container(
                 child: Row(
                   children: [
@@ -173,7 +177,9 @@ class RegisterView extends GetView<RegisterController> {
                               borderRadius: BorderRadius.circular(5)),
                           value: selected.value == 1,
                           onChanged: (val) {
-                            val ?? true ? selected.value = 1 : selected.value = 0;
+                            val ?? true
+                                ? selected.value = 1
+                                : selected.value = 0;
                           },
                         ),
                       ),
@@ -211,16 +217,15 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                         child: Text(
                           'Terms and Service',
-                          style: TextStyle(fontSize: 18, color: Colors.red[200]),
+                          style:
+                              TextStyle(fontSize: 18, color: Colors.red[200]),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 25),
               SizedBox(
                   child: ElevatedButton(
                 onPressed: controller.onSubmitPressed,
