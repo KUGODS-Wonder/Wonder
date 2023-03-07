@@ -59,6 +59,7 @@ class EventView extends GetView<EventController> {
                         return Tab(
                           // text: eventTab.title,
                           // icon: eventTab.icon,
+                          height: 35,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

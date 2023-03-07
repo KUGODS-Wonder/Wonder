@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class EventController extends GetxController with GetSingleTickerProviderStateMixin {
-  static double tabIconSize = 40.0;
+  static double tabIconSize = 30.0;
   late final TabController tabController;
   final List<EventTab> eventTabs = [
     EventTab(
