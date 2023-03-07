@@ -95,6 +95,16 @@ abstract class AppTextStyle {
     letterSpacing: 1.5,
   );
 
+  static final TextStyle eventHeadline = extraBoldStyle.copyWith(
+    fontSize: Dimens.fontSize34,
+    color: AppColors.black,
+  );
+
+  static final TextStyle eventCommentStyle = boldStyle.copyWith(
+    fontSize: 16,
+    color: AppColors.white,
+  );
+
   static final TextStyle walkTitle = semiBoldStyle.copyWith(
     fontSize: 20,
   );

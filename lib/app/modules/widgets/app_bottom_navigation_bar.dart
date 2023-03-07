@@ -22,16 +22,16 @@ class AppBottomNavigationBar extends StatelessWidget {
         iconSize: 30,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: Icon(Icons.favorite_rounded),
+            label: 'Wonder',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Bookmarks',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
         currentIndex: currentIndex,
@@ -52,13 +52,13 @@ class AppBottomNavigationBar extends StatelessWidget {
     _isNavigating = true;
 
     if (index == 0) {
-      Get.offNamed(Routes.HOME);
+      Get.offNamed(Routes.EVENT);
     } else if (index == 1) {
       if (await LocationPermissionGuard.checkLocationPermissions()) {
         Get.offNamed(Routes.MAP);
       }
     }else if (index == 2) {
-      Get.offAllNamed(Routes.SPLASH);
+      Get.offAllNamed(Routes.HOME);
     }
 
     _isNavigating = false;

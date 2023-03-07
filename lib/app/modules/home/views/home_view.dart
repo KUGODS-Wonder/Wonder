@@ -117,7 +117,7 @@ class HomeView extends GetView<HomeController> {
           }
         ),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(currentIndex: 0)
+      bottomNavigationBar: AppBottomNavigationBar(currentIndex: 2)
     );
   }
 
