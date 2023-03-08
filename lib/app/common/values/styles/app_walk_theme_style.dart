@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
+import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
 
 abstract class AppWalkThemeStyle {
   static const defaultWalkThemeStyle = WalkThemeStyleModel(
@@ -16,12 +17,18 @@ abstract class AppWalkThemeStyle {
     '도시락 전달': const WalkThemeStyleModel(
       color: AppColors.kPrimary80,
       iconPath: 'assets/images/elderly_icon.png',
-      eventCardPath: 'assets/images/event_cards/help_elderly_event_card.png',
+      eventCardPath: 'assets/images/event_cards/help_elderly_event_card.jpg',
+      title: '도시락 배달 봉사',
+      comment: '“OO복지 센터를 도와 거동이 힘든 어르신들께 도시락도 전달하고 산책도  같이 해봐요!”',
+      walkType: WalkType.elderlyDeliverWalk,
     ),
     '유기견 산책': const WalkThemeStyleModel(
       color: AppColors.kPrimary80,
       iconPath: 'assets/images/dog_icon.png',
-      eventCardPath: 'assets/images/event_cards/walk_dog_event_card.png',
+      eventCardPath: 'assets/images/event_cards/walk_dog_event_card.jpg',
+      title: '유기견들과 산책',
+      comment: '“OO유기견 센터를 도와서 성북구의 강아지들과 함께 산책하고 특수 보상도 가져가세요!”',
+      walkType: WalkType.dogWalk,
     ),
   };
 
@@ -36,10 +43,16 @@ class WalkThemeStyleModel {
   final Color color;
   final String iconPath;
   final String eventCardPath;
+  final String title;
+  final String comment;
+  final WalkType walkType;
 
   const WalkThemeStyleModel({
     required this.color,
     required this.iconPath,
     this.eventCardPath = defaultEventCardPath,
+    this.title = '',
+    this.comment = '',
+    this.walkType = WalkType.walk,
   });
 }

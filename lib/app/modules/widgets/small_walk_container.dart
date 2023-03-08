@@ -212,7 +212,7 @@ class SmallWalkContainer extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Image.asset(
-                      AppWalkThemeStyle.getStyle(walk.theme ?? '').path,
+                      AppWalkThemeStyle.getStyle(walk.theme ?? '').iconPath,
                       width: 40.0,
                       height: 40.0,
                     ),
