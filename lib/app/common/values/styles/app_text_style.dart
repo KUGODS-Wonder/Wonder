@@ -195,6 +195,7 @@ abstract class AppTextStyle {
     color: AppColors.reward60,
   );
 
+
   static final TextStyle lightStyle = _textStyle.copyWith(
     fontWeight: FontWeight.w300,
   );
@@ -228,6 +229,7 @@ abstract class AppTextStyle {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
+
 
   static TextTheme get textTheme => TextTheme(
         displayLarge: headline1,
