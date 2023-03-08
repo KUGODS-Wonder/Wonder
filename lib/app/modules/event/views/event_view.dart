@@ -9,6 +9,8 @@ import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dar
 import '../controllers/event_controller.dart';
 
 class EventView extends GetView<EventController> {
+  static double tabIconSize = 30.0;
+
   const EventView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,9 @@ class EventView extends GetView<EventController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: Get.height * 0.075),
             Container(
-              height: Get.height * 0.35,
+              height: Get.height * 0.2,
               padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
               child: Text(
                 '걸어서 기쁨을\n나눠봐요.',
@@ -44,6 +47,7 @@ class EventView extends GetView<EventController> {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 10),
                   TabBar(
                     controller: controller.tabController,
                     indicatorSize: TabBarIndicatorSize.label,
@@ -57,13 +61,16 @@ class EventView extends GetView<EventController> {
                     tabs: controller.eventTabs.map(
                       (eventTab) {
                         return Tab(
-                          // text: eventTab.title,
-                          // icon: eventTab.icon,
                           height: 35,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              eventTab.icon,
+                              Image.asset(
+                                eventTab.iconPath,
+                                width: tabIconSize,
+                                height: tabIconSize,
+                              ),
+                              const SizedBox(width: 5),
                               Text(eventTab.title),
                             ],
                           )
@@ -77,8 +84,8 @@ class EventView extends GetView<EventController> {
                       decoration: const BoxDecoration(
                         color: AppColors.reward80,
                         borderRadius: BorderRadius.only(
-                          // topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
                         ),
                       ),
                       child: TabBarView(
