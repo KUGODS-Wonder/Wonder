@@ -53,6 +53,7 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
       Get.toNamed(Routes.MAP_DETAIL, arguments: {
         'id': walk.id,
         'walk': walk,
+        'isEvent': true,
       });
     };
   }

@@ -136,6 +136,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     Get.toNamed(Routes.MAP_DETAIL, arguments: {
       'id': currentWalk.id,
       'walk': currentWalk,
+      'isEvent': false,
     });
   }
 

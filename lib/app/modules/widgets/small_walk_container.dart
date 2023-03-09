@@ -13,8 +13,10 @@ class SmallWalkContainer extends StatelessWidget {
   final Function() onStartButtonPressed;
   final Function() onSaveButtonPressed;
   final WalkThemeStyleModel themeStyle;
-  bool isDetailMode;
-  double detailHeight;
+  final bool isDetailMode;
+  final bool isEvent;
+  final String? eventMedalImagePath;
+  final double detailHeight;
 
   SmallWalkContainer({
     Key? key,
@@ -22,6 +24,8 @@ class SmallWalkContainer extends StatelessWidget {
     required this.onStartButtonPressed,
     required this.onSaveButtonPressed,
     this.isDetailMode = false,
+    this.isEvent = false,
+    this.eventMedalImagePath,
     this.detailHeight = 280,
   }) : themeStyle = AppWalkThemeStyle.getStyle(walk.theme!), super(key: key);
 
@@ -76,7 +80,7 @@ class SmallWalkContainer extends StatelessWidget {
                 const SizedBox(height: 5.0),
                 SizedBox(
                   width: Get.width,
-                  height: 130.0,
+                  height: 130.0 + (isEvent ? 65.0 : 0.0),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
@@ -172,6 +176,32 @@ class SmallWalkContainer extends StatelessWidget {
                           ),
                         ),
                       ),
+                      isEvent ? _buildIconItem(
+                        eventMedalImagePath ?? 'assets/images/medals/medal.png',
+                        isDetailMode: isDetailMode,
+                        left: 160.0,
+                        detailLeft: 0.0,
+                        top: 0.0,
+                        detailTop: 140.0,
+                        isOnlyIcon: true,
+                        background: AppColors.defaultWalkColor,
+                        child: const SizedBox.shrink(),
+                      ) : const SizedBox.shrink(),
+                      isEvent ? Positioned(
+                        top: 147.0,
+                        left: 88.0,
+                        right: 0.0,
+                        child: AnimatedOpacity(
+                          opacity: isDetailMode ? 1.0 : 0.0,
+                          duration: _animateDuration,
+                          child: Text(
+                            '특수 보상이 있습니다.',
+                            style: AppTextStyle.rewardDescription.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ) : const SizedBox.shrink(),
                     ]
                   ),
                 )
@@ -243,6 +273,7 @@ class SmallWalkContainer extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                isEvent ? const SizedBox.shrink() :
                 _buildButton(
                   onPressed: onSaveButtonPressed,
                   color: AppColors.white,
@@ -274,7 +305,7 @@ class SmallWalkContainer extends StatelessWidget {
                   onPressed: onStartButtonPressed,
                   color: AppColors.kPrimary100,
                   child: Text(
-                    '시작',
+                    isEvent ? '신청' : '시작',
                     style: AppTextStyle.walkIconItemStyle.copyWith(
                       color: AppColors.white,
                     ),
@@ -295,18 +326,22 @@ class SmallWalkContainer extends StatelessWidget {
     double? detailLeft,
     required double top,
     double? detailTop,
+    bool isOnlyIcon = false,
     Widget? child}) {
+    double width = isOnlyIcon ? 65.0 : (isDetailMode ? 115.0 : 65.0);
+    double height = isOnlyIcon ? 55.0 : (isDetailMode ? 55.0 : 75.0);
+
     return AnimatedPositioned(
       duration: _animateDuration,
       left: isDetailMode ? (detailLeft ?? left) : left,
       top: isDetailMode ? (detailTop ?? top) : top,
       child: AnimatedContainer(
         duration: _animateDuration,
-        height: isDetailMode ? 55.0 : 75.0,
-        width: isDetailMode ? 115.0 : 65.0,
+        height: height,
+        width: width,
         decoration: BoxDecoration(
           color: background,
-          borderRadius: BorderRadius.circular(isDetailMode ? 10.0 : 0.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child: Stack(
           children: [

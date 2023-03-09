@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/map_controller.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
+import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
 import '../controllers/map_detail_controller.dart';
 
@@ -63,6 +64,8 @@ class MapDetailView extends GetView<MapDetailController> {
                       onSaveButtonPressed: () {},
                       onStartButtonPressed: () {},
                       isDetailMode: controller.isDetailMode.value,
+                      isEvent: controller.isEvent,
+                      eventMedalImagePath: controller.eventMedalImagePath,
                       walk: controller.targetWalk,
                       detailHeight: Get.height - mapHeight,
                     ),
@@ -73,6 +76,7 @@ class MapDetailView extends GetView<MapDetailController> {
           ],
         ),
       ),
+      bottomNavigationBar: AppBottomNavigationBar(currentIndex: -1),
     );
   }
 }
