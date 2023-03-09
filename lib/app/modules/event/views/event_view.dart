@@ -7,11 +7,13 @@ import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
+import 'package:wonder_flutter/app/modules/widgets/black_outlined_button.dart';
 
 import '../controllers/event_controller.dart';
 
 class EventView extends GetView<EventController> {
-  static double tabIconSize = 25.0;
+  static const double tabIconSize = 25.0;
+  static const _tabViewHorizontalPadding = Constants.defaultHorizontalPadding + 20;
   static const tabTextStyle = TextStyle(fontSize: 14, fontWeight: FontWeight.w400);
 
 
@@ -48,6 +50,10 @@ class EventView extends GetView<EventController> {
                           'Wonderful Walk',
                           style: AppTextStyle.profileTitlesStyle,
                         ),
+                        BlackOutlinedButton(
+                          onPressed: controller.onReservationButtonPressed,
+                          text: '예약 내역'
+                        )
                       ],
                     ),
                   ),
@@ -107,24 +113,28 @@ class EventView extends GetView<EventController> {
                                   children: [
                                     const SizedBox(height: 20),
                                     SizedBox(
-                                      height: Get.height * 0.35,
+                                      height: Get.height * 0.33,
                                       child: PageView.builder(
 
                                         itemCount: data!.length,
                                         itemBuilder: (context, index) {
                                           return Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 45.0),
+                                            padding: const EdgeInsets.symmetric(horizontal: _tabViewHorizontalPadding),
                                             child: _buildWonderCard(
                                               title: data[index].name!,
                                               address: data[index].location!,
                                               imagePath: eventTab.eventCardPath,
+                                              onTap: controller.injectOnWonderCardPressed(data[index]),
                                             ),
                                           );
                                         },
                                       ),
                                     ),
+                                    const SizedBox(height: 20),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: _tabViewHorizontalPadding,
+                                      ),
                                       child: Text(
                                         eventTab.comment,
                                         textAlign: TextAlign.center,
@@ -154,34 +164,67 @@ class EventView extends GetView<EventController> {
     required String title,
     required String address,
     required String imagePath,
+    required void Function() onTap,
   }) {
-    return Container(
-      width: Get.width * 0.8,
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: Get.width * 0.8,
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.black.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 10,
+              offset: const Offset(0, 5), // changes position of shadow
             ),
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.fitWidth,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.fitWidth,
+              ),
             ),
-          ),
-          Text(
-            title,
-            style: AppTextStyle.walkTitle,
-          ),
-          Text(
-            address,
-            style: AppTextStyle.walkAddress,
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: AppTextStyle.walkTitle,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: AppColors.middleGrey,
+                          size: 15.0,
+                        ),
+                        Text(
+                          address,
+                          style: AppTextStyle.walkAddress,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

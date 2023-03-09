@@ -4,6 +4,7 @@ import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dar
 import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
+import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class EventController extends GetxController with GetSingleTickerProviderStateMixin {
 
@@ -51,6 +52,19 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
 
     eventWalkMap[walkType] = targetEventWalkList;
     return targetEventWalkList;
+  }
+
+  void onReservationButtonPressed() {
+
+  }
+
+  void Function() injectOnWonderCardPressed(Walk walk) {
+    return () {
+      Get.toNamed(Routes.MAP_DETAIL, arguments: {
+        'id': walk.id,
+        'walk': walk,
+      });
+    };
   }
 }
 
