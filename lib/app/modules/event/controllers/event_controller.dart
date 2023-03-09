@@ -20,8 +20,6 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
     return AppWalkThemeStyle.getStyle(theme);
   }).toList();
 
-  final Map<WalkType, List<Walk>> eventWalkMap = {};
-
   @override
   void onInit() {
     super.onInit();
@@ -40,17 +38,9 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
   }
 
   Future<List<Walk>> fetchWalksByEventWalkType(WalkType walkType) async {
-    var targetEventWalkList = eventWalkMap[walkType];
-
-    if (eventWalkMap.containsKey(walkType)) {
-      targetEventWalkList = eventWalkMap[walkType]!;
-    } else {
-      targetEventWalkList = [];
-    }
-
+    var targetEventWalkList = <Walk>[];
     targetEventWalkList.addAll(await _walkProvider.getWalksByType(walkType));
 
-    eventWalkMap[walkType] = targetEventWalkList;
     return targetEventWalkList;
   }
 
