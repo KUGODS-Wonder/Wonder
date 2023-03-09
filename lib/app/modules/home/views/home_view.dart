@@ -34,12 +34,12 @@ class HomeView extends GetView<HomeController> {
                       SizedBox(
                         height: 28.0,
                         child: Text(
-                          'controller.profile.nickname',
+                          controller.profile.nickname,
                           style: AppTextStyle.profileName,
                         ),
                       ),
                       Text(
-                        'controller.profile.email',
+                        controller.profile.email,
                         style: AppTextStyle.profileEmailStyle,
                       ),
                       const SizedBox(height: 5.0),
