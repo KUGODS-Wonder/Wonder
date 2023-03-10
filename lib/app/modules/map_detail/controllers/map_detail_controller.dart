@@ -7,11 +7,13 @@ import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/readme_dialog.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/reservation_dialog.dart';
 
 class MapDetailController extends GetxController {
   static const Duration _waitTime = Duration(milliseconds: 300);
+  final ReservationProvider _reservationProvider = ReservationProvider.to;
   GoogleMapController? _mapController;
   double zoomVal = Constants.initialZoomLevel;
   bool isEvent = false;
@@ -88,7 +90,10 @@ class MapDetailController extends GetxController {
       );
 
       if (accepted != null && accepted) {
-        Get.dialog(const ReservationDialog());
+        Get.dialog(ReservationDialog(
+          possibleReservations: await _reservationProvider.getReservations(),
+          bottomMessage: Strings.readmeDialogDescription,
+        ));
       }
     }
   }

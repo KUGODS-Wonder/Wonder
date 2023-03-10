@@ -173,6 +173,21 @@ abstract class AppTextStyle {
     color: AppColors.black,
   );
 
+  static TextStyle commonItemTitleStyle = AppTextStyle.mediumStyle.copyWith(
+    fontSize: 13.0,
+    color: AppColors.black,
+  );
+
+  static TextStyle commonItemDescriptionStyle = AppTextStyle.mediumStyle.copyWith(
+    fontSize: 12.0,
+    color: AppColors.middleGrey,
+  );
+
+  static TextStyle commonItemCaptionStyle = AppTextStyle.lightStyle.copyWith(
+    fontSize: 12.0,
+    color: AppColors.middleGrey,
+  );
+
   static TextStyle commonDescriptionStyle = AppTextStyle.regularStyle.copyWith(
     fontSize: 15.0,
     color: AppColors.middleGrey,
