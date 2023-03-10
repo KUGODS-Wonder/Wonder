@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/map_controller.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
-import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
 import '../controllers/map_detail_controller.dart';
 
@@ -42,7 +41,7 @@ class MapDetailView extends GetView<MapDetailController> {
                         onMapCreated: controller.onMapCreated,
                         onCameraMove: controller.onCameraMove,
                         // myLocationButtonEnabled: true,
-                        myLocationEnabled: true,
+                        // myLocationEnabled: true,
                         mapToolbarEnabled: false,
                         zoomControlsEnabled: false,
                         tiltGesturesEnabled: false,
@@ -62,7 +61,7 @@ class MapDetailView extends GetView<MapDetailController> {
                     tag: 'walk-container-${Get.arguments['id']}',
                     child: SmallWalkContainer(
                       onSaveButtonPressed: () {},
-                      onStartButtonPressed: () {},
+                      onStartButtonPressed: controller.onStartButtonPressed,
                       isDetailMode: controller.isDetailMode.value,
                       isEvent: controller.isEvent,
                       eventMedalImagePath: controller.eventMedalImagePath,
@@ -76,7 +75,6 @@ class MapDetailView extends GetView<MapDetailController> {
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(currentIndex: -1),
     );
   }
 }

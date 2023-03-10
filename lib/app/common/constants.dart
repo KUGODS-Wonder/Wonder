@@ -15,4 +15,6 @@ abstract class Constants {
   static const double initialZoomLevel = 16.0;
 
   static const double defaultHorizontalPadding = 24.0;
+
+  static const double defaultVerticalPadding = 12.0;
 }

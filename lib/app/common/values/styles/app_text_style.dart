@@ -168,17 +168,17 @@ abstract class AppTextStyle {
     color: AppColors.middleGrey,
   );
 
-  static TextStyle bookmarkTitleStyle = AppTextStyle.boldStyle.copyWith(
+  static TextStyle commonTitleStyle = AppTextStyle.boldStyle.copyWith(
     fontSize: 18.0,
     color: AppColors.black,
   );
 
-  static TextStyle bookmarkDescriptionStyle = AppTextStyle.boldStyle.copyWith(
+  static TextStyle commonDescriptionStyle = AppTextStyle.regularStyle.copyWith(
     fontSize: 15.0,
     color: AppColors.middleGrey,
   );
 
-  static TextStyle bookmarkAddressStyle = AppTextStyle.boldStyle.copyWith(
+  static TextStyle commonCaptionStyle = AppTextStyle.regularStyle.copyWith(
     fontSize: 12.0,
     color: AppColors.lightGrey,
   );

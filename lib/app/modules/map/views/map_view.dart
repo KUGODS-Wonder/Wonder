@@ -160,11 +160,11 @@ class MapView extends GetView<MapController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(controller.bookmarks[index].title,
-                              style: AppTextStyle.bookmarkTitleStyle),
+                              style: AppTextStyle.commonTitleStyle),
                           Text(controller.bookmarks[index].description,
-                              style: AppTextStyle.bookmarkDescriptionStyle),
+                              style: AppTextStyle.commonDescriptionStyle),
                           Text(controller.bookmarks[index].address,
-                              style: AppTextStyle.bookmarkAddressStyle),
+                              style: AppTextStyle.commonCaptionStyle),
                         ],
                       )
                   ),

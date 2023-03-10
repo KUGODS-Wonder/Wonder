@@ -20,6 +20,10 @@ class EventView extends GetView<EventController> {
   const EventView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+
+    double wonderCardWidth = Get.width * 0.8;
+    double wonderCardHeight = wonderCardWidth * 0.85;
+
     return Scaffold(
       body: SafeArea(
         left: false,
@@ -113,9 +117,8 @@ class EventView extends GetView<EventController> {
                                   children: [
                                     const SizedBox(height: 20),
                                     SizedBox(
-                                      height: Get.height * 0.33,
+                                      height: wonderCardHeight,
                                       child: PageView.builder(
-
                                         itemCount: data!.length,
                                         itemBuilder: (context, index) {
                                           return Padding(
@@ -124,21 +127,25 @@ class EventView extends GetView<EventController> {
                                               title: data[index].name!,
                                               address: data[index].location!,
                                               imagePath: eventTab.eventCardPath,
+                                              width: wonderCardWidth,
                                               onTap: controller.injectOnWonderCardPressed(data[index]),
                                             ),
                                           );
                                         },
                                       ),
                                     ),
-                                    const SizedBox(height: 20),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: _tabViewHorizontalPadding,
-                                      ),
-                                      child: Text(
-                                        eventTab.comment,
-                                        textAlign: TextAlign.center,
-                                        style: AppTextStyle.eventCommentStyle,
+                                    Expanded(
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: _tabViewHorizontalPadding,
+                                          ),
+                                          child: Text(
+                                            eventTab.comment,
+                                            textAlign: TextAlign.center,
+                                            style: AppTextStyle.eventCommentStyle,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -165,11 +172,12 @@ class EventView extends GetView<EventController> {
     required String address,
     required String imagePath,
     required void Function() onTap,
+    required double width,
   }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: Get.width * 0.8,
+        width: width,
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(20),

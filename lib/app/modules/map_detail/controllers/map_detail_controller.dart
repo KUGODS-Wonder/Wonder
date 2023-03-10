@@ -7,6 +7,8 @@ import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/modules/map_detail/views/readme_dialog.dart';
+import 'package:wonder_flutter/app/modules/map_detail/views/reservation_dialog.dart';
 
 class MapDetailController extends GetxController {
   static const Duration _waitTime = Duration(milliseconds: 300);
@@ -74,5 +76,20 @@ class MapDetailController extends GetxController {
 
   void onCameraMove(CameraPosition position) {
     zoomVal = position.zoom;
+  }
+
+  void onStartButtonPressed() async {
+    if (isEvent) {
+      var accepted = await Get.dialog<bool>(
+        const ReadmeDialog(
+          message: Strings.readmeDialogDescription,
+          buttonMessage: Strings.readmeDialogButtonMessage,
+        )
+      );
+
+      if (accepted != null && accepted) {
+        Get.dialog(const ReservationDialog());
+      }
+    }
   }
 }
