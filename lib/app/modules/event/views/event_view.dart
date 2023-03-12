@@ -163,7 +163,7 @@ class EventView extends GetView<EventController> {
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(currentIndex: 0),
+      bottomNavigationBar: const AppBottomNavigationBar(currentIndex: 0),
     );
   }
 

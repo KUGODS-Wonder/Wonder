@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -96,13 +97,22 @@ class MapDetailController extends GetxController {
     );
 
     if (accepted != null && accepted) {
-      var hasChosenItem = await Get.dialog(ReservationDialog(
-          possibleReservations: await _reservationProvider.getReservations(),
+      var chosenItem = await Get.dialog(ReservationDialog(
+        possibleReservations: await _reservationProvider.getReservations(),
         bottomMessage: Strings.readmeDialogDescription,
       ));
 
-      if (hasChosenItem != null && hasChosenItem) {
-        Get.offNamed(Routes.RESERVATION_LIST);
+      if (chosenItem != null) {
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        Random random = Random();
+        var x = random.nextBool();
+        if (x) {
+          Get.snackbar(Strings.reservationSuccessTitle, Strings.reservationSuccessMessage);
+          Get.offNamed(Routes.RESERVATION_LIST);
+        } else {
+          Get.snackbar(Strings.reservationFailTitle, Strings.reservationFailMessage);
+        }
       }
     }
   }

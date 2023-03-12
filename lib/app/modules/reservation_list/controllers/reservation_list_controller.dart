@@ -1,23 +1,24 @@
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/data/models/reservation_model.dart';
+import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
 
 class ReservationListController extends GetxController {
-  //TODO: Implement ReservationListController
+  final ReservationProvider _reservationProvider = ReservationProvider.to;
+  Rx<Future<List<Reservation>>> reservationsFuture = Rx<Future<List<Reservation>>>(
+    Future.value([]),
+  );
 
-  final count = 0.obs;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    fetchReservations();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void fetchReservations() {
+    reservationsFuture.value = _reservationProvider.getReservations();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  void onClickCancelReservation(Reservation data) async {
 
-  void increment() => count.value++;
+  }
 }
