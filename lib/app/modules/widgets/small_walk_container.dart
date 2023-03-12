@@ -306,9 +306,7 @@ class SmallWalkContainer extends StatelessWidget {
                   color: AppColors.kPrimary100,
                   child: Text(
                     isEvent ? '신청' : '시작',
-                    style: AppTextStyle.walkIconItemStyle.copyWith(
-                      color: AppColors.white,
-                    ),
+                    style: AppTextStyle.coloredButtonTextStyle,
                   ),
                 ),
               ],

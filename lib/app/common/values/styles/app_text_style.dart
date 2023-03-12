@@ -198,6 +198,11 @@ abstract class AppTextStyle {
     color: AppColors.lightGrey,
   );
 
+  static TextStyle coloredButtonTextStyle = AppTextStyle.boldStyle.copyWith(
+    fontSize: 20.0,
+    color: AppColors.white,
+  );
+
   static TextStyle leaderboardKmTextStyle = AppTextStyle.leaderboardTextStyle.copyWith(
     color: AppColors.black,
   );

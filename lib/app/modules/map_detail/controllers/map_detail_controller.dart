@@ -82,18 +82,26 @@ class MapDetailController extends GetxController {
 
   void onStartButtonPressed() async {
     if (isEvent) {
-      var accepted = await Get.dialog<bool>(
+      _onEventButtonPressed();
+    }
+  }
+
+  void _onEventButtonPressed() async {
+    var accepted = await Get.dialog<bool>(
         const ReadmeDialog(
           message: Strings.readmeDialogDescription,
           buttonMessage: Strings.readmeDialogButtonMessage,
         )
-      );
+    );
 
-      if (accepted != null && accepted) {
-        Get.dialog(ReservationDialog(
+    if (accepted != null && accepted) {
+      var hasChosenItem = await Get.dialog(ReservationDialog(
           possibleReservations: await _reservationProvider.getReservations(),
-          bottomMessage: Strings.readmeDialogDescription,
-        ));
+        bottomMessage: Strings.readmeDialogDescription,
+      ));
+
+      if (hasChosenItem != null && hasChosenItem) {
+        // Get.offNamed();
       }
     }
   }
