@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/readme_dialog.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/reservation_dialog.dart';
+import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class MapDetailController extends GetxController {
   static const Duration _waitTime = Duration(milliseconds: 300);
@@ -95,13 +97,22 @@ class MapDetailController extends GetxController {
     );
 
     if (accepted != null && accepted) {
-      var hasChosenItem = await Get.dialog(ReservationDialog(
-          possibleReservations: await _reservationProvider.getReservations(),
+      var chosenItem = await Get.dialog(ReservationDialog(
+        possibleReservations: await _reservationProvider.getReservations(),
         bottomMessage: Strings.readmeDialogDescription,
       ));
 
-      if (hasChosenItem != null && hasChosenItem) {
-        // Get.offNamed();
+      if (chosenItem != null) {
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        Random random = Random();
+        var x = random.nextBool();
+        if (x) {
+          Get.snackbar(Strings.reservationSuccessTitle, Strings.reservationSuccessMessage);
+          Get.offNamed(Routes.RESERVATION_LIST);
+        } else {
+          Get.snackbar(Strings.reservationFailTitle, Strings.reservationFailMessage);
+        }
       }
     }
   }

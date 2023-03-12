@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/animatable_list.dart';
-import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/data/models/reservation_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/colored_button.dart';
+import 'package:wonder_flutter/app/modules/widgets/reservation_tile.dart';
 
 class ReservationDialog extends StatefulWidget {
   static const int maxDisplays = 3;
-  static const String canApplyText = '신청가능';
-  static const String maxText = '마감';
   static const String areYouSureText = '정말 해당 시간으로 신청하시겠습니까?';
 
   final List<Reservation> possibleReservations;
@@ -95,7 +93,7 @@ class _ReservationDialogState extends State<ReservationDialog> with SingleTicker
                         children: [
                           ColoredButton(
                             onPressed: () {
-                              Get.back(result: false);
+                              Get.back(result: null);
                             },
                             child: Text(
                               '취소',
@@ -105,7 +103,9 @@ class _ReservationDialogState extends State<ReservationDialog> with SingleTicker
                           const SizedBox(width: 10.0),
                           ColoredButton(
                             onPressed: () {
-                              Get.back(result: true);
+                              if (isAreYouSureMode && _animatableList.length == 1) {
+                                Get.back(result: _animatableList[0]);
+                              }
                             },
                             child: Text(
                               '신청',
@@ -171,77 +171,9 @@ class _ReservationDialogState extends State<ReservationDialog> with SingleTicker
       void Function() onTap,
       double height
       ) {
-    int appliedPeopleCount = item.appliedPeopleCount;
-    int maxPeopleCount = item.maxPeopleCount;
-    bool isFull = appliedPeopleCount == maxPeopleCount;
-    Color textColor = isFull ? AppColors.middleGrey : AppColors.kPrimary100;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: SlideTransition(
-        position: animation.drive(Tween(begin: const Offset(-1.0,0.0), end: const Offset(0.0,0.0))),
-        child: GestureDetector(
-          onTap: isFull ? null : onTap,
-          child: Container(
-            height: height,
-            padding: const EdgeInsets.symmetric(
-                horizontal: Constants.defaultHorizontalPadding),
-            decoration: BoxDecoration(
-              color: AppColors.faintGrey,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item.date,
-                            style: AppTextStyle.commonItemTitleStyle),
-                        Text('${item.timeStart} ~ ${item.timeEnd}',
-                            style: AppTextStyle.commonItemDescriptionStyle),
-                        Row(
-                          children: [
-                            const Icon(Icons.location_on, size: 10),
-                            const SizedBox(width: 5),
-                            Text(item.location,
-                                style: AppTextStyle.commonItemCaptionStyle),
-                          ],
-                        ),
-                      ],
-                    )
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Text('$appliedPeopleCount/$maxPeopleCount',
-                          style: AppTextStyle.commonItemTitleStyle.copyWith(
-                            color: textColor,
-                            fontWeight: FontWeight.w600,
-                          )
-                      ),
-                    ),
-                    Text(isFull ? ReservationDialog.maxText : ReservationDialog.canApplyText,
-                        style: AppTextStyle.commonItemDescriptionStyle.copyWith(
-                          color: textColor,
-                          fontWeight: FontWeight.w600,
-                        )
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
+    return SlideTransition(
+      position: animation.drive(Tween(begin: const Offset(-1.0,0.0), end: const Offset(0.0,0.0))),
+      child: ReservationTile(item: item, onTap: onTap, height: height),
     );
   }
 }

@@ -12,6 +12,8 @@ import '../modules/map_detail/bindings/map_detail_binding.dart';
 import '../modules/map_detail/views/map_detail_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/reservation_list/bindings/reservation_list_binding.dart';
+import '../modules/reservation_list/views/reservation_list_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
@@ -58,6 +60,11 @@ abstract class AppPages {
       name: _Paths.EVENT,
       page: () => const EventView(),
       binding: EventBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESERVATION_LIST,
+      page: () => const ReservationListView(),
+      binding: ReservationListBinding(),
     ),
   ];
 }
