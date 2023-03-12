@@ -45,7 +45,7 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
   }
 
   void onReservationButtonPressed() {
-
+    Get.toNamed(Routes.RESERVATION_LIST);
   }
 
   void Function() injectOnWonderCardPressed(Walk walk) {

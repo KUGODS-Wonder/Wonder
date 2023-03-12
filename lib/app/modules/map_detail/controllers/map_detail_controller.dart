@@ -10,6 +10,7 @@ import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/readme_dialog.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/reservation_dialog.dart';
+import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class MapDetailController extends GetxController {
   static const Duration _waitTime = Duration(milliseconds: 300);
@@ -101,7 +102,7 @@ class MapDetailController extends GetxController {
       ));
 
       if (hasChosenItem != null && hasChosenItem) {
-        // Get.offNamed();
+        Get.offNamed(Routes.RESERVATION_LIST);
       }
     }
   }
