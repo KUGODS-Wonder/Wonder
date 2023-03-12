@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/event/bindings/event_binding.dart';
+import '../modules/event/views/event_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -51,6 +53,11 @@ abstract class AppPages {
       page: () => const MapDetailView(),
       binding: MapDetailBinding(),
       transition: Transition.zoom,
+    ),
+    GetPage(
+      name: _Paths.EVENT,
+      page: () => const EventView(),
+      binding: EventBinding(),
     ),
   ];
 }

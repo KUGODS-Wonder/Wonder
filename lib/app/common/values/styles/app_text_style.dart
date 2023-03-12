@@ -95,6 +95,16 @@ abstract class AppTextStyle {
     letterSpacing: 1.5,
   );
 
+  static final TextStyle eventHeadline = extraBoldStyle.copyWith(
+    fontSize: Dimens.fontSize34,
+    color: AppColors.black,
+  );
+
+  static final TextStyle eventCommentStyle = boldStyle.copyWith(
+    fontSize: 16,
+    color: AppColors.white,
+  );
+
   static final TextStyle walkTitle = semiBoldStyle.copyWith(
     fontSize: 20,
   );
@@ -158,19 +168,39 @@ abstract class AppTextStyle {
     color: AppColors.middleGrey,
   );
 
-  static TextStyle bookmarkTitleStyle = AppTextStyle.boldStyle.copyWith(
+  static TextStyle commonTitleStyle = AppTextStyle.boldStyle.copyWith(
     fontSize: 18.0,
     color: AppColors.black,
   );
 
-  static TextStyle bookmarkDescriptionStyle = AppTextStyle.boldStyle.copyWith(
+  static TextStyle commonItemTitleStyle = AppTextStyle.mediumStyle.copyWith(
+    fontSize: 13.0,
+    color: AppColors.black,
+  );
+
+  static TextStyle commonItemDescriptionStyle = AppTextStyle.mediumStyle.copyWith(
+    fontSize: 12.0,
+    color: AppColors.middleGrey,
+  );
+
+  static TextStyle commonItemCaptionStyle = AppTextStyle.lightStyle.copyWith(
+    fontSize: 12.0,
+    color: AppColors.middleGrey,
+  );
+
+  static TextStyle commonDescriptionStyle = AppTextStyle.regularStyle.copyWith(
     fontSize: 15.0,
     color: AppColors.middleGrey,
   );
 
-  static TextStyle bookmarkAddressStyle = AppTextStyle.boldStyle.copyWith(
+  static TextStyle commonCaptionStyle = AppTextStyle.regularStyle.copyWith(
     fontSize: 12.0,
     color: AppColors.lightGrey,
+  );
+
+  static TextStyle coloredButtonTextStyle = AppTextStyle.boldStyle.copyWith(
+    fontSize: 20.0,
+    color: AppColors.white,
   );
 
   static TextStyle leaderboardKmTextStyle = AppTextStyle.leaderboardTextStyle.copyWith(
@@ -184,6 +214,7 @@ abstract class AppTextStyle {
   static TextStyle leaderboardLocalUserTextStyle = AppTextStyle.leaderboardTextStyle.copyWith(
     color: AppColors.reward60,
   );
+
 
   static final TextStyle lightStyle = _textStyle.copyWith(
     fontWeight: FontWeight.w300,
@@ -218,6 +249,7 @@ abstract class AppTextStyle {
     color: Colors.black,
     fontFamily: 'Poppins',
   );
+
 
   static TextTheme get textTheme => TextTheme(
         displayLarge: headline1,

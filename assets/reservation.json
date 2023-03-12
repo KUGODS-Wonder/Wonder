@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2023-03-14",
+    "timeStart": "12:00",
+    "timeEnd": "14:00",
+    "location": "서울특별시 성북구 OO센터 1층 앞",
+    "maxPeopleCount": 3,
+    "appliedPeopleCount": 1
+  },
+  {
+    "date": "2023-03-15",
+    "timeStart": "12:00",
+    "timeEnd": "14:00",
+    "location": "서울특별시 성북구 OO센터 1층 앞",
+    "maxPeopleCount": 3,
+    "appliedPeopleCount": 3
+  },
+  {
+    "date": "2023-03-16",
+    "timeStart": "12:00",
+    "timeEnd": "14:00",
+    "location": "서울특별시 성북구 OO센터 1층 앞",
+    "maxPeopleCount": 3,
+    "appliedPeopleCount": 2
+  }
+]

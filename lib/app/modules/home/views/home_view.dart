@@ -5,6 +5,7 @@ import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_medal_style.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/modules/home/controllers/home_controller.dart';
+import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:get/get.dart';
 
@@ -19,21 +20,9 @@ class HomeView extends GetView<HomeController> {
         bottom: false,
         left: false,
         right: false,
-        child: FutureBuilder(
+        child: ApiFetchFutureBuilder(
           future: controller.initFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.error!.toString()),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }
-
+          builder: (context, _) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -114,10 +103,10 @@ class HomeView extends GetView<HomeController> {
                 ),
               ],
             );
-          }
+          },
         ),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(currentIndex: 0)
+      bottomNavigationBar: AppBottomNavigationBar(currentIndex: 2)
     );
   }
 

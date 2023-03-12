@@ -39,4 +39,6 @@ abstract class Strings {
   static const to = 'To';
   static const success = 'Success';
   static const checkboxValidation = 'Dummy Checkbox Validation Message';
+  static const readmeDialogDescription = '사전 조율 없이 노쇼(No-show)할 경우 차후 WONDER 앱 이용에 불이익이 있을 수 있습니다.';
+  static const readmeDialogButtonMessage = '날짜와 시간 고르러가기';
 }

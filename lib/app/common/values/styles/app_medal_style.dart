@@ -22,6 +22,7 @@ abstract class AppMedalStyle {
     for (var inferrableMedalType in inferrableMedalTypes) {
       if (medalName.contains(inferrableMedalType)) {
         inferredMedalType = inferrableMedalType;
+        break;
       }
     }
 
