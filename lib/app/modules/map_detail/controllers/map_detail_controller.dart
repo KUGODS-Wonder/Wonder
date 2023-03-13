@@ -40,9 +40,11 @@ class MapDetailController extends GetxController {
 
   @override
   void onReady() async {
-    await Future.delayed(_waitTime).then((value) {
-      isDetailMode.value = true;
-    });
+
+    if (!isEvent) {
+      await Future.delayed(_waitTime);
+    }
+    isDetailMode.value = true;
 
     polyLines.clear();
     polyLines.add(Polyline(
@@ -85,6 +87,11 @@ class MapDetailController extends GetxController {
   void onStartButtonPressed() async {
     if (isEvent) {
       _onEventButtonPressed();
+    } else {
+      Get.toNamed(Routes.WALK_TRACK, arguments: {
+        'walk': targetWalk,
+        'isEvent': false,
+      });
     }
   }
 

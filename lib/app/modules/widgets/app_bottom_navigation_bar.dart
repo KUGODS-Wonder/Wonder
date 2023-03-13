@@ -27,7 +27,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 90,
+      height: 90 + (GetPlatform.isIOS ? 15 : 0),
       child: BottomNavigationBar(
         iconSize: 30,
         items: const [

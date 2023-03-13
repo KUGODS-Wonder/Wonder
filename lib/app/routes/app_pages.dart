@@ -16,6 +16,8 @@ import '../modules/reservation_list/bindings/reservation_list_binding.dart';
 import '../modules/reservation_list/views/reservation_list_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/walk_track/bindings/walk_track_binding.dart';
+import '../modules/walk_track/views/walk_track_view.dart';
 
 part 'app_routes.dart';
 
@@ -65,6 +67,11 @@ abstract class AppPages {
       name: _Paths.RESERVATION_LIST,
       page: () => const ReservationListView(),
       binding: ReservationListBinding(),
+    ),
+    GetPage(
+      name: _Paths.WALK_TRACK,
+      page: () => const WalkTrackView(),
+      binding: WalkTrackBinding(),
     ),
   ];
 }
