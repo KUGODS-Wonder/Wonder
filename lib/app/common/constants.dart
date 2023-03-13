@@ -17,4 +17,7 @@ abstract class Constants {
   static const double defaultHorizontalPadding = 24.0;
 
   static const double defaultVerticalPadding = 12.0;
+
+  static int minWalkSpeedMeterPerMinute = 50; // 시속 3km/h
+  static int maxWalkSpeedMeterPerMinute = 217; // 시속 13km/h
 }
