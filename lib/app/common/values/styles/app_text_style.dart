@@ -215,6 +215,10 @@ abstract class AppTextStyle {
     color: AppColors.reward60,
   );
 
+  static final TextStyle timerTextStyle = boldStyle.copyWith(
+    fontSize: 32,
+    color: AppColors.black,
+  );
 
   static final TextStyle lightStyle = _textStyle.copyWith(
     fontWeight: FontWeight.w300,

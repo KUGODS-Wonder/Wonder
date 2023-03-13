@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/map_controller.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
@@ -47,28 +48,55 @@ class WalkTrackView extends GetView<WalkTrackController> {
           const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      controller.targetWalk.name ?? 'NO NAMED',
-                      style: AppTextStyle.walkTitle,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          controller.targetWalk.name,
+                          style: AppTextStyle.walkTitle,
+                        ),
+                        Text(
+                          controller.targetWalk.location,
+                          style: AppTextStyle.walkAddress,
+                        )
+                      ],
                     ),
-                    Text(
-                      controller.targetWalk.location ?? 'NO LOCATION',
-                      style: AppTextStyle.walkAddress,
+                    ColoredButton(
+                      onPressed: controller.onCancelClick,
+                      child: Text(
+                        '취소',
+                        style: AppTextStyle.coloredButtonTextStyle,
+                      ),
                     )
                   ],
                 ),
-                ColoredButton(
-                  onPressed: controller.onCancelClick,
-                  child: Text(
-                    '취소',
-                    style: AppTextStyle.coloredButtonTextStyle,
+                const SizedBox(height: 5),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.middleGrey,
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  child: Obx(() {
+                    return Column(
+                      children: [
+                        Text(
+                          '${controller.timerStringValue.value} 남음',
+                          style: AppTextStyle.timerTextStyle,
+                        ),
+                        // LinearProgressIndicator(
+                        //   value: controller.progress.value,
+                        //   minHeight: 20,
+                        //   backgroundColor: AppColors.middleGrey,
+                        //   valueColor: const AlwaysStoppedAnimation<Color>(AppColors.kPrimary100),
+                        // ),
+                      ],
+                    );
+                  }),
                 )
               ],
             ),

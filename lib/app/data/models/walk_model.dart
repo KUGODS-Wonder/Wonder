@@ -1,5 +1,3 @@
-import 'package:wonder_flutter/app/common/constants.dart';
-
 class Walk {
   int id;
   String name;
@@ -10,8 +8,6 @@ class Walk {
   int requiredWalksLeft;
   int distance;
   int time;
-  int minimumWalkTimeInMinutes;
-  int maximumWalkTimeInMinutes;
   List<Coordinate> coordinate;
 
   Walk({
@@ -24,9 +20,7 @@ class Walk {
     required this.requiredWalksLeft,
     required this.distance,
     required this.time,
-    required this.coordinate})
-      : minimumWalkTimeInMinutes = distance ~/ Constants.minWalkSpeedMeterPerMinute,
-        maximumWalkTimeInMinutes = distance ~/ Constants.maxWalkSpeedMeterPerMinute;
+    required this.coordinate});
 
   factory Walk.fromJson(Map<String, dynamic> json) {
     return Walk(
