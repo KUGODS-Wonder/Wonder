@@ -1,7 +1,7 @@
 abstract class Constants {
-  static const String baseUrl = 'http://ku-wonder.shop/api/v1';
-  static const String signInUrl = '/members/signin';
-  static const String signUpUrl = '/members/signup';
+  static const String baseUrl = 'ku-wonder.shop';
+  static const String signInUrl = '/api/v1/auth/signin';
+  static const String signUpUrl = '/api/v1/auth/signup';
 
   static const timeout = Duration(seconds: 5);
   static const splashTime = Duration(seconds: 2);

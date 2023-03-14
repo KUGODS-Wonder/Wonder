@@ -13,6 +13,7 @@ class LoginView extends GetView<LoginController> {
           children: [
             Padding(padding: EdgeInsets.only(top: 50)),
             Form(
+              key: controller.formKey,
               child: Theme(
                   data: ThemeData(
                       primaryColor: Colors.grey,
@@ -45,7 +46,9 @@ class LoginView extends GetView<LoginController> {
                                   color: Colors.grey,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: TextField(
+                            child: TextFormField(
+                              key: controller.emailFormFieldKey,
+                              controller: controller.emailController,
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: '  Email'), //박스모양
@@ -66,7 +69,9 @@ class LoginView extends GetView<LoginController> {
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: TextField(
+                            child: TextFormField(
+                              key: controller.passwordFormFieldKey,
+                              controller: controller.passwordController,
                               //띄어쓰기
                               decoration: InputDecoration(
                                 hintText: '  Password',
@@ -82,7 +87,6 @@ class LoginView extends GetView<LoginController> {
                         ),
                         Row(
                           children: [
-                            SizedBox(width: 150),
                             Text(
                               'New user?',
                               style: TextStyle(
@@ -105,7 +109,7 @@ class LoginView extends GetView<LoginController> {
                             ),
                             SizedBox(width: 18),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: controller.onSubmitPressed,
                               child: Icon(
                                 Icons.arrow_forward,
                                 color: Colors.white,
