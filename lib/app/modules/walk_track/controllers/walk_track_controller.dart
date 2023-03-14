@@ -6,7 +6,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/converters.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
+import 'package:wonder_flutter/app/data/models/profile_model.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/modules/walk_track/views/walk_reward_dialog.dart';
+import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class WalkTrackController extends GetxController {
   static const Duration _checkInterval = Duration(seconds: 1);
@@ -14,6 +17,7 @@ class WalkTrackController extends GetxController {
   GoogleMapController? _mapController;
   bool isEvent = false;
   double zoomVal = Constants.initialZoomLevel;
+  bool _isChecking = false;
 
   late Timer _timer;
   late Stopwatch _stopwatch;
@@ -85,22 +89,67 @@ class WalkTrackController extends GetxController {
   }
 
   void onCancelClick() {
+    _stopWalk();
   }
 
-  void _onEachTimerInterval(Timer timer) {
+  void _onEachTimerInterval(Timer timer) async {
     var elapsedTime = _stopwatch.elapsed;
     var remainingTime = maximumWalkTimeInMinutes - elapsedTime;
+    timerStringValue.value = Converters.convertDurationToString(remainingTime);
     if (remainingTime.inSeconds <= 0) {
-      _timer.cancel();
-      _stopwatch.stop();
+      _onWalkFailed();
       return;
     }
-    timerStringValue.value = Converters.convertDurationToString(remainingTime);
+
+    bool isCompleted = await isWalkCompleted();
+    if (isCompleted) {
+      _onWalkCompleted();
+      return;
+    }
   }
 
   void startWalk() {
     _timer = Timer.periodic(_checkInterval, _onEachTimerInterval);
     _stopwatch = Stopwatch();
     _stopwatch.start();
+  }
+
+  void _stopWalk() {
+    _timer.cancel();
+    _stopwatch.stop();
+  }
+
+  Future<bool> isWalkCompleted() async {
+    if (_isChecking) return false;
+
+    _isChecking = true;
+    if (_stopwatch.elapsed >= Duration(seconds: 5)) {
+      Future.delayed(Duration(seconds: 1));
+      _isChecking = false;
+      return true;
+    } else {
+      _isChecking = false;
+      return false;
+    }
+  }
+
+  void _onWalkCompleted() async {
+    _stopWalk();
+
+    await Get.dialog(WalkRewardDialog(
+      medal: Medal(
+        title: '완벽한 한주',
+          description: "2023년 2월 2주차에 매일 운동을 하셨습니다!",
+          date: DateTime.tryParse("2023-02-07")!,
+          comments: "정말 성실하시네요!"
+      ),
+      ratingUpAmount: 46,
+    ));
+    Get.offAllNamed(Routes.HOME);
+  }
+
+  void _onWalkFailed() async {
+    _stopWalk();
+    Get.offAllNamed(Routes.HOME);
   }
 }

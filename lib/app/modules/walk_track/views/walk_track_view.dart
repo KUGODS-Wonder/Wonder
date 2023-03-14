@@ -45,7 +45,6 @@ class WalkTrackView extends GetView<WalkTrackController> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
             child: Column(
@@ -78,15 +77,30 @@ class WalkTrackView extends GetView<WalkTrackController> {
                 const SizedBox(height: 5),
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.middleGrey,
+                    color: AppColors.extraLightGrey,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Obx(() {
                     return Column(
                       children: [
-                        Text(
-                          '${controller.timerStringValue.value} 남음',
-                          style: AppTextStyle.timerTextStyle,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const SizedBox(width: 10),
+                            SizedBox(
+                              width: 150,
+                              child: Text(
+                                controller.timerStringValue.value,
+                                style: AppTextStyle.timerTextStyle,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Text('남음', style: AppTextStyle.mediumStyle.copyWith(
+                                color: AppColors.black,
+                              )),
+                            ),
+                          ],
                         ),
                         // LinearProgressIndicator(
                         //   value: controller.progress.value,
