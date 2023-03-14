@@ -1,48 +1,42 @@
 class Walk {
-  int? id;
-  String? name;
-  String? location;
-  String? theme;
-  List<Tag>? tags;
-  int? ratingUp;
-  int? requiredWalksLeft;
-  int? distance;
-  int? time;
-  List<Coordinate>? coordinate;
+  int id;
+  String name;
+  String location;
+  String theme;
+  List<Tag> tags;
+  int ratingUp;
+  int requiredWalksLeft;
+  int distance;
+  int time;
+  List<Coordinate> coordinate;
 
-  Walk(
-      {this.id,
-      this.name,
-      this.location,
-      this.theme,
-      this.tags,
-      this.ratingUp,
-      this.requiredWalksLeft,
-      this.distance,
-      this.time,
-      this.coordinate});
+  Walk({
+    required this.id,
+    required this.name,
+    required this.location,
+    required this.theme,
+    required this.tags,
+    required this.ratingUp,
+    required this.requiredWalksLeft,
+    required this.distance,
+    required this.time,
+    required this.coordinate});
 
-  Walk.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    location = json['location'];
-    theme = json['theme'];
-    if (json['tags'] != null) {
-      tags = <Tag>[];
-      json['tags'].forEach((v) {
-        tags?.add(Tag.fromJson(v));
-      });
-    }
-    ratingUp = json['ratingUp'];
-    requiredWalksLeft = json['requiredWalksLeft'];
-    distance = json['distance'];
-    time = json['time'];
-    if (json['coordinate'] != null) {
-      coordinate = <Coordinate>[];
-      json['coordinate'].forEach((v) {
-        coordinate?.add(Coordinate.fromJson(v));
-      });
-    }
+  factory Walk.fromJson(Map<String, dynamic> json) {
+    return Walk(
+      id: json['id'],
+      name: json['name'],
+      location: json['location'],
+      theme: json['theme'],
+      tags: (json['tags'] as List).map((i) => Tag.fromJson(i)).toList(),
+      ratingUp: json['ratingUp'],
+      requiredWalksLeft: json['requiredWalksLeft'],
+      distance: json['distance'],
+      time: json['time'],
+      coordinate: (json['coordinate'] as List)
+          .map((i) => Coordinate.fromJson(i))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -51,27 +45,25 @@ class Walk {
     data['name'] = name;
     data['location'] = location;
     data['theme'] = theme;
-    if (tags != null) {
-      data['tags'] = tags?.map((v) => v.toJson()).toList();
-    }
+    data['tags'] = tags.map((v) => v.toJson()).toList();
     data['ratingUp'] = ratingUp;
     data['requiredWalksLeft'] = requiredWalksLeft;
     data['distance'] = distance;
     data['time'] = time;
-    if (coordinate != null) {
-      data['coordinate'] = coordinate?.map((v) => v.toJson()).toList();
-    }
+    data['coordinate'] = coordinate.map((v) => v.toJson()).toList();
     return data;
   }
 }
 
 class Tag {
-  String? name;
+  String name;
 
-  Tag({this.name});
+  Tag({required this.name});
 
-  Tag.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      name: json['name'],
+    );
   }
 
   Map<String, dynamic> toJson() {
