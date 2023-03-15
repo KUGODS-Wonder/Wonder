@@ -38,8 +38,8 @@ class LoginController extends GetxController {
       var x = (await SignInResponseProvider().postSignInResponse(
               emailController.text, passwordController.text))
           .body!;
-      var isRegistered = x.errorCode;
-      if (isRegistered == 0) //회원가입되어 있는 사람
+      var isRegistered = x.success;
+      if (isRegistered == true) //회원가입되어 있는 사람
       {
         //다음페이지로 변경해야 됨
       } else {
