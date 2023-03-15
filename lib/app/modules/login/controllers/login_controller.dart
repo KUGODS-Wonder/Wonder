@@ -8,7 +8,6 @@ class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final emailFormFieldKey = GlobalKey<FormFieldState>();
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
-  final count = 0.obs;
   final _signInProvider = Get.find<SignInResponseProvider>();
   final _httProvider = Get.find<HttpProvider>();
   TextEditingController emailController = TextEditingController();
@@ -51,11 +50,7 @@ class LoginController extends GetxController {
     }
   }
 
-//snackbar로 error 메시지
-
   void navigateToRegister() {
-    Get.toNamed('/register');
+    Get.toNamed(Routes.REGISTER);
   }
-
-  void increment() => count.value++;
 }

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wonder_flutter/app/common/util/validators.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import '../controllers/register_controller.dart';
 
-final RxInt selected = 0.obs;
-
 class RegisterView extends GetView<RegisterController> {
-  RegisterView({Key? key}) : super(key: key);
-  final controller = Get.put(RegisterController());
+  const RegisterView({Key? key}) : super(key: key);
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset:
@@ -175,11 +173,11 @@ class RegisterView extends GetView<RegisterController> {
                           controlAffinity: ListTileControlAffinity.leading,
                           checkboxShape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5)),
-                          value: selected.value == 1,
+                          value: controller.selected.value == 1,
                           onChanged: (val) {
                             val ?? true
-                                ? selected.value = 1
-                                : selected.value = 0;
+                                ? controller.selected.value = 1
+                                : controller.selected.value = 0;
                           },
                         ),
                       ),

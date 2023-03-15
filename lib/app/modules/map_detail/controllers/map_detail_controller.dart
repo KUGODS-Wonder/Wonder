@@ -27,7 +27,7 @@ class MapDetailController extends GetxController {
   late Color polylineColor;
   var polyLines = <Polyline>{}.obs;
 
-  get eventMedalImagePath => isEvent ? AppWalkThemeStyle.getStyle(targetWalk.theme!).associatedMedalImagePath : null;
+  get eventMedalImagePath => isEvent ? AppWalkThemeStyle.getStyle(targetWalk.theme).associatedMedalImagePath : null;
 
   @override
   void onInit() {
@@ -50,7 +50,7 @@ class MapDetailController extends GetxController {
     polyLines.add(Polyline(
       polylineId: PolylineId(targetWalk.id.toString()),
       visible: true,
-      points: targetWalk.coordinate!.map((c) => LatLng(c.lat, c.lng)).toList(),
+      points: targetWalk.coordinate.map((c) => LatLng(c.lat, c.lng)).toList(),
       width: 5,
       color: polylineColor,
     ));
@@ -66,7 +66,7 @@ class MapDetailController extends GetxController {
 
   void onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    var coords = targetWalk.coordinate!;
+    var coords = targetWalk.coordinate;
     var midLat = (coords.first.lat + coords.last.lat) / 2;
     var midLng = (coords.first.lng + coords.last.lng) / 2;
 

@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  LoginView({Key? key}) : super(key: key);
-  final controller = Get.put(LoginController());
+  const LoginView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,14 +103,12 @@ class LoginView extends GetView<LoginController> {
                                     ),
                                   ),
                                   style: TextButton.styleFrom(
-                                      primary: Color(0xffFF5E5E)),
+                                      foregroundColor: Color(0xffFF5E5E)),
                                 ),
                               ),
                               SizedBox(width: 18),
                               ElevatedButton(
-                                onPressed: () {
-                                  controller.onSubmitPressed();
-                                },
+                                onPressed:controller.onSubmitPressed,
                                 child: Icon(
                                   Icons.arrow_forward,
                                   color: Colors.white,

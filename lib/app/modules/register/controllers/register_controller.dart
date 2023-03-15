@@ -17,6 +17,7 @@ class RegisterController extends GetxController {
   final passwordConfirmTextController = TextEditingController();
   final _provider = SignUpResponseProvider();
   final count = 0.obs;
+  final RxInt selected = 0.obs;
   @override
   void onInit() {
     super.onInit();
