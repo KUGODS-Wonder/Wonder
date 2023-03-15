@@ -1,7 +1,7 @@
 abstract class Constants {
-  static const String baseUrl = 'http://ku-wonder.shop/api/v1';
-  static const String signInUrl = 'http://ku-wonder.shop/api/v1/auth/signin';
-  static const String signUpUrl = 'http://ku-wonder.shop/api/v1/auth/signup';
+  static const String baseUrl = 'https://ku-wonder.shop';
+  static const String signInUrl = '/api/v1/auth/signin';
+  static const String signUpUrl = '/api/v1/auth/signup';
 
   static const timeout = Duration(seconds: 5);
   static const splashTime = Duration(seconds: 2);
@@ -15,4 +15,9 @@ abstract class Constants {
   static const double initialZoomLevel = 16.0;
 
   static const double defaultHorizontalPadding = 24.0;
+
+  static const double defaultVerticalPadding = 12.0;
+
+  static int minWalkSpeedMeterPerMinute = 50; // 시속 3km/h
+  static int maxWalkSpeedMeterPerMinute = 217; // 시속 13km/h
 }

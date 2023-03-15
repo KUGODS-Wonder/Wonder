@@ -14,7 +14,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   final ProfileProvider _profileProvider = ProfileProvider.to;
   final LeaderboardProvider _leaderboardProvider = LeaderboardProvider.to;
 
-  late Future initFuture;
+  late Future<bool> initFuture;
 
   late Profile profile;
   late LeaderboardData leaderboard;
@@ -28,9 +28,11 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   void onInit() async {
     super.onInit();
     initFuture = fetchProfile();
-    initFuture.then((_) {
+    initFuture.then((value) {
       _initializeCircularAnimation(profile.currentRating / profile.ratingToNextRank);
       circularAnimationController.forward();
+
+      return value;
     });
   }
 

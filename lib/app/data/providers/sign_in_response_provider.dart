@@ -1,24 +1,31 @@
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
-
+import 'package:wonder_flutter/app/data/http_provider.dart';
 import '../models/sign_in_response_model.dart';
 
-class SignInResponseProvider extends GetConnect {
+class SignInResponseProvider extends GetLifeCycle {
+
+  static HttpProvider httpProvider = Get.find<HttpProvider>();
+
   @override
   void onInit() {
-    httpClient.defaultDecoder = (map) {
-      if (map is Map<String, dynamic>) return SignInResponse.fromJson(map);
-      if (map is List)
-        return map.map((item) => SignInResponse.fromJson(item)).toList();
-    };
-    httpClient.baseUrl = Constants.baseUrl;
+    super.onInit();
   }
 
-  Future<Response<SignInResponse>> postSignInResponse(
+  Future<SignInResponse> postSignInResponse(
       String email, String password) async {
-    return await post(Constants.signInUrl, {
+    var response = await httpProvider.httpPost(Constants.signInUrl, {
       'email': email,
       'password': password,
     });
+
+    if (response is Map<String, dynamic>) {
+      try {
+        return SignInResponse.fromJson(response);
+      } catch (e) {
+        return Future.error(response);
+      }
+    }
+    return Future.error(response);
   }
 }

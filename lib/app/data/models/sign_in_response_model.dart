@@ -2,7 +2,7 @@ class SignInResponse {
   bool success;
   int errorCode;
   String message;
-  SignInData signInData;
+  SignInData? signInData;
 
   SignInResponse({
     required this.success,
@@ -15,7 +15,9 @@ class SignInResponse {
       success: json['success'],
       errorCode: json['errorCode'],
       message: json['message'],
-      signInData: SignInData.fromJson(json['data']),
+      signInData: json['data'] != null
+          ? SignInData.fromJson(json['data'])
+          : null,
     );
   }
 
@@ -24,7 +26,7 @@ class SignInResponse {
     data['success'] = success;
     data['errorCode'] = errorCode;
     data['message'] = message;
-    data['data'] = signInData.toJson();
+    data['data'] = signInData?.toJson();
     return data;
   }
 }

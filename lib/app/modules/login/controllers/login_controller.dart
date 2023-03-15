@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:wonder_flutter/app/data/http_provider.dart';
+import 'package:wonder_flutter/app/routes/app_pages.dart';
 import '../../../data/providers/sign_in_response_provider.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
   final formKey = GlobalKey<FormState>();
   final emailFormFieldKey = GlobalKey<FormFieldState>();
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
   final count = 0.obs;
-  //final _provider = SignInResponseProvider();
+  final _signInProvider = Get.find<SignInResponseProvider>();
+  final _httProvider = Get.find<HttpProvider>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
@@ -35,17 +35,19 @@ class LoginController extends GetxController {
 
   void onSubmitPressed() async {
     if (formKey.currentState!.validate()) {
-      var x = (await SignInResponseProvider().postSignInResponse(
-              emailController.text, passwordController.text))
-          .body!;
-      var isRegistered = x.errorCode;
-      if (isRegistered == 0) //회원가입되어 있는 사람
-      {
-        //다음페이지로 변경해야 됨
-      } else {
-        Get.snackbar('Snackbar', '로그인 실패');
+      try{
+        var res = await _signInProvider.postSignInResponse(emailController.text, passwordController.text);
+        if (res.success) {
+          // 토큰을 현재 HttpProvider 인스턴스에 저장.
+          _httProvider.setToken(res.signInData!.token);
+          // Home 화면으로 이동.
+          Get.offAllNamed(Routes.HOME);
+        } else {
+          Get.snackbar('로그인 실패', res.message);
+        }
+      } on Exception catch (_) {
+        Get.snackbar('로그인 실패', '서버와 연결 실패');
       }
-      //x.signInData.token;
     }
   }
 
@@ -57,23 +59,3 @@ class LoginController extends GetxController {
 
   void increment() => count.value++;
 }
-
-// class Authcontroller {
-//   TextEditingController addressController = TextEditingController();
-//   TextEditingController passwordController = TextEditingController();
-//   Future loginUser() async {
-//     final _url = 'http://ku-wonder.shop/api/v1/auth/signin';
-//     var response = await http.post(Uri.parse(_url),
-//         body: jsonEncode({
-//           "username": addressController.text,
-//           "password": passwordController.text,
-//         }));
-//     if (response.statusCode == 200) {
-//       var loginArr = json.decode(response.body);
-//       print(loginArr['token']);
-//     } else {
-//       print(response.body);
-//     }
-//   }
-// }
-

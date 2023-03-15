@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
 
 import '../models/walk_model.dart';
 
@@ -19,12 +20,23 @@ class WalkProvider extends GetConnect {
     httpClient.baseUrl = 'YOUR-API-URL';
   }
 
-  Future<List<Walk>> getWalks() async {
+  Future<List<Walk>> getWalks({String path = 'assets/walks.json'}) async {
     // final response = await get('samplewalk/');
-    final response = jsonDecode(await rootBundle.loadString('assets/walks.json'));
+    final response = jsonDecode(await rootBundle.loadString(path));
     if (response != null) {
       return response.map<Walk>((json) => Walk.fromJson(json)).toList();
     }
     return <Walk>[];
+  }
+
+  Future<List<Walk>> getWalksByType(WalkType walkEnum) async {
+
+    if (walkEnum == WalkType.elderlyDeliverWalk) {
+      return getWalks(path: 'assets/elderly_deliver_walks.json');
+    } else if (walkEnum == WalkType.dogWalk) {
+      return getWalks(path: 'assets/dog_walks.json');
+    } else {
+      return getWalks();
+    }
   }
 }

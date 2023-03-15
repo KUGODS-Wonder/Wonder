@@ -39,4 +39,11 @@ abstract class Strings {
   static const to = 'To';
   static const success = 'Success';
   static const checkboxValidation = 'Dummy Checkbox Validation Message';
+  static const readmeDialogDescription = '사전 조율 없이 노쇼(No-show)할 경우 차후 WONDER 앱 이용에 불이익이 있을 수 있습니다.';
+  static const readmeDialogButtonMessage = '날짜와 시간 고르러가기';
+
+  static const String reservationSuccessTitle = "예약 성공";
+  static const String reservationSuccessMessage = "예약되었습니다.";
+  static const String reservationFailTitle = "예약 실패";
+  static const String reservationFailMessage = "해당 시간은 현재 예약이 불가합니다.";
 }

@@ -8,6 +8,9 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const MAP = _Paths.MAP;
   static const MAP_DETAIL = _Paths.MAP_DETAIL;
+  static const EVENT = _Paths.EVENT;
+  static const RESERVATION_LIST = _Paths.RESERVATION_LIST;
+  static const WALK_TRACK = _Paths.WALK_TRACK;
 }
 
 abstract class _Paths {
@@ -17,4 +20,7 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const MAP = '/map';
   static const MAP_DETAIL = '/map-detail';
+  static const EVENT = '/event';
+  static const RESERVATION_LIST = '/reservation-list';
+  static const WALK_TRACK = '/walk-track';
 }

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/event/bindings/event_binding.dart';
+import '../modules/event/views/event_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -10,8 +12,12 @@ import '../modules/map_detail/bindings/map_detail_binding.dart';
 import '../modules/map_detail/views/map_detail_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/reservation_list/bindings/reservation_list_binding.dart';
+import '../modules/reservation_list/views/reservation_list_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/walk_track/bindings/walk_track_binding.dart';
+import '../modules/walk_track/views/walk_track_view.dart';
 
 part 'app_routes.dart';
 
@@ -28,7 +34,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => LoginView(),
+      page: () => const LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
@@ -51,6 +57,21 @@ abstract class AppPages {
       page: () => const MapDetailView(),
       binding: MapDetailBinding(),
       transition: Transition.zoom,
+    ),
+    GetPage(
+      name: _Paths.EVENT,
+      page: () => const EventView(),
+      binding: EventBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESERVATION_LIST,
+      page: () => const ReservationListView(),
+      binding: ReservationListBinding(),
+    ),
+    GetPage(
+      name: _Paths.WALK_TRACK,
+      page: () => const WalkTrackView(),
+      binding: WalkTrackBinding(),
     ),
   ];
 }

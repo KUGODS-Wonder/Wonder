@@ -7,12 +7,12 @@ abstract class AppMedalStyle {
   ];
 
   static const defaultWalkTagStyle = MedalStyleModel(
-      imagePath: 'assets/images/medal.png'
+      imagePath: 'assets/images/medals/medal.png'
   );
 
   static final Map<String, MedalStyleModel> _dict = {
     '완벽한 한주': const MedalStyleModel(
-        imagePath: 'assets/images/medal.png',
+        imagePath: 'assets/images/medals/medal.png',
     ),
   };
 
@@ -22,6 +22,7 @@ abstract class AppMedalStyle {
     for (var inferrableMedalType in inferrableMedalTypes) {
       if (medalName.contains(inferrableMedalType)) {
         inferredMedalType = inferrableMedalType;
+        break;
       }
     }
 
