@@ -1,5 +1,5 @@
 abstract class Constants {
-  static const String baseUrl = 'ku-wonder.shop';
+  static const String baseUrl = 'https://ku-wonder.shop';
   static const String signInUrl = '/api/v1/auth/signin';
   static const String signUpUrl = '/api/v1/auth/signup';
 
