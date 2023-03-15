@@ -1,0 +1,12 @@
+{
+  "success": true,
+  "errorCode": 0,
+  "message": "Ok",
+  "data": {
+    "memberId": 1,
+    "email": "test12424@naver.com",
+    "name": "test13111",
+    "address": "seoul ...",
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MTI0MjRAbmF2ZXIuY29tIiwicm9sZXMiOlt7Im5hbWUiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NzU2MDgzMCwiZXhwIjoxNjc3NTY0NDMwfQ.gwPjR9cuWajAgXCuGwTbd2altR3jbF8p3ISAvs2xwio"
+  }
+}

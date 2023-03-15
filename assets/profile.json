@@ -1,0 +1,23 @@
+{
+  "email": "keo.kim0808@gmail.com",
+  "nickname": "keo",
+  "rank": "gold V",
+  "ratingToNextRank": 1000,
+  "currentRating": 864,
+  "hoursWalked": 110,
+  "totalDistanceWalked": 104300,
+  "medal": [
+    {
+      "title": "2023년 2월 2주차 완벽한 한주",
+      "description": "2023년 2월 2주차에 매일 운동을 하셨습니다!",
+      "date": "2023-02-07",
+      "comments": "정말 성실하시네요!"
+    },
+    {
+      "title": "2023년 2월 3주차 완벽한 한주",
+      "description": "2023년 2월 3주차에 매일 운동을 하셨습니다!",
+      "date": "2023-02-14",
+      "comments": "정말 성실하시네요!"
+    }
+  ]
+}

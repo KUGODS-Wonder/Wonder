@@ -6,6 +6,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/map/bindings/map_binding.dart';
 import '../modules/map/views/map_view.dart';
+import '../modules/map_detail/bindings/map_detail_binding.dart';
+import '../modules/map_detail/views/map_detail_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -16,7 +18,7 @@ part 'app_routes.dart';
 abstract class AppPages {
   const AppPages._();
 
-  static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -26,12 +28,12 @@ abstract class AppPages {
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => const LoginView(),
+      page: () => LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
       name: _Paths.REGISTER,
-      page: () => const RegisterView(),
+      page: () => RegisterView(),
       binding: RegisterBinding(),
     ),
     GetPage(
@@ -43,6 +45,12 @@ abstract class AppPages {
       name: _Paths.MAP,
       page: () => const MapView(),
       binding: MapBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAP_DETAIL,
+      page: () => const MapDetailView(),
+      binding: MapDetailBinding(),
+      transition: Transition.zoom,
     ),
   ];
 }
