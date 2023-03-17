@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/utils.dart';
-import 'package:wonder_flutter/app/data/models/bookmark_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/bookmark_model.dart';
 import 'package:wonder_flutter/app/data/models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/bookmark_provider.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
@@ -87,7 +87,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     for (Walk walk in walks) {
       markers.add(Marker(
         markerId: MarkerId(walk.id.toString()),
-        position: LatLng(walk.coordinate![0].lat, walk.coordinate![0].lng),
+        position: LatLng(walk.coordinate[0].lat, walk.coordinate[0].lng),
         icon: defaultMarkerIcon,
         onTap: () {
           changeIndex(walks.indexOf(walk));
@@ -118,8 +118,8 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: LatLng(
-              walks[index].coordinate![0].lat,
-              walks[index].coordinate![0].lng,
+              walks[index].coordinate[0].lat,
+              walks[index].coordinate[0].lng,
             ),
             zoom: zoomVal,
           )
@@ -142,7 +142,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   void onSaveButtonPressed() {
     bookmarkSavePanelController.show();
-    bookmarkTitleTextController.text = currentWalk.name ?? '';
+    bookmarkTitleTextController.text = currentWalk.name;
   }
 
   Future _setDefaultMapMarkerIcon() async {

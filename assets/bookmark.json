@@ -1,12 +1,14 @@
 [
   {
-    "title": "저장한 길1",
-    "description": "저장한 길1에 대한 설명",
-    "address": "저장한 길의 주소"
+    "bookmarkId": 5,
+    "walkId": 2,
+    "title": "test_bookmark",
+    "contents": "test_contents"
   },
   {
-    "title": "저장한 길2",
-    "description": "저장한 길2에 대한 설명",
-    "address": "저장한 길의 주소"
+    "bookmarkId": 6,
+    "walkId": 1,
+    "title": "test_bookmark",
+    "contents": "test_contents"
   }
 ]

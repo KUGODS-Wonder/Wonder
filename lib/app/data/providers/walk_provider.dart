@@ -39,4 +39,13 @@ class WalkProvider extends GetConnect {
       return getWalks();
     }
   }
+
+  Future<Walk?> getWalk(int walkId, {String path = 'assets/walks.json'}) async {
+    final response = jsonDecode(await rootBundle.loadString(path));
+    if (response != null) {
+    var lst = response.map<Walk>((json) => Walk.fromJson(json)).toList();
+    return lst[walkId];
+    }
+    return null;
+  }
 }

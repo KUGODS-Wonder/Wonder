@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 import 'package:wonder_flutter/app/common/constants.dart';
@@ -57,9 +59,14 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
         return HttpResponse.fromJson(e.response!.data);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
+        String? message = e.message;
+        if (e.error is SocketException) {
+          message = (e.error as SocketException).message;
+        }
+
         throw ApiError(
           type: ErrorType.noConnection,
-          error: e.message,
+          error: message,
         );
       }
     }

@@ -163,7 +163,7 @@ class MapView extends GetView<MapController> {
                               style: AppTextStyle.commonTitleStyle),
                           Text(controller.bookmarks[index].description,
                               style: AppTextStyle.commonDescriptionStyle),
-                          Text(controller.bookmarks[index].address,
+                          Text(controller.bookmarks[index].walk.location,
                               style: AppTextStyle.commonCaptionStyle),
                         ],
                       )
