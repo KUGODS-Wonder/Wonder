@@ -1,34 +1,3 @@
-class SignUpResponse {
-  bool success;
-  int errorCode;
-  String message;
-  SignUpData signUpData;
-
-  SignUpResponse(
-      {required this.success,
-      required this.errorCode,
-      required this.message,
-      required this.signUpData});
-
-  factory SignUpResponse.fromJson(Map<String, dynamic> json) {
-    return SignUpResponse(
-      success: json['success'],
-      errorCode: json['errorCode'],
-      message: json['message'],
-      signUpData: SignUpData.fromJson(json['data']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['success'] = success;
-    data['errorCode'] = errorCode;
-    data['message'] = message;
-    data['data'] = signUpData.toJson();
-    return data;
-  }
-}
-
 class SignUpData {
   int memberId;
   String email;

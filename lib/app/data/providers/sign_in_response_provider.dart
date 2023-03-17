@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
-import '../models/sign_in_response_model.dart';
+import '../models/sign_in_data_model.dart';
 
 class SignInResponseProvider extends GetLifeCycle {
 
@@ -12,20 +12,22 @@ class SignInResponseProvider extends GetLifeCycle {
     super.onInit();
   }
 
-  Future<SignInResponse> postSignInResponse(
-      String email, String password) async {
+  Future<SignInData?> postSignInResponse(
+      String email,
+      String password,
+      ) async {
     var response = await httpProvider.httpPost(Constants.signInUrl, {
       'email': email,
       'password': password,
     });
 
-    if (response is Map<String, dynamic>) {
+    if (response.success) {
       try {
-        return SignInResponse.fromJson(response);
+        return SignInData.fromJson(response.data);
       } catch (e) {
-        return Future.error(response);
+        return Future.error('parsing signInData failed.');
       }
     }
-    return Future.error(response);
+    return Future.error(response.message);
   }
 }

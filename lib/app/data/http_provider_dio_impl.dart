@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
+import 'package:wonder_flutter/app/data/models/base_model/http_response_model.dart';
 
 import 'errors/api_error.dart';
 
@@ -24,11 +25,11 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
   }
 
   @override
-  Future<dynamic> httpGet(String path, Map<String, dynamic> queryParameters) async {
+  Future<HttpResponse> httpGet(String path, Map<String, dynamic> queryParameters) async {
 
     try {
       var res = await dio.get(path, queryParameters: queryParameters);
-      return res.data;
+      return res.data as HttpResponse;
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
@@ -45,22 +46,15 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
   }
 
   @override
-  Future<dynamic> httpPost(String path, Map<String, dynamic> body, {Map<int, void Function(dynamic)>? onErrorMap}) async {
+  Future<HttpResponse> httpPost(String path, Map<String, dynamic> body) async {
     try {
       var res = await dio.post(path, data: body);
-      return res.data;
+      return HttpResponse.fromJson(res.data);
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
-        if (onErrorMap != null && e.response!.statusCode != null) {
-          int statusCode = e.response!.statusCode!;
-          if (onErrorMap.containsKey(statusCode)) {
-            onErrorMap[statusCode]!(e.response!.data);
-          }
-        }
-
-        return e.response!.data;
+        return HttpResponse.fromJson(e.response!.data);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
         throw ApiError(

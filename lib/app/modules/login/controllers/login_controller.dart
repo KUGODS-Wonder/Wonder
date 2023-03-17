@@ -50,14 +50,19 @@ class LoginController extends GetxController {
     if (formKey.currentState!.validate()) {
       try {
         var res = await _signInProvider.postSignInResponse(
-            emailController.text, passwordController.text);
-        if (res.success) {
+            emailController.text, passwordController.text).catchError(
+              (error) {
+                if (error is String) {
+                  Get.snackbar('로그인 실패', error);
+                }
+                return null;
+              }
+        );
+        if (res != null) {
           // 토큰을 현재 HttpProvider 인스턴스에 저장.
-          _httProvider.setToken(res.signInData!.token);
+          _httProvider.setToken(res.token);
           // Home 화면으로 이동.
           Get.offAllNamed(Routes.HOME);
-        } else {
-          Get.snackbar('로그인 실패', res.message);
         }
       } on Exception catch (_) {
         Get.snackbar('로그인 실패', '서버와 연결 실패');

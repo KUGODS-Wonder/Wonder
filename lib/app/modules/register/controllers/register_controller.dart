@@ -20,7 +20,6 @@ class RegisterController extends GetxController {
   final nicknameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final passwordConfirmTextController = TextEditingController();
-  final _provider = SignUpResponseProvider();
   final count = 0.obs;
   final RxInt selected = 0.obs;
   @override
@@ -87,16 +86,24 @@ class RegisterController extends GetxController {
             emailTextController.text,
             passwordTextController.text,
             nicknameTextController.text,
-            addressTextController.text);
-        if (res.success) {
-          _httProvider.setToken(res.signUpData.token);
+            addressTextController.text
+        ).catchError((error) {
+          if (error is String) {
+            Get.snackbar('회원가입 실패', error);
+            }
+          return null;
+        });
+
+        if (res != null) {
+          _httProvider.setToken(res.token);
           Get.offAllNamed(Routes.HOME);
-        } else {
-          Get.snackbar('회원가입 실패', res.message);
         }
+
       } on Exception catch (_) {
         Get.snackbar('회원가입 실패', '서버와 연결 실패');
       }
+
+
     }
   }
 
