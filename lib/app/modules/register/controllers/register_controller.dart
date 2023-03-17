@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../data/providers/sign_up_response_provider.dart';
+import 'package:wonder_flutter/app/data/http_provider.dart';
+import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -9,6 +11,9 @@ class RegisterController extends GetxController {
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
   final addressFormFieldKey = GlobalKey<FormFieldState>();
   final passwordConfirmFormFieldKey = GlobalKey<FormFieldState>();
+
+  final _signUpProvider = Get.find<SignUpResponseProvider>();
+  final _httProvider = Get.find<HttpProvider>();
 
   final addressTextController = TextEditingController();
   final emailTextController = TextEditingController();
@@ -77,19 +82,21 @@ class RegisterController extends GetxController {
 
   void onSubmitPressed() async {
     if (formKey.currentState!.validate()) {
-      final x = (await _provider.postSignUpResponse(
-              emailTextController.text,
-              passwordTextController.text,
-              nicknameTextController.text,
-              addressTextController.text))
-          .body!;
-      final isRegisterSuccess = x.success; //성공 여부
-      if (isRegisterSuccess == true) //회원가입 성공
-      {
-      } else {
-        Get.snackbar('Snackbar', '회원가입 실패');
+      try {
+        var res = await _signUpProvider.postSignUpResponse(
+            emailTextController.text,
+            passwordTextController.text,
+            nicknameTextController.text,
+            addressTextController.text);
+        if (res.success) {
+          _httProvider.setToken(res.signUpData.token);
+          Get.offAllNamed(Routes.HOME);
+        } else {
+          Get.snackbar('회원가입 실패', res.message);
+        }
+      } on Exception catch (_) {
+        Get.snackbar('회원가입 실패', '서버와 연결 실패');
       }
-      //x.signInData.token;
     }
   }
 

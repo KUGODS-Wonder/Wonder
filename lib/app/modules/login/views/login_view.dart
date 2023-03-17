@@ -86,6 +86,9 @@ class LoginView extends GetView<LoginController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              SizedBox(
+                                width: 70,
+                              ),
                               Text(
                                 'New user?',
                                 style: TextStyle(
@@ -96,7 +99,7 @@ class LoginView extends GetView<LoginController> {
                                 child: TextButton(
                                   onPressed: controller.navigateToRegister,
                                   child: Text(
-                                    'SignUp',
+                                    'Sign Up',
                                     style: TextStyle(
                                       decoration: TextDecoration.underline,
                                       fontSize: 20,
@@ -106,9 +109,9 @@ class LoginView extends GetView<LoginController> {
                                       foregroundColor: Color(0xffFF5E5E)),
                                 ),
                               ),
-                              SizedBox(width: 18),
+                              SizedBox(width: 10),
                               ElevatedButton(
-                                onPressed:controller.onSubmitPressed,
+                                onPressed: controller.onSubmitPressed,
                                 child: Icon(
                                   Icons.arrow_forward,
                                   color: Colors.white,

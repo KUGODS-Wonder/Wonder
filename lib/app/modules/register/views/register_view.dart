@@ -147,7 +147,7 @@ class RegisterView extends GetView<RegisterController> {
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 5.0, horizontal: 10.0),
-                    hintText: '  Adress',
+                    hintText: '  Address',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
                       borderSide: const BorderSide(
@@ -158,70 +158,64 @@ class RegisterView extends GetView<RegisterController> {
                 ),
               ),
               const SizedBox(height: 25),
-              Container(
-                child: Row(
-                  children: [
-                    SizedBox(width: 130),
-                    //체크박스
-                    Obx(
-                      () => SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CheckboxListTile(
-                          checkColor: Colors.white,
-                          activeColor: Colors.red[200],
-                          controlAffinity: ListTileControlAffinity.leading,
-                          checkboxShape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5)),
-                          value: controller.selected.value == 1,
-                          onChanged: (val) {
-                            val ?? true
-                                ? controller.selected.value = 1
-                                : controller.selected.value = 0;
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //체크박스
+                  Obx(
+                    () => SizedBox(
                       width: 20,
-                    ),
-                    Text(
-                      'By checking this box, you agree',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 170,
-                    ),
-                    Text(
-                      'to our',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    SizedBox(
-                      width: 6,
-                    ),
-                    SizedBox(
-                      child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          minimumSize: Size.zero,
-                          padding: EdgeInsets.zero,
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        child: Text(
-                          'Terms and Service',
-                          style:
-                              TextStyle(fontSize: 18, color: Colors.red[200]),
-                        ),
+                      height: 20,
+                      child: CheckboxListTile(
+                        checkColor: Colors.white,
+                        activeColor: Colors.red[200],
+                        controlAffinity: ListTileControlAffinity.leading,
+                        checkboxShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)),
+                        value: controller.selected.value == 1,
+                        onChanged: (val) {
+                          val ?? true
+                              ? controller.selected.value = 1
+                              : controller.selected.value = 0;
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'By checking this box, you agree',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(width: 45),
+                  Text(
+                    'to our',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  SizedBox(
+                    width: 6,
+                  ),
+                  SizedBox(
+                    child: TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Text(
+                        'Terms and Service',
+                        style: TextStyle(fontSize: 18, color: Colors.red[200]),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 25),
               SizedBox(

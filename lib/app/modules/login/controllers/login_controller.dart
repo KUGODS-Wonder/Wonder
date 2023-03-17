@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 import '../../../data/providers/sign_in_response_provider.dart';
@@ -27,15 +28,29 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
-  void onGooglePressed() async {
-    //Get.
-    //구글 로그인창 요청
+  Future<void> onGooglePressed() async {
+    // GoogleSignIn _googleSignIn = GoogleSignIn(
+
+    //   scopes: <String>[
+    //     'email', //전에 로그인한적 있는지 data 필요
+    //   ],
+    // );
+
+    // try {
+    //   if()
+    //   //email,password, nickname, address
+    //   var data = await _googleSignIn.signIn();
+
+    // } catch (error) {
+    //   Get.snackbar('로그인 실패', '서버와 연결 실패');
+    // }
   }
 
   void onSubmitPressed() async {
     if (formKey.currentState!.validate()) {
-      try{
-        var res = await _signInProvider.postSignInResponse(emailController.text, passwordController.text);
+      try {
+        var res = await _signInProvider.postSignInResponse(
+            emailController.text, passwordController.text);
         if (res.success) {
           // 토큰을 현재 HttpProvider 인스턴스에 저장.
           _httProvider.setToken(res.signInData!.token);

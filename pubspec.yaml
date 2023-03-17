@@ -43,6 +43,7 @@ dependencies:
   permission_handler: ^10.2.0
   location: ^4.4.0
   dio: ^5.0.2
+  google_sign_in: ^5.4.2
 
 dev_dependencies:
   flutter_test:

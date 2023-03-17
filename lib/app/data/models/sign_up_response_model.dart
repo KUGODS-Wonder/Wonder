@@ -4,11 +4,11 @@ class SignUpResponse {
   String message;
   SignUpData signUpData;
 
-  SignUpResponse({
-    required this.success,
-    required this.errorCode,
-    required this.message,
-    required this.signUpData});
+  SignUpResponse(
+      {required this.success,
+      required this.errorCode,
+      required this.message,
+      required this.signUpData});
 
   factory SignUpResponse.fromJson(Map<String, dynamic> json) {
     return SignUpResponse(
@@ -24,9 +24,7 @@ class SignUpResponse {
     data['success'] = success;
     data['errorCode'] = errorCode;
     data['message'] = message;
-    if (data != null) {
-      data['data'] = signUpData.toJson();
-    }
+    data['data'] = signUpData.toJson();
     return data;
   }
 }
@@ -38,11 +36,12 @@ class SignUpData {
   String address;
   String token;
 
-  SignUpData({
-    required this.memberId,
-    required this.email, required this.name,
-    required this.address,
-    required this.token});
+  SignUpData(
+      {required this.memberId,
+      required this.email,
+      required this.name,
+      required this.address,
+      required this.token});
 
   factory SignUpData.fromJson(Map<String, dynamic> json) {
     return SignUpData(
