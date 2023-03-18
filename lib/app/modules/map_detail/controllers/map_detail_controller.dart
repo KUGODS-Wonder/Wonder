@@ -67,17 +67,10 @@ class MapDetailController extends GetxController {
   void onMapCreated(GoogleMapController controller) {
     _mapController = controller;
     var coords = targetWalk.coordinate;
-    var midLat = (coords.first.lat + coords.last.lat) / 2;
-    var midLng = (coords.first.lng + coords.last.lng) / 2;
-
-    _mapController!.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(midLat, midLng),
-          zoom: zoomVal,
-        ),
-      )
-    );
+    var bounds = _createBounds(coords);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _mapController?.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50));
+    });
   }
 
   void onCameraMove(CameraPosition position) {
@@ -122,5 +115,16 @@ class MapDetailController extends GetxController {
         }
       }
     }
+  }
+
+  LatLngBounds _createBounds(List<Coordinate> positions) {
+    final southwestLat = positions.map((p) => p.lat).reduce((value, element) => value < element ? value : element); // smallest
+    final southwestLon = positions.map((p) => p.lng).reduce((value, element) => value < element ? value : element);
+    final northeastLat = positions.map((p) => p.lat).reduce((value, element) => value > element ? value : element); // biggest
+    final northeastLon = positions.map((p) => p.lng).reduce((value, element) => value > element ? value : element);
+    return LatLngBounds(
+        southwest: LatLng(southwestLat, southwestLon),
+        northeast: LatLng(northeastLat, northeastLon)
+    );
   }
 }
