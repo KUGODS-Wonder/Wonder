@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -34,6 +36,9 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   GoogleMapController? _mapController;
   double zoomVal = Constants.initialZoomLevel;
+  LatLng _centerPoint = initPos.target;
+  Timer? _debounce;
+
   late BitmapDescriptor defaultMarkerIcon;
 
 
@@ -44,7 +49,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     super.onInit();
     await _setDefaultMapMarkerIcon();
     fetchBookmarks();
-    fetchWalks();
+    // fetchWalks();
   }
 
   @override
@@ -59,14 +64,28 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   void onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+    Future.delayed(const Duration(milliseconds: 500), () {
+      fetchWalks();
+    });
   }
 
   void onCameraMove(CameraPosition position) {
     zoomVal = position.zoom;
+    _centerPoint = position.target;
   }
 
   void fetchWalks() async {
+    if (_mapController == null) return;
     walks.clear();
+
+    ScreenCoordinate screenCoordinate = const ScreenCoordinate(x: 0, y: 0);
+    LatLng topLeftPoint = await _mapController!.getLatLng(screenCoordinate);
+    double latRadius = topLeftPoint.latitude - _centerPoint.latitude;
+    double lngRadius = _centerPoint.longitude - topLeftPoint.longitude;
+    printInfo(info: 'latRadius: $latRadius, lngRadius: $lngRadius');
+    printInfo(info: 'topLeftLat: ${topLeftPoint.latitude}, topLeftLng: ${topLeftPoint.longitude}');
+    printInfo(info: 'centerLat: ${_centerPoint.latitude}, centerLng: ${_centerPoint.longitude}');
+
     walks.addAll(await _walkProvider.getWalks());
     getWalksStartingPoints();
     changeIndex(walks.isEmpty ? -1 : 0);
@@ -150,5 +169,13 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     final Uint8List markerIcon = await Utils.getBytesFromAsset('assets/images/map_marker.png', 100);
     defaultMarkerIcon =  BitmapDescriptor.fromBytes(markerIcon);
     return;
+  }
+
+  void onCameraMoveStarted() {
+    printInfo(info: 'onCameraMoveStarted');
+    if (_debounce != null && _debounce!.isActive) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: 1000), () {
+      fetchWalks();
+    });
   }
 }
