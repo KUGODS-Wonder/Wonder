@@ -35,6 +35,9 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   final RxList<Bookmark> bookmarks = <Bookmark>[].obs;
   final RxList<Marker> markers = <Marker>[].obs;
 
+  Rx<Future<List<Bookmark>>> fetchBookmarkFuture = Future.value(<Bookmark>[]).obs;
+  bool isBookmarkUpdated = false;
+
   GoogleMapController? _mapController;
   double zoomVal = Constants.initialZoomLevel;
   LatLng _centerPoint = initPos.target;
@@ -66,9 +69,6 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   void onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    // Future.delayed(const Duration(milliseconds: 500), () {
-    //   fetchWalks();
-    // });
   }
 
   void onCameraMove(CameraPosition position) {
@@ -100,11 +100,23 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void fetchBookmarks() async {
-    var bookmarkList = await _bookmarkProvider.getBookmarks(_centerPoint.latitude, _centerPoint.longitude);
+    if (isBookmarkUpdated) return;
+    var completer = Completer<List<Bookmark>>();
+    fetchBookmarkFuture.value = completer.future;
+    var x = await _bookmarkProvider.getBookmarks(_centerPoint.latitude, _centerPoint.longitude);
+
+    if (x != null) {
+      completer.complete(x);
+    } else {
+      completer.completeError('북마크 조회 실패');
+      return;
+    }
+    var bookmarkList = await fetchBookmarkFuture.value;
     if (bookmarkList != null) {
       bookmarks.clear();
       bookmarks.addAll(bookmarkList);
     }
+    isBookmarkUpdated = true;
   }
 
   void saveThisBookmark() async {
@@ -125,7 +137,23 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     });
 
     if (isSuccess) {
+      isBookmarkUpdated = false;
       Get.snackbar('북마크 저장 성공', '북마크가 저장되었습니다.');
+    }
+  }
+
+  void deleteBookmark(int id) async {
+    bool isSuccess = await _bookmarkProvider.deleteBookmark(bookmarkId: id).catchError((error) {
+      if (error is String) {
+        Get.snackbar('북마크 삭제 실패', error);
+      }
+      return false;
+    });
+
+    if (isSuccess) {
+      isBookmarkUpdated = false;
+      fetchBookmarks();
+      Get.snackbar('북마크 삭제 성공', '북마크가 삭제되었습니다.');
     }
   }
 
@@ -152,8 +180,6 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
           changeIndex(walks.indexOf(walk));
         }
       ));
-
-      update();
     }
   }
 

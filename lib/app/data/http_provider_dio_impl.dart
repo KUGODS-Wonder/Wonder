@@ -75,6 +75,34 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
   }
 
   @override
+  Future<HttpResponse> httpDelete(
+    String path,
+    {Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? body}) async {
+    try {
+      var res = await dio.delete(path, data: body, queryParameters: queryParameters);
+      return HttpResponse.fromJson(res.data);
+    } on DioError catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        return HttpResponse.fromJson(e.response!.data);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        String? message = e.message;
+        if (e.error is SocketException) {
+          message = (e.error as SocketException).message;
+        }
+
+        throw ApiError(
+          type: ErrorType.noConnection,
+          error: message,
+        );
+      }
+    }
+  }
+
+  @override
   void setToken(String token) {
     dio.options.headers['Authorization'] = 'Bearer $token';
   }

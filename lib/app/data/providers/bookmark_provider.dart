@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/data/errors/api_error.dart';
@@ -25,31 +22,27 @@ class BookmarkProvider extends GetLifeCycle {
   Future<List<Bookmark>?> getBookmarks(double lat, double lng) async {
     if (_hasPendingRequest) return null;
     _hasPendingRequest = true;
+    String? errorMessage;
 
-    final response = jsonDecode(await rootBundle.loadString('assets/bookmark.json'));
-    if (response != null) {
-      var bookmarkDataList = response.map<BookmarkData>((json) => BookmarkData.fromJson(json)).toList();
-      var bookmarkList = <Bookmark>[];
-      List<Future<Walk?>> futures = [];
+    try {
+      var response = await _httpProvider.httpGet(Constants.bookmarkUrl);
+      if (response.success) {
+        var bookmarkDataList = response.data.map<BookmarkData>((json) => BookmarkData.fromJson(json)).toList();
+        var bookmarkList = await _parseBookmarkData(bookmarkDataList, lat, lng);
 
-      for (BookmarkData data in bookmarkDataList) {
-        futures.add(_walkProvider.getWalk(data.walkId, lat, lng));
+        _hasPendingRequest = false;
+        return bookmarkList;
+      } else {
+        errorMessage = response.message.isNotEmpty ? response.message : null;
       }
-
-      var walks = await Future.wait(futures);
-      for (Walk? walk in walks) {
-        if (walk != null) {
-          bookmarkList.add(Bookmark.fromData(bookmarkDataList[walks.indexOf(walk)], walk));
-        }
-      }
-      bookmarkList.sort((a, b) => a.id.compareTo(b.id));
-
-      _hasPendingRequest = false;
-      return bookmarkList;
-    } else {
-      _hasPendingRequest = false;
-      return null;
+    } on ApiError catch (ae) {
+      errorMessage = ae.message;
+    } catch (e) {
+      errorMessage = 'Unknown Error.';
     }
+
+    _hasPendingRequest = false;
+    return Future.error(errorMessage ?? 'Unknown Error.');
   }
 
   Future<bool> saveBookmark({required int walkId, required String title, String? contents}) async {
@@ -73,5 +66,44 @@ class BookmarkProvider extends GetLifeCycle {
     }
 
     return Future.error(errorMessage ?? 'Unknown Error.');
+  }
+
+  Future<bool> deleteBookmark({required int bookmarkId}) async {
+    String? errorMessage;
+
+    try {
+      var response = await _httpProvider.httpDelete(Constants.bookmarkUrl, queryParameters: {
+        'bookmarkId': bookmarkId
+      });
+      if (response.success) {
+        return true;
+      } else {
+        errorMessage = response.message.isNotEmpty ? response.message : null;
+      }
+    } on ApiError catch (ae) {
+      errorMessage = ae.message;
+    } catch (e) {
+      errorMessage = 'Unknown Error.';
+    }
+
+    return Future.error(errorMessage ?? 'Unknown Error.');
+  }
+
+  Future<List<Bookmark>> _parseBookmarkData(List<BookmarkData> bookmarkDataList, double lat, double lng) async {
+    var bookmarkList = <Bookmark>[];
+    List<Future<Walk?>> futures = [];
+
+    for (BookmarkData data in bookmarkDataList) {
+      futures.add(_walkProvider.getWalk(data.walkId, lat, lng));
+    }
+
+    var walks = await Future.wait(futures);
+    for (Walk? walk in walks) {
+      if (walk != null) {
+        bookmarkList.add(Bookmark.fromData(bookmarkDataList[walks.indexOf(walk)], walk));
+      }
+    }
+    bookmarkList.sort((a, b) => a.id.compareTo(b.id));
+    return bookmarkList;
   }
 }

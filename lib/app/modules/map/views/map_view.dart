@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/bookmark_model.dart';
+import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
 import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
@@ -144,44 +146,51 @@ class MapView extends GetView<MapController> {
     return SlidingUpPanel(
       slidingUpPanelController: controller.bookmarkPanelController,
       child: Obx(() {
-        return ListView.builder(
-          itemCount: controller.bookmarks.length,
-          itemBuilder: (context, index) {
-            return Container(
-              height: 80,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Constants.defaultHorizontalPadding),
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(controller.bookmarks[index].title,
-                              style: AppTextStyle.commonTitleStyle),
-                          Text(controller.bookmarks[index].description,
-                              style: AppTextStyle.commonDescriptionStyle),
-                          Text(controller.bookmarks[index].walk.location,
-                              style: AppTextStyle.commonCaptionStyle),
-                        ],
-                      )
+          return ApiFetchFutureBuilder<List<Bookmark>?>(
+            future: controller.fetchBookmarkFuture.value,
+            builder: (context, bookmarks) {
+            return ListView.builder(
+              itemCount: bookmarks == null ? 0 : bookmarks.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 80,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: Constants.defaultHorizontalPadding),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
+                    ),
                   ),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.edit_rounded)),
-                  IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.delete_rounded)),
-                ],
-              ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(bookmarks![index].title,
+                                  style: AppTextStyle.commonTitleStyle),
+                              Text(bookmarks[index].description,
+                                  style: AppTextStyle.commonDescriptionStyle),
+                              Text(bookmarks[index].walk.location,
+                                  style: AppTextStyle.commonCaptionStyle),
+                            ],
+                          )
+                      ),
+                      IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.edit_rounded)),
+                      IconButton(
+                          onPressed: () {
+                            controller.deleteBookmark(bookmarks[index].id);
+                          }, icon: const Icon(Icons.delete_rounded)),
+                    ],
+                  ),
+                );
+              },
             );
-          },
-        );
-      }),
+          });
+        }
+      ),
     );
   }
 

@@ -5,12 +5,20 @@ abstract class HttpProvider {
   static HttpProvider get to => getx.Get.find();
 
   Future<HttpResponse> httpGet(String path,
-      {Map<String, dynamic>? queryParameters,
-        Map<String, dynamic>? body});
+      {
+        Map<String, dynamic>? queryParameters,
+        Map<String, dynamic>? body
+      });
   Future<HttpResponse> httpPost(
-    String path,
-    Map<String, dynamic> body,
-  );
+      String path,
+      Map<String, dynamic> body,
+      );
+  Future<HttpResponse> httpDelete(
+      String path,
+      {
+        Map<String, dynamic>? queryParameters,
+        Map<String, dynamic>? body
+      });
 
   void setToken(String token);
 }
