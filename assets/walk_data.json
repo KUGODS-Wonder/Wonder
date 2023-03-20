@@ -1,0 +1,40 @@
+{
+  "walkId": 1,
+  "title": "test",
+  "pathDistance": 1.5,
+  "requiredTime": 10,
+  "address": "서울특별시 성북구",
+  "theme": "test",
+  "originLatitude": 127.0000000000,
+  "originLongitude": 37.0000000000,
+  "destinationLatitude": 127.0000000000,
+  "destinationLongitude": 37.0000000000,
+  "point": 25,
+  "distanceToUser": 491.65784217489164,
+  "intermediateLocationList": [
+    {
+      "intermediateLocationId": 1,
+      "latitude": 127.8864000000,
+      "longitude": 37.0002059000
+    },
+    {
+      "intermediateLocationId": 2,
+      "latitude": 129.3864000000,
+      "longitude": 37.1111059000
+    }
+  ],
+  "tagList": [
+    {
+      "tagId": 1,
+      "name": "칼로리 소모"
+    },
+    {
+      "tagId": 2,
+      "name": "반려견 산책"
+    },
+    {
+      "tagId": 3,
+      "name": "가벼운 산책"
+    }
+  ]
+}

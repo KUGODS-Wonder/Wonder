@@ -1,5 +1,5 @@
 import 'package:wonder_flutter/app/data/models/bookmark_data_model.dart';
-import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 
 class Bookmark {
   int id;

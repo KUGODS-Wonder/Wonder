@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/bookmark_model.dart';
-import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/bookmark_provider.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/swipe_page_controller_mixin.dart';
@@ -86,7 +86,16 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     printInfo(info: 'topLeftLat: ${topLeftPoint.latitude}, topLeftLng: ${topLeftPoint.longitude}');
     printInfo(info: 'centerLat: ${_centerPoint.latitude}, centerLng: ${_centerPoint.longitude}');
 
-    walks.addAll(await _walkProvider.getWalks());
+    var radiusInKm = Utils.calculateDistance(topLeftPoint.latitude, topLeftPoint.longitude, _centerPoint.latitude, _centerPoint.longitude);
+
+    await _walkProvider.getWalks(_centerPoint.latitude, _centerPoint.longitude, radiusInKm).catchError((error) {
+      if (error is String) {
+        Get.snackbar('산책로 조회 실패', error);
+      }
+      return <Walk>[];
+    }).then((value) {
+      walks.addAll(value);
+    });
     getWalksStartingPoints();
     changeIndex(walks.isEmpty ? -1 : 0);
   }
@@ -172,9 +181,12 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void onCameraMoveStarted() {
-    printInfo(info: 'onCameraMoveStarted');
+
+  }
+
+  void onCameraIdle() {
     if (_debounce != null && _debounce!.isActive) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 1000), () {
+    _debounce = Timer(const Duration(milliseconds: 500), () {
       fetchWalks();
     });
   }

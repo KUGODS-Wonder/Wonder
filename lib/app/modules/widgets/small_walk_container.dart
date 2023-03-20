@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
-import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/walk_tag.dart';
 
 
@@ -27,7 +27,7 @@ class SmallWalkContainer extends StatelessWidget {
     this.isEvent = false,
     this.eventMedalImagePath,
     this.detailHeight = 280,
-  }) : themeStyle = AppWalkThemeStyle.getStyle(walk.theme!), super(key: key);
+  }) : themeStyle = AppWalkThemeStyle.getStyle(walk.theme), super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +52,11 @@ class SmallWalkContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  walk.name ?? 'NO NAMED',
+                  walk.name,
                   style: AppTextStyle.walkTitle,
                 ),
                 Text(
-                  walk.location ?? 'NO LOCATION',
+                  walk.location,
                   style: AppTextStyle.walkAddress,
                 ),
                 const SizedBox(height: 5.0),
@@ -65,12 +65,9 @@ class SmallWalkContainer extends StatelessWidget {
                   child: ListView.separated(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: walk.tags?.length ?? 0,
+                    itemCount: walk.tags.length,
                     itemBuilder: (context, index) {
-                      if (walk.tags != null) {
-                        return WalkTag(tag: walk.tags![index]);
-                      }
-                      return const SizedBox(height: 18.0);
+                      return WalkTag(tag: walk.tags[index]);
                     },
                     separatorBuilder: (context, index) {
                       return const SizedBox(width: 8.0);
@@ -103,7 +100,7 @@ class SmallWalkContainer extends StatelessWidget {
                                 left: isDetailMode ? 80.0 : 30.0,
                                 top: isDetailMode ? 12.0 : 50.0,
                                 child: Text(
-                                  '${walk.ratingUp ?? 0}',
+                                  '${walk.ratingUp}',
                                   style: AppTextStyle.walkIconItemStyle,
                                 ),
                               ),
@@ -119,7 +116,7 @@ class SmallWalkContainer extends StatelessWidget {
                           opacity: isDetailMode ? 1.0 : 0.0,
                           duration: _animateDuration,
                           child: Text(
-                            '이 산책로를 완주하면 ${walk.ratingUp!}의 보상이 있습니다!',
+                            '이 산책로를 완주하면 ${walk.ratingUp}의 보상이 있습니다!',
                             style: AppTextStyle.rewardDescription,
                           ),
                         ),
@@ -154,7 +151,7 @@ class SmallWalkContainer extends StatelessWidget {
                                 top: isDetailMode ? 12.0 : 50.0,
                                 duration: _animateDuration,
                                 child: Text(
-                                  '${walk.requiredWalksLeft ?? 0}',
+                                  '${walk.requiredWalksLeft}',
                                   style: AppTextStyle.walkIconItemStyle.copyWith(
                                     color: AppColors.reward100,
                                   ),
@@ -171,7 +168,7 @@ class SmallWalkContainer extends StatelessWidget {
                           opacity: isDetailMode ? 1.0 : 0.0,
                           duration: _animateDuration,
                           child: Text(
-                            '이 산책로를 앞으로 총 ${walk.requiredWalksLeft!}번 걸으면 랭크 업!',
+                            '이 산책로를 앞으로 총 ${walk.requiredWalksLeft}번 걸으면 랭크 업!',
                             style: AppTextStyle.rewardDescription,
                           ),
                         ),
@@ -228,7 +225,7 @@ class SmallWalkContainer extends StatelessWidget {
                           width: isDetailMode ? 120.0 : 0.0,
                           height: 20.0,
                           child: Text(
-                            walk.theme!,
+                            walk.theme,
                             textAlign: TextAlign.center,
                             style: AppTextStyle.semiBoldStyle.copyWith(
                               fontSize: 15.0
@@ -242,7 +239,7 @@ class SmallWalkContainer extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Image.asset(
-                      AppWalkThemeStyle.getStyle(walk.theme ?? '').iconPath,
+                      AppWalkThemeStyle.getStyle(walk.theme).iconPath,
                       width: 40.0,
                       height: 40.0,
                     ),
@@ -258,11 +255,11 @@ class SmallWalkContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${walk.distance ?? 0} m',
+                  '${walk.distance} m',
                   style: AppTextStyle.walkDescription,
                 ),
                 Text(
-                  '${walk.time ?? 0} 분 소요',
+                  '${walk.time} 분 소요',
                   style: AppTextStyle.walkDescription,
                 ),
               ],

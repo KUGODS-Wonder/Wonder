@@ -27,16 +27,18 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
   }
 
   @override
-  Future<HttpResponse> httpGet(String path, Map<String, dynamic> queryParameters) async {
+  Future<HttpResponse> httpGet(String path,
+      {Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? body}) async {
 
     try {
-      var res = await dio.get(path, queryParameters: queryParameters);
-      return res.data as HttpResponse;
+      var res = await dio.get(path, queryParameters: queryParameters, data: body);
+      return HttpResponse.fromJson(res.data);
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
-        return e.response!.data;
+        return HttpResponse.fromJson(e.response!.data);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
         throw ApiError(

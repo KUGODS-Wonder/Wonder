@@ -7,7 +7,7 @@ import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/converters.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/data/models/profile_model.dart';
-import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/modules/walk_track/views/walk_reward_dialog.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 

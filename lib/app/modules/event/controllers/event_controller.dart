@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
 import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
-import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 

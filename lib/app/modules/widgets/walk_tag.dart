@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_tag_style.dart';
-import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/models/tag_model.dart';
 
 
 class WalkTag extends StatelessWidget {
@@ -10,7 +10,7 @@ class WalkTag extends StatelessWidget {
   final WalkTagStyleModel style;
 
   WalkTag({Key? key, required this.tag, this.height})
-      : style = AppWalkTagStyle.getStyle(tag.name!), super(key: key);
+      : style = AppWalkTagStyle.getStyle(tag.name), super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class WalkTag extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
         ),
         child: Text(
-          tag.name!,
+          tag.name,
           textAlign: TextAlign.center,
           style: AppTextStyle.regularStyle.copyWith(
             fontSize: 12.0,

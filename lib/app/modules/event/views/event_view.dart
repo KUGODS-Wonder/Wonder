@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
-import 'package:wonder_flutter/app/data/models/walk_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/black_outlined_button.dart';
@@ -124,8 +124,8 @@ class EventView extends GetView<EventController> {
                                           return Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: _tabViewHorizontalPadding),
                                             child: _buildWonderCard(
-                                              title: data[index].name!,
-                                              address: data[index].location!,
+                                              title: data[index].name,
+                                              address: data[index].location,
                                               imagePath: eventTab.eventCardPath,
                                               width: wonderCardWidth,
                                               onTap: controller.injectOnWonderCardPressed(data[index]),
