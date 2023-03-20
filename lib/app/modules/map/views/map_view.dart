@@ -19,23 +19,25 @@ class MapView extends GetView<MapController> {
       body: Stack(
         children: [
             Obx(() {
-                return GoogleMap(
-                  mapType: MapType.normal,
-                  initialCameraPosition: MapController.initPos,
-                  onMapCreated: controller.onMapCreated,
-                  onCameraMove: controller.onCameraMove,
-                  onCameraMoveStarted: controller.onCameraMoveStarted,
-                  onCameraIdle: controller.onCameraIdle,
-                  // onTap: controller.onMapTap,
-                  markers: Set<Marker>.of(controller.markers),
-                  myLocationButtonEnabled: true,
-                  myLocationEnabled: true,
-                  mapToolbarEnabled: false,
-                  zoomControlsEnabled: true,
-                  tiltGesturesEnabled: false,
-                  rotateGesturesEnabled: false,
-                  minMaxZoomPreference: const MinMaxZoomPreference(12, 18),
-                  padding: EdgeInsets.only(bottom: controller.cardHeight, top: 60),
+                return Listener(
+                  onPointerUp: controller.resetSwipeIndex,
+                  child: GoogleMap(
+                    mapType: MapType.normal,
+                    initialCameraPosition: MapController.initPos,
+                    onMapCreated: controller.onMapCreated,
+                    onCameraMove: controller.onCameraMove,
+                    onCameraIdle: controller.onCameraIdle,
+                    // onTap: controller.onMapTap,
+                    markers: Set<Marker>.of(controller.markers),
+                    myLocationButtonEnabled: true,
+                    myLocationEnabled: true,
+                    mapToolbarEnabled: false,
+                    zoomControlsEnabled: true,
+                    tiltGesturesEnabled: false,
+                    rotateGesturesEnabled: false,
+                    minMaxZoomPreference: const MinMaxZoomPreference(12, 18),
+                    padding: EdgeInsets.only(bottom: controller.cardHeight, top: 60),
+                  ),
                 );
               }
             ),
@@ -57,7 +59,7 @@ class MapView extends GetView<MapController> {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: ElevatedButton(
-                      onPressed: controller.bookmarkPanelController.show,
+                      onPressed: controller.showBookmarkPanel,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white.withOpacity(0.8),
                         shape: const RoundedRectangleBorder(
@@ -78,7 +80,7 @@ class MapView extends GetView<MapController> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: _buildBookmarkSavePanel(onPressed: () {}),
+            child: _buildBookmarkSavePanel(onPressed: controller.saveThisBookmark),
           )
         ],
       ),
@@ -115,8 +117,8 @@ class MapView extends GetView<MapController> {
                           child: Hero(
                             tag: 'walk-container-${controller.walks[i].id}',
                             child: SmallWalkContainer(
-                              onSaveButtonPressed: controller.onSaveButtonPressed,
-                              onStartButtonPressed: controller.onStartButtonPressed,
+                              onSaveButtonPressed: controller.showSaveBookmarkPanel,
+                              onStartButtonPressed: controller.navigateToMapDetailPage,
                               walk: controller.walks[i],
                             ),
                           ),

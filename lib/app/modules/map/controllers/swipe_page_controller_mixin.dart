@@ -57,6 +57,9 @@ mixin SwipePageControllerMixin on GetxController, GetSingleTickerProviderStateMi
       if (_tween != null) {
         _tweenController!.stop();
       }
+    } else if (notification is ScrollEndNotification) {
+      _isScrolling = false;
+      _startOffsetTweenToZero();
     }
     return true;
   }

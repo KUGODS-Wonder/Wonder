@@ -4,6 +4,7 @@ abstract class Constants {
   static const String signInUrl = '$apiVersion/auth/signin';
   static const String signUpUrl = '$apiVersion/auth/signup';
   static const String walkUrl = '$apiVersion/walk';
+  static String bookmarkUrl = '$apiVersion/bookmarks';
 
   static const timeout = Duration(seconds: 5);
   static const splashTime = Duration(seconds: 2);
@@ -22,4 +23,5 @@ abstract class Constants {
 
   static int minWalkSpeedMeterPerMinute = 50; // 시속 3km/h
   static int maxWalkSpeedMeterPerMinute = 217; // 시속 13km/h
+
 }

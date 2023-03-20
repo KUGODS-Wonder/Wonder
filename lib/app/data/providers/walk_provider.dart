@@ -23,8 +23,8 @@ class WalkProvider extends GetConnect {
 
     try {
       var response = await httpProvider.httpGet(Constants.walkUrl, body: {
-        'latitude': 127.00,
-        'longitude': 37.00,
+        'latitude': lat,
+        'longitude': lng,
         'range': 100
       });
       if (response.success) {
@@ -61,17 +61,6 @@ class WalkProvider extends GetConnect {
   }
 
   Future<Walk?> getWalk(int walkId, double lat, double lng, {String path = 'assets/walks.json'}) async {
-    // final response = jsonDecode(await rootBundle.loadString(path));
-    // if (response != null) {
-    //   var lst = response.map<Walk>((json) => Walk.fromJson(json)).toList();
-    //
-    //   for (var walk in lst) {
-    //     if (walk.id == walkId) {
-    //       return walk;
-    //     }
-    //   }
-    // }
-
     try {
       var response = await httpProvider.httpGet('${Constants.walkUrl}/$walkId', body: {
         'latitude': 127.00,

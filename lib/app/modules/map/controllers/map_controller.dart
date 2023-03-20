@@ -41,26 +41,27 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   Timer? _debounce;
 
   late BitmapDescriptor defaultMarkerIcon;
+  int? swipedWalkId;
+  bool isMapMovedFromPageReset = false;
 
 
   Walk get currentWalk => walks[currentIndex.value];
+
+  int? get getInitPageIndex {
+    if (currentIndex.value != -1 && swipedWalkId != null) {
+      var foundIndex = _findWalkIndexById(swipedWalkId!);
+      if (foundIndex != null) {
+        return foundIndex;
+      }
+    }
+
+    return null;
+  }
 
   @override
   void onInit() async {
     super.onInit();
     await _setDefaultMapMarkerIcon();
-    fetchBookmarks();
-    // fetchWalks();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   void onMapCreated(GoogleMapController controller) {
@@ -77,23 +78,25 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   void fetchWalks() async {
     if (_mapController == null) return;
-    walks.clear();
 
     LatLng topLeftPoint = await GoogleMapUtils.getScreenLatLng(_mapController!);
     printInfo(info: 'topLeftLat: ${topLeftPoint.latitude}, topLeftLng: ${topLeftPoint.longitude}');
 
     var radiusInKm = GoogleMapUtils.calculateDistance(topLeftPoint.latitude, topLeftPoint.longitude, _centerPoint.latitude, _centerPoint.longitude);
 
-    await _walkProvider.getWalks(_centerPoint.latitude, _centerPoint.longitude, radiusInKm).catchError((error) {
+    var fetchedWalks = await _walkProvider.getWalks(_centerPoint.latitude, _centerPoint.longitude, radiusInKm).catchError((error) {
       if (error is String) {
         Get.snackbar('산책로 조회 실패', error);
       }
       return <Walk>[];
-    }).then((value) {
-      walks.addAll(value);
     });
-    getWalksStartingPoints();
+
+    walks.clear();
+    walks.addAll(fetchedWalks);
+    getWalksStartingPoints(walks);
     changeIndex(walks.isEmpty ? -1 : 0);
+    moveToPage(getInitPageIndex ?? 0);
+    isMapMovedFromPageReset = true;
   }
 
   void fetchBookmarks() async {
@@ -104,12 +107,41 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     }
   }
 
+  void saveThisBookmark() async {
+    if (bookmarkTitleTextController.text.isEmpty) {
+      Get.snackbar('북마크 저장 실패', '북마크 제목을 입력해주세요.');
+      return;
+    }
+
+    bool isSuccess = await _bookmarkProvider.saveBookmark(
+      walkId: currentWalk.id,
+      title: bookmarkTitleTextController.text,
+      contents: bookmarkDescriptionTextController.text,
+    ).catchError((error) {
+      if (error is String) {
+        Get.snackbar('북마크 저장 실패', error);
+      }
+      return false;
+    });
+
+    if (isSuccess) {
+      Get.snackbar('북마크 저장 성공', '북마크가 저장되었습니다.');
+    }
+  }
+
+  void showBookmarkPanel() {
+    fetchBookmarks();
+    bookmarkPanelController.show();
+  }
+
   void showSaveBookmarkPanel() {
     if (currentIndex.value == -1) return;
     bookmarkSavePanelController.show();
+    bookmarkTitleTextController.text = currentWalk.name;
   }
 
-  void getWalksStartingPoints() {
+
+  void getWalksStartingPoints(List<Walk> walks) {
     markers.clear();
     for (Walk walk in walks) {
       markers.add(Marker(
@@ -141,6 +173,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   void onSwipe(int index) {
     changeIndex(index);
     if (_mapController != null && -1 < index && index < walks.length) {
+      swipedWalkId = currentWalk.id;
       _mapController!.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -155,21 +188,12 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     }
   }
 
-  void onMapTap(LatLng argument) {
-    fetchWalks();
-  }
-
-  void onStartButtonPressed() {
+  void navigateToMapDetailPage() {
     Get.toNamed(Routes.MAP_DETAIL, arguments: {
       'id': currentWalk.id,
       'walk': currentWalk,
       'isEvent': false,
     });
-  }
-
-  void onSaveButtonPressed() {
-    bookmarkSavePanelController.show();
-    bookmarkTitleTextController.text = currentWalk.name;
   }
 
   Future _setDefaultMapMarkerIcon() async {
@@ -179,14 +203,32 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     return;
   }
 
-  void onCameraMoveStarted() {
-
+  int? _findWalkIndexById(int walkId) {
+    for (int i = 0; i < walks.length; i++) {
+      if (walks[i].id == walkId) {
+        return i;
+      }
+    }
+    return null;
   }
 
   void onCameraIdle() {
+
+    if (isMapMovedFromPageReset) {
+      isMapMovedFromPageReset = false;
+      return;
+    }
+
+    fetchWalks();
     if (_debounce != null && _debounce!.isActive) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      fetchWalks();
+      // fetchWalks();
+      _debounce = null;
     });
+  }
+
+  void resetSwipeIndex(PointerUpEvent event) {
+    swipedWalkId = null;
+    isMapMovedFromPageReset = false;
   }
 }

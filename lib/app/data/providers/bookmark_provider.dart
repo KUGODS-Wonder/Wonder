@@ -1,8 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/data/errors/api_error.dart';
+import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/models/bookmark_data_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
@@ -12,12 +14,12 @@ import '../models/adapter_models/bookmark_model.dart';
 class BookmarkProvider extends GetLifeCycle {
   static BookmarkProvider get to => Get.find();
 
-  late WalkProvider _walkProvider;
+  final HttpProvider _httpProvider = Get.find<HttpProvider>();
+  final WalkProvider _walkProvider = Get.find<WalkProvider>();
   bool _hasPendingRequest = false;
 
   @override
   void onInit() {
-    _walkProvider = Get.find<WalkProvider>();
   }
 
   Future<List<Bookmark>?> getBookmarks(double lat, double lng) async {
@@ -46,11 +48,30 @@ class BookmarkProvider extends GetLifeCycle {
       return bookmarkList;
     } else {
       _hasPendingRequest = false;
-      throw const FileSystemException('Failed to load bookmarks');
+      return null;
     }
   }
 
-  Future saveBookmark(List<Bookmark> bookmark) async {
+  Future<bool> saveBookmark({required int walkId, required String title, String? contents}) async {
+    String? errorMessage;
 
+    try {
+      var response = await _httpProvider.httpPost(Constants.bookmarkUrl, {
+        'walkId': walkId,
+        'title': title,
+        'contents': contents
+      });
+      if (response.success) {
+        return true;
+      } else {
+        errorMessage = response.message.isNotEmpty ? response.message : null;
+      }
+    } on ApiError catch (ae) {
+      errorMessage = ae.message;
+    } catch (e) {
+      errorMessage = 'Unknown Error.';
+    }
+
+    return Future.error(errorMessage ?? 'Unknown Error.');
   }
 }
