@@ -4,7 +4,8 @@ abstract class Constants {
   static const String signInUrl = '$apiVersion/auth/signin';
   static const String signUpUrl = '$apiVersion/auth/signup';
   static const String walkUrl = '$apiVersion/walk';
-  static String bookmarkUrl = '$apiVersion/bookmarks';
+  static const String bookmarkUrl = '$apiVersion/bookmarks';
+  static const String bookmarkDeleteUrl = '$bookmarkUrl/delete';
 
   static const timeout = Duration(seconds: 5);
   static const splashTime = Duration(seconds: 2);

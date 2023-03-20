@@ -72,9 +72,7 @@ class BookmarkProvider extends GetLifeCycle {
     String? errorMessage;
 
     try {
-      var response = await _httpProvider.httpDelete(Constants.bookmarkUrl, queryParameters: {
-        'bookmarkId': bookmarkId
-      });
+      var response = await _httpProvider.httpDelete('${Constants.bookmarkDeleteUrl}/$bookmarkId');
       if (response.success) {
         return true;
       } else {
