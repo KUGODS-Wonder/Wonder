@@ -25,7 +25,7 @@ class WalkProvider extends GetConnect {
       var response = await httpProvider.httpGet(Constants.walkUrl, body: {
         'latitude': lat,
         'longitude': lng,
-        'range': 100
+        'range': radius
       });
       if (response.success) {
         var walkDataList = response.data.map<WalkData>(

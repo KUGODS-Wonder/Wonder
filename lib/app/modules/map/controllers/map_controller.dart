@@ -80,7 +80,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     if (_mapController == null) return;
 
     LatLng topLeftPoint = await GoogleMapUtils.getScreenLatLng(_mapController!);
-    printInfo(info: 'topLeftLat: ${topLeftPoint.latitude}, topLeftLng: ${topLeftPoint.longitude}');
+    // printInfo(info: 'topLeftLat: ${topLeftPoint.latitude}, topLeftLng: ${topLeftPoint.longitude}');
 
     var radiusInKm = GoogleMapUtils.calculateDistance(topLeftPoint.latitude, topLeftPoint.longitude, _centerPoint.latitude, _centerPoint.longitude);
 
