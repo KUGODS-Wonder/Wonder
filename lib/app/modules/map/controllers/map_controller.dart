@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/common/util/google_map_utils.dart';
 import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/bookmark_model.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
@@ -64,9 +65,9 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   void onMapCreated(GoogleMapController controller) {
     _mapController = controller;
-    Future.delayed(const Duration(milliseconds: 500), () {
-      fetchWalks();
-    });
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    //   fetchWalks();
+    // });
   }
 
   void onCameraMove(CameraPosition position) {
@@ -78,15 +79,10 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     if (_mapController == null) return;
     walks.clear();
 
-    ScreenCoordinate screenCoordinate = const ScreenCoordinate(x: 0, y: 0);
-    LatLng topLeftPoint = await _mapController!.getLatLng(screenCoordinate);
-    double latRadius = topLeftPoint.latitude - _centerPoint.latitude;
-    double lngRadius = _centerPoint.longitude - topLeftPoint.longitude;
-    printInfo(info: 'latRadius: $latRadius, lngRadius: $lngRadius');
+    LatLng topLeftPoint = await GoogleMapUtils.getScreenLatLng(_mapController!);
     printInfo(info: 'topLeftLat: ${topLeftPoint.latitude}, topLeftLng: ${topLeftPoint.longitude}');
-    printInfo(info: 'centerLat: ${_centerPoint.latitude}, centerLng: ${_centerPoint.longitude}');
 
-    var radiusInKm = Utils.calculateDistance(topLeftPoint.latitude, topLeftPoint.longitude, _centerPoint.latitude, _centerPoint.longitude);
+    var radiusInKm = GoogleMapUtils.calculateDistance(topLeftPoint.latitude, topLeftPoint.longitude, _centerPoint.latitude, _centerPoint.longitude);
 
     await _walkProvider.getWalks(_centerPoint.latitude, _centerPoint.longitude, radiusInKm).catchError((error) {
       if (error is String) {
@@ -101,8 +97,11 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void fetchBookmarks() async {
-    bookmarks.clear();
-    bookmarks.addAll(await _bookmarkProvider.getBookmarks());
+    var bookmarkList = await _bookmarkProvider.getBookmarks(_centerPoint.latitude, _centerPoint.longitude);
+    if (bookmarkList != null) {
+      bookmarks.clear();
+      bookmarks.addAll(bookmarkList);
+    }
   }
 
   void showSaveBookmarkPanel() {

@@ -60,17 +60,35 @@ class WalkProvider extends GetConnect {
     }
   }
 
-  Future<Walk?> getWalk(int walkId, {String path = 'assets/walks.json'}) async {
-    final response = jsonDecode(await rootBundle.loadString(path));
-    if (response != null) {
-      var lst = response.map<Walk>((json) => Walk.fromJson(json)).toList();
+  Future<Walk?> getWalk(int walkId, double lat, double lng, {String path = 'assets/walks.json'}) async {
+    // final response = jsonDecode(await rootBundle.loadString(path));
+    // if (response != null) {
+    //   var lst = response.map<Walk>((json) => Walk.fromJson(json)).toList();
+    //
+    //   for (var walk in lst) {
+    //     if (walk.id == walkId) {
+    //       return walk;
+    //     }
+    //   }
+    // }
 
-      for (var walk in lst) {
-        if (walk.id == walkId) {
-          return walk;
-        }
+    try {
+      var response = await httpProvider.httpGet('${Constants.walkUrl}/$walkId', body: {
+        'latitude': 127.00,
+        'longitude': 37.00
+      });
+      if (response.success) {
+        var walkData = WalkData.fromJson(response.data);
+        var walk = Walk.fromData(walkData);
+
+        return walk;
+      } else {
+        return Future.error(response.message);
       }
+    } on ApiError catch (ae) {
+      return Future.error(ae.message);
+    } catch (e) {
+      return Future.error('parsing walkData failed.');
     }
-    return null;
   }
 }

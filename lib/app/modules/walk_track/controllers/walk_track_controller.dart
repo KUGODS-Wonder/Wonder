@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/converters.dart';
+import 'package:wonder_flutter/app/common/util/google_map_utils.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/data/models/profile_model.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
@@ -36,8 +37,8 @@ class WalkTrackController extends GetxController {
     targetWalk = Get.arguments['walk'];
     isEvent = Get.arguments['isEvent'] ?? false;
 
-    maximumWalkTimeInMinutes = Duration(minutes: targetWalk.distance ~/ Constants.minWalkSpeedMeterPerMinute);
-    minimumWalkTimeInMinutes = Duration(minutes: targetWalk.distance ~/ Constants.maxWalkSpeedMeterPerMinute);
+    maximumWalkTimeInMinutes = GoogleMapUtils.calculateMaxWalkTimeInMinutes(targetWalk.distance);
+    minimumWalkTimeInMinutes = GoogleMapUtils.calculateMinWalkTimeInMinutes(targetWalk.distance);
     timerStringValue.value = Converters.convertDurationToString(maximumWalkTimeInMinutes);
 
     polylineColor = isEvent ? AppColors.kPrimary100 : AppColors.kPrimary80;

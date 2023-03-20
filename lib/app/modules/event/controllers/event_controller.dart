@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/common/util/google_map_utils.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
 import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
@@ -40,6 +41,11 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
   Future<List<Walk>> fetchWalksByEventWalkType(WalkType walkType) async {
     var targetEventWalkList = <Walk>[];
     targetEventWalkList.addAll(await _walkProvider.getWalksByType(walkType));
+
+    for (int i = 0; i < targetEventWalkList.length; i++) {
+      print('total distance: ${GoogleMapUtils.calculateTotalDistanceByCoordinate(targetEventWalkList[i].coordinate)}');
+      print('total time: ${GoogleMapUtils.calculateMaxWalkTimeInMinutes(targetEventWalkList[i].distance)}');
+    }
 
     return targetEventWalkList;
   }
