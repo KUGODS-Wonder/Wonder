@@ -48,6 +48,10 @@ class LoginController extends GetxController {
         return null;
       });
       if (res != null) {
+        if (res.alreadyRegistered == false) {
+          _httProvider.setToken(res.googleToken);
+          Get.to(GoogleRegisterView());
+        }
         _httProvider.setToken(res.googleToken);
         Get.offAllNamed(Routes.HOME);
       }
