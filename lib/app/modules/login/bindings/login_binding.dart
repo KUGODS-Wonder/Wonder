@@ -7,6 +7,7 @@ class LoginBinding extends Bindings {
   @override
   void dependencies() {
     Get.put<SignInResponseProvider>(SignInResponseProvider());
+    Get.put<GoogleSignInResponseProvider>(GoogleSignInResponseProvider());
 
     Get.lazyPut<LoginController>(
       () => LoginController(),
