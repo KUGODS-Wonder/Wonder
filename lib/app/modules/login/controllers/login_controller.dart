@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
+import 'package:wonder_flutter/app/data/providers/google_social_auth_provider.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 import '../../../data/providers/sign_in_response_provider.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ class LoginController extends GetxController {
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
   final _signInProvider = Get.find<SignInResponseProvider>();
   final _httProvider = Get.find<HttpProvider>();
-  final _googleSignInProvider = Get.find<GoogleSignInResponseProvider>();
+  final _googleSignInProvider = Get.find<GoogleSocialAuthProvider>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   @override
@@ -35,7 +36,7 @@ class LoginController extends GetxController {
   }
 
   void onGooglePressed() async {
-    _googleSignInProvider.handleSignIn();
+    _googleSignInProvider.handleGoogleSignIn();
     // try {
     //   getGoogleLogin(); //구글 로그인창 요청
     //   var res = await _googleSignInProvider

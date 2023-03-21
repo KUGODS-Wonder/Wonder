@@ -2,7 +2,7 @@ abstract class Constants {
   static const String baseUrl = 'https://ku-wonder.shop';
   static const String signInUrl = '/api/v1/auth/signin';
   static const String signUpUrl = '/api/v1/auth/signup';
-  static const String googleSignInUrl = '/login/oauth2/code/google';
+  static const String googleSignInUrl = '/api/v1/auth/login';
   static const timeout = Duration(seconds: 5);
   static const splashTime = Duration(seconds: 2);
   static const String token = 'authToken';

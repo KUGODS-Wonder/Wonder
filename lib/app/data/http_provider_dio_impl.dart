@@ -69,4 +69,14 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
   void setToken(String token) {
     dio.options.headers['Authorization'] = 'Bearer $token';
   }
+
+  @override
+  void setHeader(String key, String value) {
+    dio.options.headers[key] = value;
+  }
+
+  @override
+  void removeHeader(String key) {
+    dio.options.headers.remove(key);
+  }
 }
