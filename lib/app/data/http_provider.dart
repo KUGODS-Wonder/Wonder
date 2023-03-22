@@ -21,4 +21,8 @@ abstract class HttpProvider {
       });
 
   void setToken(String token);
+
+  void setHeader(String key, String value);
+
+  void removeHeader(String key);
 }

@@ -11,6 +11,7 @@ abstract class Routes {
   static const EVENT = _Paths.EVENT;
   static const RESERVATION_LIST = _Paths.RESERVATION_LIST;
   static const WALK_TRACK = _Paths.WALK_TRACK;
+  //static const GOOGLERESGISTER = _Paths.GOOGLEREGISTER;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const EVENT = '/event';
   static const RESERVATION_LIST = '/reservation-list';
   static const WALK_TRACK = '/walk-track';
+  //static const GOOGLEREGISTER = '/googleresgister';
 }

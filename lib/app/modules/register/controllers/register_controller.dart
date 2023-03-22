@@ -82,15 +82,16 @@ class RegisterController extends GetxController {
   void onSubmitPressed() async {
     if (formKey.currentState!.validate()) {
       try {
-        var res = await _signUpProvider.postSignUpResponse(
-            emailTextController.text,
-            passwordTextController.text,
-            nicknameTextController.text,
-            addressTextController.text
-        ).catchError((error) {
+        var res = await _signUpProvider
+            .postSignUpResponse(
+                emailTextController.text,
+                passwordTextController.text,
+                nicknameTextController.text,
+                addressTextController.text)
+            .catchError((error) {
           if (error is String) {
             Get.snackbar('회원가입 실패', error);
-            }
+          }
           return null;
         });
 
@@ -98,12 +99,9 @@ class RegisterController extends GetxController {
           _httProvider.setToken(res.token);
           Get.offAllNamed(Routes.HOME);
         }
-
       } on Exception catch (_) {
         Get.snackbar('회원가입 실패', '서버와 연결 실패');
       }
-
-
     }
   }
 
