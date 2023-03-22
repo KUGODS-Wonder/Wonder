@@ -58,7 +58,7 @@ class Walk {
       ratingUp: data.point,
       requiredWalksLeft: 0,
       distance: (data.pathDistance * 1000).round(),
-      time: data.requiredTime,
+      time: data.requiredTime ~/ 60,
       coordinate: coordinates,
     );
   }
