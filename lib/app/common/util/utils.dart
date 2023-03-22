@@ -24,9 +24,10 @@ abstract class Utils {
     String title = Strings.error,
     bool success = false,
     VoidCallback? onTap,
+    bool barrierDismissible = true,
   }) =>
       Get.defaultDialog(
-        barrierDismissible: false,
+        barrierDismissible: barrierDismissible,
         onWillPop: () async {
           Get.back();
 
@@ -54,6 +55,7 @@ abstract class Utils {
             },
             title: Strings.ok,
             textStyle: AppTextStyle.buttonTextStyle.copyWith(
+              fontWeight: FontWeight.w500,
               fontSize: Dimens.fontSize18,
             ),
           ),
@@ -176,6 +178,58 @@ abstract class Utils {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  static showChoiceDialog(String? message, {
+  String title = Strings.error,
+  bool barrierDismissible = true,
+  required void Function() onConfirm}) {
+    return Get.defaultDialog(
+      barrierDismissible: barrierDismissible,
+      onWillPop: () async {
+        Get.back(result: false);
+        return true;
+      },
+      title: title,
+      content: Text(
+        message ?? Strings.somethingWentWrong,
+        textAlign: TextAlign.center,
+        maxLines: 6,
+        style: AppTextStyle.semiBoldStyle.copyWith(
+          color: AppColors.darkGrey,
+          fontSize: Dimens.fontSize16,
+        ),
+      ),
+      confirm: Align(
+        alignment: Alignment.centerRight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomInkwellWidget.text(
+              title: Strings.cancel,
+              textStyle: AppTextStyle.buttonTextStyle.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: Dimens.fontSize18,
+              ),
+              onTap: () {
+                Get.back(result: false);
+              },
+            ),
+            CustomInkwellWidget.text(
+              title: Strings.ok,
+              textStyle: AppTextStyle.buttonTextStyle.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: Dimens.fontSize18,
+              ),
+              onTap: () {
+                onConfirm();
+                Get.back(result: true);
+              },
+            ),
+          ],
         ),
       ),
     );

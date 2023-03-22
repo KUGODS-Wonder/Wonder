@@ -3,25 +3,27 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location_platform_interface/location_platform_interface.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/converters.dart';
 import 'package:wonder_flutter/app/common/util/google_map_utils.dart';
+import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/profile_model.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
+import 'package:wonder_flutter/app/modules/walk_track/controllers/location_tracker_mixin.dart';
 import 'package:wonder_flutter/app/modules/walk_track/views/walk_reward_dialog.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
-class WalkTrackController extends GetxController {
+class WalkTrackController extends GetxController with LocationTrackerMixin{
   static const Duration _checkInterval = Duration(seconds: 1);
   Completer<Set<Polyline>> getPolyLineCompleter = Completer<Set<Polyline>>();
   GoogleMapController? _mapController;
   bool isEvent = false;
   double zoomVal = Constants.initialZoomLevel;
-  bool _isChecking = false;
 
-  late Timer _timer;
-  late Stopwatch _stopwatch;
+  Timer? _timer;
+  Stopwatch? _stopwatch;
   var polyLines = <Polyline>{}.obs;
   var timerStringValue = RxString('');
   var progress = 0.0.obs;
@@ -30,6 +32,8 @@ class WalkTrackController extends GetxController {
   late Duration maximumWalkTimeInMinutes;
   late Walk targetWalk;
   late Color polylineColor;
+  late LatLng _startLocation;
+  late LatLng _destLocation;
 
   @override
   void onInit() {
@@ -37,6 +41,8 @@ class WalkTrackController extends GetxController {
     targetWalk = Get.arguments['walk'];
     isEvent = Get.arguments['isEvent'] ?? false;
 
+    _startLocation = LatLng(targetWalk.coordinate.first.lat, targetWalk.coordinate.first.lng);
+    _destLocation = LatLng(targetWalk.coordinate.last.lat, targetWalk.coordinate.last.lng);
     maximumWalkTimeInMinutes = GoogleMapUtils.calculateMaxWalkTimeInMinutes(targetWalk.distance);
     minimumWalkTimeInMinutes = GoogleMapUtils.calculateMinWalkTimeInMinutes(targetWalk.distance);
     timerStringValue.value = Converters.convertDurationToString(maximumWalkTimeInMinutes);
@@ -48,11 +54,12 @@ class WalkTrackController extends GetxController {
   void onReady() {
     super.onReady();
     _markPolyline();
-    startWalk();
+    beginCheckingStartLocationReached();
   }
 
   @override
   void onClose() {
+    _stopWalk();
     super.onClose();
   }
 
@@ -89,22 +96,21 @@ class WalkTrackController extends GetxController {
     getPolyLineCompleter.complete(polyLines);
   }
 
-  void onCancelClick() {
-    _stopWalk();
+  void beginCheckingStartLocationReached() {
+    Utils.showDialog('출발지에 도착하면 자동으로 시작합니다.', title: '주의');
+    startCheckDistanceLeftService(
+        lat: _startLocation.latitude,
+        lng: _startLocation.longitude,
+        onDestinationReached: startWalk
+    );
   }
 
   void _onEachTimerInterval(Timer timer) async {
-    var elapsedTime = _stopwatch.elapsed;
+    var elapsedTime = _stopwatch!.elapsed;
     var remainingTime = maximumWalkTimeInMinutes - elapsedTime;
     timerStringValue.value = Converters.convertDurationToString(remainingTime);
     if (remainingTime.inSeconds <= 0) {
       _onWalkFailed();
-      return;
-    }
-
-    bool isCompleted = await isWalkCompleted();
-    if (isCompleted) {
-      _onWalkCompleted();
       return;
     }
   }
@@ -112,26 +118,17 @@ class WalkTrackController extends GetxController {
   void startWalk() {
     _timer = Timer.periodic(_checkInterval, _onEachTimerInterval);
     _stopwatch = Stopwatch();
-    _stopwatch.start();
+    _stopwatch!.start();
+    startCheckDistanceLeftService(
+      lat: _destLocation.latitude,
+      lng: _destLocation.longitude,
+      onDestinationReached: _onWalkCompleted
+    );
   }
 
   void _stopWalk() {
-    _timer.cancel();
-    _stopwatch.stop();
-  }
-
-  Future<bool> isWalkCompleted() async {
-    if (_isChecking) return false;
-
-    _isChecking = true;
-    if (_stopwatch.elapsed >= Duration(seconds: 5)) {
-      Future.delayed(Duration(seconds: 1));
-      _isChecking = false;
-      return true;
-    } else {
-      _isChecking = false;
-      return false;
-    }
+    _timer?.cancel();
+    _stopwatch?.stop();
   }
 
   void _onWalkCompleted() async {
@@ -152,5 +149,14 @@ class WalkTrackController extends GetxController {
   void _onWalkFailed() async {
     _stopWalk();
     Get.offAllNamed(Routes.HOME);
+  }
+
+  @override
+  void onLocationChanged(LocationData currentLocation) {  }
+
+  void askUserWantToExit() async {
+    await Utils.showChoiceDialog('정말 취소하시겠습니까?', title: '주의', onConfirm: () {
+      Get.offAllNamed(Routes.HOME);
+    });
   }
 }

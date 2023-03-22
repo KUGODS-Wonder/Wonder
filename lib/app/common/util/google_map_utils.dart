@@ -20,6 +20,10 @@ abstract class GoogleMapUtils {
     return 12742 * asin(sqrt(a));
   }
 
+  static calculateDistanceFromLatLng(LatLng destLatLng, LatLng currentLatLng) {
+    return calculateDistance(currentLatLng.latitude, currentLatLng.longitude, destLatLng.latitude, destLatLng.longitude);
+  }
+
   static Duration calculateMaxWalkTimeInMinutes(int meters) {
     return Duration(minutes: meters ~/ Constants.minWalkSpeedMeterPerMinute);
   }
@@ -40,4 +44,5 @@ abstract class GoogleMapUtils {
     var lst = points.map((e) => LatLng(e.lat, e.lng)).toList();
     return calculateTotalDistance(lst);
   }
+
 }

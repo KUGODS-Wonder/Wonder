@@ -26,4 +26,5 @@ abstract class Constants {
 
   static int minWalkSpeedMeterPerMinute = 50; // 시속 3km/h
   static int maxWalkSpeedMeterPerMinute = 217; // 시속 13km/h
+  static double distanceErrorMargin = 0.05; // 50m
 }

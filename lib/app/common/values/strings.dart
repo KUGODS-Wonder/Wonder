@@ -7,6 +7,7 @@ abstract class Strings {
 
   static const String appName = 'Getx Template';
   static const String ok = 'Ok';
+  static const String cancel = 'Cancel';
   static const String error = 'Error';
   static const String noInternet = 'No internet. Please try again later.';
   static const String logOut = 'Log out';
@@ -46,4 +47,5 @@ abstract class Strings {
   static const String reservationSuccessMessage = "예약되었습니다.";
   static const String reservationFailTitle = "예약 실패";
   static const String reservationFailMessage = "해당 시간은 현재 예약이 불가합니다.";
+
 }
