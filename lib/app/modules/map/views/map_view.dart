@@ -152,38 +152,43 @@ class MapView extends GetView<MapController> {
             return ListView.builder(
               itemCount: bookmarks == null ? 0 : bookmarks.length,
               itemBuilder: (context, index) {
-                return Container(
-                  height: 80,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: Constants.defaultHorizontalPadding),
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(bookmarks![index].title,
-                                  style: AppTextStyle.commonTitleStyle),
-                              Text(bookmarks[index].description,
-                                  style: AppTextStyle.commonDescriptionStyle),
-                              Text(bookmarks[index].walk.location,
-                                  style: AppTextStyle.commonCaptionStyle),
-                            ],
-                          )
+                return InkWell(
+                  onTap: () {
+                    controller.moveToThisBookmark(bookmarks![index]);
+                  },
+                  child: Container(
+                    height: 80,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Constants.defaultHorizontalPadding),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: AppColors.faintGrey, width: 0.5),
                       ),
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.edit_rounded)),
-                      IconButton(
-                          onPressed: () {
-                            controller.deleteBookmark(bookmarks[index].id);
-                          }, icon: const Icon(Icons.delete_rounded)),
-                    ],
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(bookmarks![index].title,
+                                    style: AppTextStyle.commonTitleStyle),
+                                Text(bookmarks[index].description,
+                                    style: AppTextStyle.commonDescriptionStyle),
+                                Text(bookmarks[index].walk.location,
+                                    style: AppTextStyle.commonCaptionStyle),
+                              ],
+                            )
+                        ),
+                        IconButton(
+                            onPressed: () {}, icon: const Icon(Icons.edit_rounded)),
+                        IconButton(
+                            onPressed: () {
+                              controller.deleteBookmark(bookmarks[index].id);
+                            }, icon: const Icon(Icons.delete_rounded)),
+                      ],
+                    ),
                   ),
                 );
               },

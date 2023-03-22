@@ -257,4 +257,22 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     swipedWalkId = null;
     isMapMovedFromPageReset = false;
   }
+
+  void moveToThisBookmark(Bookmark bookmark) {
+    if (_mapController != null) {
+      _mapController!.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: LatLng(
+              bookmark.walk.coordinate[0].lat,
+              bookmark.walk.coordinate[0].lng,
+            ),
+            zoom: zoomVal,
+          )
+        )
+      );
+
+      isMapMovedFromPageReset = false;
+    }
+  }
 }
