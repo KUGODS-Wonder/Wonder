@@ -3,6 +3,7 @@ abstract class Constants {
   static const String apiVersion = '/api/v1';
   static const String signInUrl = '$apiVersion/auth/signin';
   static const String signUpUrl = '$apiVersion/auth/signup';
+  static const String googleSignInUrl = '$apiVersion/auth/login';
   static const String walkUrl = '$apiVersion/walk';
   static const String bookmarkUrl = '$apiVersion/bookmarks';
   static const String bookmarkDeleteUrl = '$bookmarkUrl/delete';
