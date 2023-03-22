@@ -1,31 +1,39 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/data/errors/api_error.dart';
+import 'package:wonder_flutter/app/data/models/profile_data_model.dart';
 
-import '../models/profile_model.dart';
+import '../http_provider.dart';
+import '../models/adapter_models/profile_model.dart';
 
 class ProfileProvider extends GetConnect {
   static ProfileProvider get to => Get.find();
+  static final HttpProvider _httpProvider = Get.find<HttpProvider>();
 
   @override
   void onInit() {
-    httpClient.defaultDecoder = (map) {
-      if (map is Map<String, dynamic>) return Profile.fromJson(map);
-      if (map is List)
-        return map.map((item) => Profile.fromJson(item)).toList();
-    };
-    httpClient.baseUrl = 'YOUR-API-URL';
   }
 
   Future<Profile> getProfile() async {
-    final response = jsonDecode(await rootBundle.loadString('assets/profile.json'));
-    if (response != null) {
-      return Profile.fromJson(response);
-    } else {
-      throw const HttpException('Failed to load profile');
+    String? errorMessage;
+
+    try {
+      var response = await _httpProvider.httpGet(Constants.profileUrl);
+      if (response.success) {
+        var profileData = ProfileData.fromJson(response.data);
+        var profile = Profile.fromData(profileData);
+
+        return profile;
+      } else {
+        errorMessage = response.message.isNotEmpty ? response.message : null;
+      }
+    } on ApiError catch (ae) {
+      errorMessage = ae.message;
+    } catch (e) {
+      errorMessage = 'Failed to load profile';
     }
+
+    return Future.error(errorMessage ?? 'Failed to load profile');
   }
 
   Future<Response<Profile>> postProfile(Profile profile) async =>

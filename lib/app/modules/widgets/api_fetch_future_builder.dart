@@ -16,11 +16,11 @@ class ApiFetchFutureBuilder<T> extends StatelessWidget {
         future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Error\n${snapshot.error}'));
-            }
             return const Center(child: CircularProgressIndicator());
           } else {
+            if (snapshot.hasError) {
+              return Center(child: Text('${snapshot.error}'));
+            }
             return builder(context, snapshot.data);
           }
         }

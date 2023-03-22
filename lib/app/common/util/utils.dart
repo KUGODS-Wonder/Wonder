@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_medal_style.dart';
-import 'package:wonder_flutter/app/data/models/profile_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/profile_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_inkwell_widget.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_text_button.dart';
 import 'package:get/get.dart';

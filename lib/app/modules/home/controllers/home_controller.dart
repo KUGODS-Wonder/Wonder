@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:wonder_flutter/app/common/storage/storage.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/util/utils.dart';
-import 'package:wonder_flutter/app/data/models/leaderboard_model.dart';
-import 'package:wonder_flutter/app/data/models/profile_model.dart';
-import 'package:wonder_flutter/app/data/providers/leaderboard_provider.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/profile_model.dart';
 import 'package:wonder_flutter/app/data/providers/profile_provider.dart';
 
 class HomeController extends GetxController with GetSingleTickerProviderStateMixin{
@@ -12,12 +10,11 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   static const Duration _circularAnimationDuration = Duration(milliseconds: 1500);
 
   final ProfileProvider _profileProvider = ProfileProvider.to;
-  final LeaderboardProvider _leaderboardProvider = LeaderboardProvider.to;
 
   late Future<bool> initFuture;
 
   late Profile profile;
-  late LeaderboardData leaderboard;
+  late LeaderboardInfo leaderboard;
   late List<Rank> leaderboardDisplayRanks = <Rank>[];
 
   late AnimationController circularAnimationController;
@@ -58,10 +55,9 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
 
     try {
       var profileFuture = _profileProvider.getProfile();
-      var leaderboardFuture = _leaderboardProvider.getLeaderboardData();
 
       profile = await profileFuture;
-      leaderboard = await leaderboardFuture;
+      leaderboard = profile.leaderboardInfo;
 
       leaderboardDisplayRanks.add(Rank(nickname: '나', distance: leaderboard.myDistance));
       leaderboardDisplayRanks.addAll(leaderboard.rank);

@@ -1,0 +1,51 @@
+{
+  "success": true,
+  "errorCode": 0,
+  "message": "Ok",
+  "data": {
+    "memberId": 1,
+    "name": "test13111",
+    "email": "test12424@naver.com",
+    "address": "서울특별시 성북구",
+    "tierInfo": {
+      "tierName": "bronze5",
+      "minPointToUpgrade": 100
+    },
+    "totalPoint": 81,
+    "totalDistance": 3.4,
+    "totalWalkingTime": 7200,
+    "myRanking": 2,
+    "localRankingTopFive": [
+      {
+        "memberId": 4,
+        "name": "test131119",
+        "totalDistance": 6.199999999999999,
+        "ranking": 1
+      },
+      {
+        "memberId": 1,
+        "name": "test13111",
+        "totalDistance": 3.4,
+        "ranking": 2
+      },
+      {
+        "memberId": 5,
+        "name": "t1119",
+        "totalDistance": 3.23,
+        "ranking": 3
+      },
+      {
+        "memberId": 7,
+        "name": "t11319",
+        "totalDistance": 0.17,
+        "ranking": 4
+      },
+      {
+        "memberId": 8,
+        "name": "t1131119",
+        "totalDistance": 0.0,
+        "ranking": 5
+      }
+    ]
+  }
+}

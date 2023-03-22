@@ -3,7 +3,7 @@ import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_medal_style.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
-import 'package:wonder_flutter/app/data/models/profile_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/profile_model.dart';
 
 class WalkRewardDialog extends StatelessWidget {
   final MedalStyleModel _medalStyle;
