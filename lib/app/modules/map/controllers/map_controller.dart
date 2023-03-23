@@ -46,6 +46,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   late BitmapDescriptor defaultMarkerIcon;
   int? swipedWalkId;
   bool isMapMovedFromPageReset = false;
+  Future<List<Walk>>? _fetchWalksFuture;
 
 
   Walk get currentWalk => walks[currentIndex.value];
@@ -67,6 +68,15 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     await _setDefaultMapMarkerIcon();
   }
 
+  @override
+  onClose() async {
+    bookmarkTitleTextController.dispose();
+    bookmarkDescriptionTextController.dispose();
+
+    await _fetchWalksFuture;
+    super.onClose();
+  }
+
   void onMapCreated(GoogleMapController controller) {
     _mapController = controller;
   }
@@ -76,11 +86,10 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     _centerPoint = position.target;
   }
 
-  void fetchWalks() async {
-    if (_mapController == null) return;
+  Future<List<Walk>> fetchWalks() async {
+    if (_mapController == null) return walks;
 
     LatLng topLeftPoint = await GoogleMapUtils.getScreenLatLng(_mapController!);
-    // printInfo(info: 'topLeftLat: ${topLeftPoint.latitude}, topLeftLng: ${topLeftPoint.longitude}');
 
     var radiusInKm = GoogleMapUtils.calculateDistance(topLeftPoint.latitude, topLeftPoint.longitude, _centerPoint.latitude, _centerPoint.longitude);
 
@@ -97,6 +106,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     changeIndex(walks.isEmpty ? -1 : 0);
     moveToPage(getInitPageIndex ?? 0);
     isMapMovedFromPageReset = true;
+    return walks;
   }
 
   void fetchBookmarks() async {
@@ -247,7 +257,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       return;
     }
 
-    fetchWalks();
+    _fetchWalksFuture = fetchWalks();
     if (_debounce != null && _debounce!.isActive) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
       // fetchWalks();
