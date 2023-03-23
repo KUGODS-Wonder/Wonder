@@ -41,7 +41,6 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   GoogleMapController? _mapController;
   double zoomVal = Constants.initialZoomLevel;
   LatLng _centerPoint = initPos.target;
-  Timer? _debounce;
 
   late BitmapDescriptor defaultMarkerIcon;
   int? swipedWalkId;
@@ -258,11 +257,6 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
     }
 
     _fetchWalksFuture = fetchWalks();
-    if (_debounce != null && _debounce!.isActive) _debounce!.cancel();
-    _debounce = Timer(const Duration(milliseconds: 500), () {
-      // fetchWalks();
-      _debounce = null;
-    });
   }
 
   void resetSwipeIndex(PointerUpEvent event) {
