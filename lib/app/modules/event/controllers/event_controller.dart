@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
 import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
-class EventController extends GetxController with GetSingleTickerProviderStateMixin {
+class EventController extends GetxController with GetTickerProviderStateMixin {
 
   static const specialEventsThemeKeys = [
     '도시락 전달',
     '유기견 산책'
+  ];
+  static const specialEventsThemeColors = [
+    AppColors.elderCardThemeColor,
+    AppColors.reward80,
   ];
 
   final WalkProvider _walkProvider = WalkProvider.to;
@@ -19,12 +24,34 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
   final List<WalkThemeStyleModel> eventTabs = specialEventsThemeKeys.map((theme) {
     return AppWalkThemeStyle.getStyle(theme);
   }).toList();
+  final _colorTween = TweenSequence(
+        List.generate(
+          specialEventsThemeColors.length - 1,
+          (index) => TweenSequenceItem(
+            tween: ColorTween(begin: specialEventsThemeColors[index],
+            end: specialEventsThemeColors[index + 1]),
+            weight: 1
+          )
+        )
+  );
+
+  int tabIndex = 0;
+
+  late AnimationController _animationController;
+  late Animation<Color?> colorAnimation;
 
   @override
   void onInit() {
     super.onInit();
 
     tabController = TabController(vsync: this, length: eventTabs.length);
+    tabController.addListener(() {
+      onTabSelected(tabController.index);
+    });
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    // _colorTween = ColorTween(begin: AppColors.elderCardThemeColor, end: AppColors.reward80);
+    // colorAnimation = _colorTween.animate(_animationController);
+    colorAnimation = _animationController.drive(_colorTween);
   }
 
   @override
@@ -34,6 +61,8 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
 
   @override
   void onClose() {
+    tabController.dispose();
+    _animationController.dispose();
     super.onClose();
   }
 
@@ -56,6 +85,10 @@ class EventController extends GetxController with GetSingleTickerProviderStateMi
         'isEvent': true,
       });
     };
+  }
+
+  void onTabSelected(int index) {
+    _animationController.animateTo(index / (eventTabs.length - 1));
   }
 }
 

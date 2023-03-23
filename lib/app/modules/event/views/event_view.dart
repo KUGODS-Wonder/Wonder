@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
@@ -8,7 +7,6 @@ import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/black_outlined_button.dart';
-
 import '../controllers/event_controller.dart';
 
 class EventView extends GetView<EventController> {
@@ -64,95 +62,106 @@ class EventView extends GetView<EventController> {
                   const SizedBox(height: 10),
                   SizedBox(
                     width: Get.width * 0.8,
-                    child: TabBar(
-                      controller: controller.tabController,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelColor: AppColors.white,
-                      unselectedLabelColor: AppColors.black,
-                      labelPadding: const EdgeInsets.symmetric(horizontal: 0),
-                      indicator: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10)
-                          ),
-                          color: AppColors.reward80),
-                      tabs: controller.eventTabs.map(
-                        (eventTab) {
-                          return Tab(
-                            height: 35,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  eventTab.iconPath,
-                                  width: tabIconSize,
-                                  height: tabIconSize,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(eventTab.title, style: tabTextStyle),
-                              ],
-                            )
-                          );
-                        }
-                      ).toList()
+                    child: AnimatedBuilder(
+                      animation: controller.colorAnimation,
+                      builder: (context, child) {
+                        return TabBar(
+                          controller: controller.tabController,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          labelColor: AppColors.white,
+                          unselectedLabelColor: AppColors.black,
+                          labelPadding: const EdgeInsets.symmetric(horizontal: 0),
+                          indicator: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)
+                              ),
+                              color: controller.colorAnimation.value),
+                          tabs: controller.eventTabs.map(
+                            (eventTab) {
+                              return Tab(
+                                height: 35,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      eventTab.iconPath,
+                                      width: tabIconSize,
+                                      height: tabIconSize,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(eventTab.title, style: tabTextStyle),
+                                  ],
+                                )
+                              );
+                            }
+                          ).toList()
+                        );
+                      },
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: AppColors.reward80,
-                        borderRadius: BorderRadius.only(
-                          // topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                      ),
+                    child: AnimatedBuilder(
+                      animation: controller.colorAnimation,
+                      builder: (context, child) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: controller.colorAnimation.value,
+                            borderRadius: const BorderRadius.only(
+                              // topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          child: child,
+                        );
+                      },
                       child: TabBarView(
                         controller: controller.tabController,
                         children: controller.eventTabs.map(
-                          (eventTab) {
-                            return ApiFetchFutureBuilder<List<Walk>>(
-                              future: controller.fetchWalksByEventWalkType(eventTab.walkType),
-                              builder: (context, data) {
-                                return Column(
-                                  children: [
-                                    const SizedBox(height: 20),
-                                    SizedBox(
-                                      height: wonderCardHeight,
-                                      child: PageView.builder(
-                                        itemCount: data!.length,
-                                        itemBuilder: (context, index) {
-                                          return Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: _tabViewHorizontalPadding),
-                                            child: _buildWonderCard(
-                                              title: data[index].name,
-                                              address: data[index].location,
-                                              imagePath: eventTab.eventCardPath,
-                                              width: wonderCardWidth,
-                                              onTap: controller.injectOnWonderCardPressed(data[index]),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: _tabViewHorizontalPadding,
-                                          ),
-                                          child: Text(
-                                            eventTab.comment,
-                                            textAlign: TextAlign.center,
-                                            style: AppTextStyle.eventCommentStyle,
+                                (eventTab) {
+                              return ApiFetchFutureBuilder<List<Walk>>(
+                                  future: controller.fetchWalksByEventWalkType(eventTab.walkType),
+                                  builder: (context, data) {
+                                    return Column(
+                                      children: [
+                                        const SizedBox(height: 20),
+                                        SizedBox(
+                                          height: wonderCardHeight,
+                                          child: PageView.builder(
+                                            itemCount: data!.length,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: _tabViewHorizontalPadding),
+                                                child: _buildWonderCard(
+                                                  title: data[index].name,
+                                                  address: data[index].location,
+                                                  imagePath: eventTab.eventCardPath,
+                                                  width: wonderCardWidth,
+                                                  onTap: controller.injectOnWonderCardPressed(data[index]),
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }
-                            );
-                          }
+                                        Expanded(
+                                          child: Center(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                horizontal: _tabViewHorizontalPadding,
+                                              ),
+                                              child: Text(
+                                                eventTab.comment,
+                                                textAlign: TextAlign.center,
+                                                style: AppTextStyle.eventCommentStyle,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                              );
+                            }
                         ).toList(),
                       ),
                     ),

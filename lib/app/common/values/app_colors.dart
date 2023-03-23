@@ -9,6 +9,7 @@ abstract class AppColors {
   static const Color reward60 = Color(0xFFFFF8ED);
   static const Color lightReward100 = Color(0xFFFFA927);
   static const Color lightReward90 = Color(0xFFFBBC05);
+  static const Color elderCardThemeColor = Color(0xFFAD4ADC);
   static const Color black = Colors.black;
   static const Color darkGrey = Color(0xFF333333);
   static const Color middleGrey = Color(0xFF797979);
@@ -21,4 +22,5 @@ abstract class AppColors {
   // Walk theme colors.
   static const Color defaultWalkColor = Color(0xFFE8F6C4);
   static const Color foodTourColor = reward60;
+
 }
