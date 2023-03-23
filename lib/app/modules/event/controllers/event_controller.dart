@@ -49,8 +49,6 @@ class EventController extends GetxController with GetTickerProviderStateMixin {
       onTabSelected(tabController.index);
     });
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    // _colorTween = ColorTween(begin: AppColors.elderCardThemeColor, end: AppColors.reward80);
-    // colorAnimation = _colorTween.animate(_animationController);
     colorAnimation = _animationController.drive(_colorTween);
   }
 

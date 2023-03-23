@@ -26,6 +26,12 @@ mixin SwipePageControllerMixin on GetxController, GetSingleTickerProviderStateMi
     _initializePageController();
   }
 
+  @override onClose () {
+    pageController.dispose();
+    _tweenController?.dispose();
+    super.onClose();
+  }
+
 
   void onSwipe(int index);
 
