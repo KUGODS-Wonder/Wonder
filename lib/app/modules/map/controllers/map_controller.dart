@@ -111,12 +111,14 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
       completer.completeError('북마크 조회 실패');
       return;
     }
-    var bookmarkList = await fetchBookmarkFuture.value;
-    if (bookmarkList != null) {
+
+    fetchBookmarkFuture.value.then((bookmarkList) {
       bookmarks.clear();
       bookmarks.addAll(bookmarkList);
-    }
-    isBookmarkUpdated = true;
+      isBookmarkUpdated = true;
+    }).catchError((error) {
+      Get.snackbar('북마크 조회 실패', error.toString());
+    });
   }
 
   void saveThisBookmark() async {

@@ -75,7 +75,8 @@ class HomeView extends GetView<HomeController> {
                       children: [
                         const SizedBox(height: 10.0),
                         Text(
-                          '${controller.leaderboard.location} ${controller.leaderboard.month}월 ${controller.leaderboard.week}주차',
+                          '${controller.leaderboard.location} 리더보드',
+                          // '${controller.leaderboard.location} ${controller.leaderboard.month}월 ${controller.leaderboard.week}주차',
                           style: AppTextStyle.leaderboardWeekTitleStyle,
                         ),
                         const SizedBox(height: 10.0),
@@ -120,6 +121,17 @@ class HomeView extends GetView<HomeController> {
         children: [
           _buildAnimatedCircle(170, AppColors.lightReward100),
           _buildAnimatedCircle(160, AppColors.lightReward90),
+          Center(
+            child: SizedBox(
+              width: length,
+              height: length,
+              child: const CircularProgressIndicator(
+                value: 1.0,
+                strokeWidth: 10,
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.faintGrey),
+              ),
+            ),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

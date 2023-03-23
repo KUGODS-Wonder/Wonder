@@ -14,6 +14,8 @@ class BookmarkProvider extends GetLifeCycle {
   final HttpProvider _httpProvider = Get.find<HttpProvider>();
   final WalkProvider _walkProvider = Get.find<WalkProvider>();
   bool _hasPendingRequest = false;
+  bool _hasPendingDeleteRequest = false;
+  bool _hasPendingSaveRequest = false;
 
   @override
   void onInit() {
@@ -46,6 +48,8 @@ class BookmarkProvider extends GetLifeCycle {
   }
 
   Future<bool> saveBookmark({required int walkId, required String title, String? contents}) async {
+    if (_hasPendingSaveRequest) return false;
+    _hasPendingSaveRequest = true;
     String? errorMessage;
 
     try {
@@ -55,6 +59,7 @@ class BookmarkProvider extends GetLifeCycle {
         'contents': contents
       });
       if (response.success) {
+        _hasPendingSaveRequest = false;
         return true;
       } else {
         errorMessage = response.message.isNotEmpty ? response.message : null;
@@ -64,16 +69,19 @@ class BookmarkProvider extends GetLifeCycle {
     } catch (e) {
       errorMessage = 'Unknown Error.';
     }
-
+    _hasPendingSaveRequest = false;
     return Future.error(errorMessage ?? 'Unknown Error.');
   }
 
   Future<bool> deleteBookmark({required int bookmarkId}) async {
     String? errorMessage;
+    if (_hasPendingDeleteRequest) return false;
+    _hasPendingDeleteRequest = true;
 
     try {
       var response = await _httpProvider.httpDelete('${Constants.bookmarkDeleteUrl}/$bookmarkId');
       if (response.success) {
+        _hasPendingDeleteRequest = false;
         return true;
       } else {
         errorMessage = response.message.isNotEmpty ? response.message : null;
@@ -84,6 +92,7 @@ class BookmarkProvider extends GetLifeCycle {
       errorMessage = 'Unknown Error.';
     }
 
+    _hasPendingDeleteRequest = false;
     return Future.error(errorMessage ?? 'Unknown Error.');
   }
 
