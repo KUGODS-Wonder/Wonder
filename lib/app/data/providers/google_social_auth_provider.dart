@@ -12,6 +12,11 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
   void onInit() {
     super.onInit();
     _googleSignIn = GoogleSignIn();
+    _googleSignIn.isSignedIn().then((value) {
+      if (value) {
+        _googleSignIn.signOut();
+      }
+    });
   }
 
   Future<void> handleGoogleSignIn() async {
