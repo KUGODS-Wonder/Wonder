@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wonder_flutter/app/common/values/app_colors.dart';
 
 class ApiFetchFutureBuilder<T> extends StatelessWidget {
   final Future<T>? future;
@@ -16,7 +17,9 @@ class ApiFetchFutureBuilder<T> extends StatelessWidget {
         future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(
+              color: AppColors.kPrimary100,
+            ));
           } else {
             if (snapshot.hasError) {
               return Center(child: Text('${snapshot.error}'));

@@ -59,16 +59,28 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
       return;
     }
 
+    var targetRoute = '';
+
     _isNavigating = true;
 
     if (index == 0) {
-      Get.offAllNamed(Routes.EVENT);
+      targetRoute = Routes.EVENT;
     } else if (index == 1) {
       if (await LocationPermissionGuard.checkLocationPermissions()) {
-        Get.offAllNamed(Routes.MAP);
+        targetRoute = Routes.MAP;
       }
-    }else if (index == 2) {
-      Get.offAllNamed(Routes.HOME);
+    } else if (index == 2) {
+      targetRoute = Routes.HOME;
+    }
+
+    if (targetRoute.isEmpty) {
+      _isNavigating = false;
+      return;
+    }
+
+    Get.until((route) => route.isFirst);
+    if (Get.currentRoute != targetRoute) {
+      Get.offAllNamed(targetRoute);
     }
 
     _isNavigating = false;

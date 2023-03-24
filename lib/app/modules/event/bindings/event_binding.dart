@@ -7,8 +7,6 @@ class EventBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(WalkProvider());
-    Get.lazyPut<EventController>(
-      () => EventController(),
-    );
+    Get.put<EventController>(EventController());
   }
 }
