@@ -5,6 +5,7 @@ abstract class Constants {
   static const String signUpUrl = '$apiVersion/auth/signup';
   static const String googleSignInUrl = '$apiVersion/auth/login';
   static const String walkUrl = '$apiVersion/walk';
+  static const String walkCompletionUrl = '$apiVersion/completions';
   static const String profileUrl = '$apiVersion/members/profile';
   static const String bookmarkUrl = '$apiVersion/bookmarks';
   static const String bookmarkDeleteUrl = '$bookmarkUrl/delete';
@@ -26,5 +27,6 @@ abstract class Constants {
 
   static int minWalkSpeedMeterPerMinute = 50; // 시속 3km/h
   static int maxWalkSpeedMeterPerMinute = 217; // 시속 13km/h
-  static double distanceErrorMargin = 0.05; // 50m
+  static double distanceErrorMargin = 0.05;
+
 }

@@ -119,12 +119,10 @@ class HomeView extends GetView<HomeController> {
       alignment: Alignment.centerLeft,
       child: Stack(
         children: [
-          _buildAnimatedCircle(170, AppColors.lightReward100),
-          _buildAnimatedCircle(160, AppColors.lightReward90),
           Center(
             child: SizedBox(
-              width: length,
-              height: length,
+              width: length - 3,
+              height: length - 3,
               child: const CircularProgressIndicator(
                 value: 1.0,
                 strokeWidth: 10,
@@ -132,6 +130,8 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
+          _buildAnimatedCircle(170, AppColors.lightReward100),
+          _buildAnimatedCircle(160, AppColors.lightReward90),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

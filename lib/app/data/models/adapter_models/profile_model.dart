@@ -45,7 +45,7 @@ class Profile {
       rank: data.tierInfo.tierName,
       ratingToNextRank: data.tierInfo.minPointToUpgrade,
       currentRating: data.totalPoint,
-      hoursWalked: data.totalWalkingTime,
+      hoursWalked: data.totalWalkingTime ~/ 3600,
       totalDistanceWalked: (data.totalDistance * 1000).round(),
       leaderboardInfo: LeaderboardInfo(
         location: 'Singapore',

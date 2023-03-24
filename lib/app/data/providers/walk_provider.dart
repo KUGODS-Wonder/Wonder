@@ -80,4 +80,22 @@ class WalkProvider extends GetConnect {
       return Future.error('parsing walkData failed.');
     }
   }
+
+  Future<bool> informServerWalkCompleted(int walkId, int seconds) async {
+    try {
+      var response = await httpProvider.httpPost(Constants.walkCompletionUrl, {
+        'walkId': walkId,
+        'timeRecord': seconds,
+      });
+      if (response.success) {
+        return true;
+      } else {
+        return Future.error(response.message);
+      }
+    } on ApiError catch (ae) {
+      return Future.error(ae.message);
+    } catch (e) {
+      return Future.error('failed to communicate with server.');
+    }
+  }
 }
