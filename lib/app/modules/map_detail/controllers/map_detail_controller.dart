@@ -10,11 +10,12 @@ import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dar
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/models/coordinate_model.dart';
 import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
+import 'package:wonder_flutter/app/modules/map/controllers/bookmark_save_control_mixin.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/readme_dialog.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/reservation_dialog.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
-class MapDetailController extends GetxController {
+class MapDetailController extends GetxController with BookmarkSaveControlMixin {
   static const Duration _waitTime = Duration(milliseconds: 300);
   final ReservationProvider _reservationProvider = ReservationProvider.to;
   GoogleMapController? _mapController;
@@ -126,6 +127,28 @@ class MapDetailController extends GetxController {
     return LatLngBounds(
         southwest: LatLng(southwestLat, southwestLon),
         northeast: LatLng(northeastLat, northeastLon)
+    );
+  }
+
+  void saveWalk() {
+    bookmarkSavePanelController.show();
+    setBookmarkTitleText(targetWalk.name);
+  }
+
+  void saveThisBookmark() {
+    saveWalkAsBookmark(
+      targetWalk,
+      onTitleTextEmpty: () {
+        Get.snackbar('북마크 저장 실패', '북마크 제목을 입력해주세요.');
+      },
+      onError: (error) {
+        if (error is String) {
+          Get.snackbar('북마크 저장 실패', error);
+        }
+      },
+      onSuccess: () {
+        Get.snackbar('북마크 저장 성공', '북마크가 저장되었습니다.');
+      },
     );
   }
 }

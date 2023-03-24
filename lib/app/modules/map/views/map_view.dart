@@ -7,6 +7,7 @@ import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/bookmark_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
+import 'package:wonder_flutter/app/modules/widgets/bookmark_save_panel.dart';
 import 'package:wonder_flutter/app/modules/widgets/rotation_3d.dart';
 import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
@@ -82,13 +83,16 @@ class MapView extends GetView<MapController> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: _buildBookmarkSavePanel(onPressed: controller.saveThisBookmark),
+            child: BookmarkSavePanel(
+              controller: controller.bookmarkSavePanelController,
+              titleTextController: controller.bookmarkTitleTextController,
+              descriptionTextController: controller.bookmarkDescriptionTextController,
+              onButtonPressed: controller.saveThisBookmark,
+            ),
           )
         ],
       ),
-      bottomNavigationBar: AppBottomNavigationBar(
-        currentIndex: 1,
-      ),
+      bottomNavigationBar: const AppBottomNavigationBar(currentIndex: 1),
     );
   }
 
@@ -195,71 +199,6 @@ class MapView extends GetView<MapController> {
             );
           });
         }
-      ),
-    );
-  }
-
-  Widget _buildBookmarkSavePanel({required void Function() onPressed}) {
-    return SlidingUpPanel(
-      slidingUpPanelController: controller.bookmarkSavePanelController,
-      ratio: 0.35,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return ListView(
-              children: [
-                _buildBookmarkSaveTextField(
-                    textController: controller.bookmarkTitleTextController,
-                    hintText: '저장할 이름을 입력하세요'
-                ),
-                _buildBookmarkSaveTextField(
-                    textController: controller.bookmarkDescriptionTextController,
-                    hintText: '설명을 입력하세요'
-                ),
-                OutlinedButton(
-                onPressed: onPressed,
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: AppColors.white,
-                  fixedSize: Size(constraints.maxWidth, 35.0),
-                  side: const BorderSide(color: AppColors.kPrimary100),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    )
-                  ),
-                child: Text(
-                    '저장',
-                    style: AppTextStyle.boldStyle.copyWith(
-                      color: AppColors.kPrimary100,
-                      fontSize: 16.0,
-                    )
-                  ),
-                ),
-              ],
-            );
-          }
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBookmarkSaveTextField({
-    required TextEditingController textController,
-    required String hintText,
-  }) {
-    return TextField(
-      controller: textController,
-      style: AppTextStyle.mediumStyle.copyWith(
-        color: AppColors.black,
-      ),
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        hintText: hintText,
-        hintStyle: AppTextStyle.lightStyle.copyWith(
-          color: AppColors.lightGrey,
-        ),
       ),
     );
   }

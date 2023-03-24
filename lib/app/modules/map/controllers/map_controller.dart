@@ -11,11 +11,13 @@ import 'package:wonder_flutter/app/data/models/adapter_models/bookmark_model.dar
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/bookmark_provider.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
+import 'package:wonder_flutter/app/modules/map/controllers/bookmark_save_control_mixin.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/swipe_page_controller_mixin.dart';
 import 'package:wonder_flutter/app/modules/widgets/sliding_up_panel.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
-class MapController extends GetxController with GetSingleTickerProviderStateMixin,SwipePageControllerMixin {
+class MapController extends GetxController
+    with GetSingleTickerProviderStateMixin,SwipePageControllerMixin,BookmarkSaveControlMixin {
 
   static const Duration _slidingDuration = Duration(milliseconds: 500);
   static const CameraPosition initPos = CameraPosition(
@@ -25,10 +27,8 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   final _walkProvider = WalkProvider.to;
   final _bookmarkProvider = BookmarkProvider.to;
+
   final bookmarkPanelController = SlidingUpPanelController(duration: _slidingDuration);
-  final bookmarkSavePanelController = SlidingUpPanelController(duration: _slidingDuration);
-  final bookmarkTitleTextController = TextEditingController();
-  final bookmarkDescriptionTextController = TextEditingController();
 
   final currentIndex = (-1).obs;
   final RxList<Walk> walks = <Walk>[].obs;
@@ -69,10 +69,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
 
   @override
   onClose() async {
-    bookmarkTitleTextController.dispose();
-    bookmarkDescriptionTextController.dispose();
     bookmarkPanelController.dispose();
-    bookmarkSavePanelController.dispose();
 
     await _fetchWalksFuture;
     super.onClose();
@@ -133,26 +130,21 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   }
 
   void saveThisBookmark() async {
-    if (bookmarkTitleTextController.text.isEmpty) {
-      Get.snackbar('북마크 저장 실패', '북마크 제목을 입력해주세요.');
-      return;
-    }
-
-    bool isSuccess = await _bookmarkProvider.saveBookmark(
-      walkId: currentWalk.id,
-      title: bookmarkTitleTextController.text,
-      contents: bookmarkDescriptionTextController.text,
-    ).catchError((error) {
-      if (error is String) {
-        Get.snackbar('북마크 저장 실패', error);
-      }
-      return false;
-    });
-
-    if (isSuccess) {
-      isBookmarkUpdated = false;
-      Get.snackbar('북마크 저장 성공', '북마크가 저장되었습니다.');
-    }
+    saveWalkAsBookmark(
+      currentWalk,
+      onTitleTextEmpty: () {
+        Get.snackbar('북마크 저장 실패', '북마크 제목을 입력해주세요.');
+      },
+      onError: (error) {
+        if (error is String) {
+          Get.snackbar('북마크 저장 실패', error);
+        }
+      },
+      onSuccess: () {
+        isBookmarkUpdated = false;
+        Get.snackbar('북마크 저장 성공', '북마크가 저장되었습니다.');
+      },
+    );
   }
 
   void deleteBookmark(int id) async {
@@ -178,7 +170,7 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   void showSaveBookmarkPanel() {
     if (currentIndex.value == -1) return;
     bookmarkSavePanelController.show();
-    bookmarkTitleTextController.text = currentWalk.name;
+    setBookmarkTitleText(currentWalk.name);
   }
 
 

@@ -17,7 +17,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   late LeaderboardInfo leaderboard;
   late List<Rank> leaderboardDisplayRanks = <Rank>[];
 
-  late AnimationController _circularAnimationController;
+  AnimationController? _circularAnimationController;
   late Tween<double> _circularTween;
   late Animation<double> circularAnimation;
 
@@ -27,7 +27,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     initFuture = fetchProfile();
     initFuture.then((value) {
       _initializeCircularAnimation(profile.currentRating / profile.ratingToNextRank);
-      _circularAnimationController.forward();
+      _circularAnimationController?.forward();
 
       return value;
     });
@@ -40,7 +40,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
 
   @override
   void onClose() {
-    _circularAnimationController.dispose();
+    _circularAnimationController?.dispose();
     super.onClose();
   }
 
@@ -81,7 +81,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
       duration: _circularAnimationDuration,
     );
     _circularTween = Tween<double>(begin: 0, end: rankProgress);
-    circularAnimation = _circularTween.animate(CurvedAnimation(parent: _circularAnimationController, curve: Curves.easeInOut));
+    circularAnimation = _circularTween.animate(CurvedAnimation(parent: _circularAnimationController!, curve: Curves.easeInOut));
   }
 
   void Function() showMedalDetails(int index) {
