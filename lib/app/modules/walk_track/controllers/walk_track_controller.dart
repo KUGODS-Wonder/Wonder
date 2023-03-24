@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location_platform_interface/location_platform_interface.dart';
+import 'package:location/location.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/converters.dart';
 import 'package:wonder_flutter/app/common/util/google_map_utils.dart';
@@ -97,7 +97,7 @@ class WalkTrackController extends GetxController with LocationTrackerMixin{
   }
 
   void beginCheckingStartLocationReached() {
-    Utils.showDialog('출발지에 도착하면 자동으로 시작합니다.', title: '주의');
+    Utils.showDialog('출발지에 도착하면 자동으로\n 시작합니다.');
     startCheckDistanceLeftService(
         lat: _startLocation.latitude,
         lng: _startLocation.longitude,

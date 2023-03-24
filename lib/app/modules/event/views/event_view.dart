@@ -73,8 +73,8 @@ class EventView extends GetView<EventController> {
                           labelPadding: const EdgeInsets.symmetric(horizontal: 0),
                           indicator: BoxDecoration(
                               borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10)
+                                  topLeft: Radius.elliptical(30, 20),
+                                  topRight: Radius.elliptical(30, 20)
                               ),
                               color: controller.colorAnimation.value),
                           tabs: controller.eventTabs.map(
@@ -83,14 +83,18 @@ class EventView extends GetView<EventController> {
                                 height: 35,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Image.asset(
                                       eventTab.iconPath,
                                       width: tabIconSize,
                                       height: tabIconSize,
                                     ),
-                                    const SizedBox(width: 5),
-                                    Text(eventTab.title, style: tabTextStyle),
+                                    const SizedBox(width: 2),
+                                    SizedBox(
+                                      height: 18.0,
+                                      child: Text(eventTab.title, style: tabTextStyle)
+                                    ),
                                   ],
                                 )
                               );

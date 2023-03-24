@@ -58,7 +58,7 @@ mixin LocationTrackerMixin on GetxController {
     }
 
     var distance = GoogleMapUtils.calculateDistance(destLat!, destLng!, currentLocation!.latitude!, currentLocation!.longitude!);
-    print('distance: $distance');
+    // print('distance: $distance');
     if (distance <= Constants.distanceErrorMargin) {
       isDestReached = true;
       onDestinationReached!();

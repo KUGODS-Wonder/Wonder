@@ -122,7 +122,7 @@ class WalkTrackView extends GetView<WalkTrackController> {
             ),
           ],
         ),
-        bottomNavigationBar: AppBottomNavigationBar(),
+        bottomNavigationBar: const AppBottomNavigationBar(),
       ),
     );
   }

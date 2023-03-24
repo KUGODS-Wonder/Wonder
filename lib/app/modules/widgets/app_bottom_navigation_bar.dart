@@ -62,10 +62,10 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
     _isNavigating = true;
 
     if (index == 0) {
-      Get.offNamed(Routes.EVENT);
+      Get.offAllNamed(Routes.EVENT);
     } else if (index == 1) {
       if (await LocationPermissionGuard.checkLocationPermissions()) {
-        Get.offNamed(Routes.MAP);
+        Get.offAllNamed(Routes.MAP);
       }
     }else if (index == 2) {
       Get.offAllNamed(Routes.HOME);

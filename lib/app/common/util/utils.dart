@@ -21,45 +21,51 @@ abstract class Utils {
 
   static void showDialog(
     String? message, {
-    String title = Strings.error,
+    String? title,
     bool success = false,
     VoidCallback? onTap,
     bool barrierDismissible = true,
   }) =>
-      Get.defaultDialog(
-        barrierDismissible: barrierDismissible,
-        onWillPop: () async {
-          Get.back();
-
-          onTap?.call();
-
-          return true;
-        },
-        title: success ? Strings.success : title,
-        content: Text(
-          message ?? Strings.somethingWentWrong,
-          textAlign: TextAlign.center,
-          maxLines: 6,
-          style: AppTextStyle.semiBoldStyle.copyWith(
-            color: AppColors.darkGrey,
-            fontSize: Dimens.fontSize16,
-          ),
-        ),
-        confirm: Align(
-          alignment: Alignment.centerRight,
-          child: CustomInkwellWidget.text(
-            onTap: () {
-              Get.back();
-
-              onTap?.call();
-            },
-            title: Strings.ok,
-            textStyle: AppTextStyle.buttonTextStyle.copyWith(
-              fontWeight: FontWeight.w500,
+      Get.dialog(
+        AlertDialog(
+          title: title != null ? Text(
+            success ? Strings.success : title,
+            textAlign: TextAlign.center,
+            style: AppTextStyle.semiBoldStyle.copyWith(
+              color: Colors.black,
               fontSize: Dimens.fontSize18,
             ),
+          ) : const SizedBox.shrink(),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                message ?? Strings.somethingWentWrong,
+                textAlign: TextAlign.center,
+                maxLines: 6,
+                style: AppTextStyle.mediumStyle.copyWith(
+                  color: AppColors.darkGrey,
+                  fontSize: Dimens.fontSize16,
+                ),
+              ),
+            ],
           ),
+          actions: [
+            CustomInkwellWidget.text(
+              onTap: () {
+                Get.back();
+
+                onTap?.call();
+              },
+              title: Strings.ok,
+              textStyle: AppTextStyle.buttonTextStyle.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: Dimens.fontSize16,
+              ),
+            ),
+          ],
         ),
+        barrierDismissible: barrierDismissible,
       );
 
   static void showIconDialog(
@@ -198,7 +204,7 @@ abstract class Utils {
         message ?? Strings.somethingWentWrong,
         textAlign: TextAlign.center,
         maxLines: 6,
-        style: AppTextStyle.semiBoldStyle.copyWith(
+        style: AppTextStyle.mediumStyle.copyWith(
           color: AppColors.darkGrey,
           fontSize: Dimens.fontSize16,
         ),
@@ -212,7 +218,7 @@ abstract class Utils {
               title: Strings.cancel,
               textStyle: AppTextStyle.buttonTextStyle.copyWith(
                 fontWeight: FontWeight.w500,
-                fontSize: Dimens.fontSize18,
+                fontSize: Dimens.fontSize16,
               ),
               onTap: () {
                 Get.back(result: false);
@@ -222,7 +228,7 @@ abstract class Utils {
               title: Strings.ok,
               textStyle: AppTextStyle.buttonTextStyle.copyWith(
                 fontWeight: FontWeight.w500,
-                fontSize: Dimens.fontSize18,
+                fontSize: Dimens.fontSize16,
               ),
               onTap: () {
                 onConfirm();
