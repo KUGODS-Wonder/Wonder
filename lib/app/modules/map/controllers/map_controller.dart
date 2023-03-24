@@ -71,6 +71,8 @@ class MapController extends GetxController with GetSingleTickerProviderStateMixi
   onClose() async {
     bookmarkTitleTextController.dispose();
     bookmarkDescriptionTextController.dispose();
+    bookmarkPanelController.dispose();
+    bookmarkSavePanelController.dispose();
 
     await _fetchWalksFuture;
     super.onClose();

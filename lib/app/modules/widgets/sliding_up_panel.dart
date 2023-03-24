@@ -33,6 +33,11 @@ class SlidingUpPanelController {
     await Future.delayed(duration);
     _isSliding = false;
   }
+
+  void dispose() {
+    onPressShowController.close();
+    onPressHideController.close();
+  }
 }
 
 
