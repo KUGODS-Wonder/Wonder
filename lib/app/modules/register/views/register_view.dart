@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
+import 'package:wonder_flutter/app/modules/widgets/custom_dropdown_textfield.dart';
 import '../controllers/register_controller.dart';
+
+final addressController = Get.put(AddressController());
+final selected = "".obs;
 
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({Key? key}) : super(key: key);
@@ -137,26 +141,59 @@ class RegisterView extends GetView<RegisterController> {
                 ),
               ),
               const SizedBox(height: 25),
-              SizedBox(
-                width: 250,
-                child: TextFormField(
-                  key: controller.addressFormFieldKey,
-                  controller: controller.addressTextController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5.0, horizontal: 10.0),
-                    hintText: '  Address',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                          color: AppColors.middleGrey, width: 1.0),
-                    ),
+              // SizedBox(
+              //   width: 250,
+              //   child: TextFormField(
+              //     key: controller.addressFormFieldKey,
+              //     controller: controller.addressTextController,
+              //     keyboardType: TextInputType.text,
+              //     decoration: InputDecoration(
+              //       isDense: true,
+              //       contentPadding: const EdgeInsets.symmetric(
+              //           vertical: 5.0, horizontal: 10.0),
+              //       hintText: '  Address',
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(15.0),
+              //         borderSide: const BorderSide(
+              //             color: AppColors.middleGrey, width: 1.0),
+              //       ),
+              //     ),
+              //     validator: controller.validateAdress, //닉네임 인풋으로 바꿔야
+              //   ),
+              // ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Address  ',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold),
                   ),
-                  validator: controller.validateAdress, //닉네임 인풋으로 바꿔야
-                ),
+                  Text('서울시'),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  DropdownButton(
+                      hint: Text('Address'),
+                      onChanged: (newValue) {
+                        addressController.selected = newValue as String;
+                        addressController.update();
+                      },
+                      value: addressController.selected,
+                      items: [
+                        for (var data in dropdownText)
+                          DropdownMenuItem(
+                            child: new Text(
+                              data,
+                            ),
+                            value: data,
+                          )
+                      ]),
+                ],
               ),
+
               const SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
