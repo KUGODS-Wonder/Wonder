@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/map_controller.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
+import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/small_walk_container.dart';
 import '../controllers/map_detail_controller.dart';
 
@@ -15,6 +16,7 @@ class MapDetailView extends GetView<MapDetailController> {
 
     var mapWidth = min(Get.width, Get.height);
     var mapHeight = mapWidth;
+    var walkContainerHeight = Get.height - mapHeight - AppBottomNavigationBar.barHeight;
 
     return Scaffold(
       body: Container(
@@ -55,7 +57,7 @@ class MapDetailView extends GetView<MapDetailController> {
               ),
             ),
             SizedBox(
-              height: Get.height - mapHeight,
+              height: walkContainerHeight,
               child: Obx(() {
                   return Hero(
                     tag: 'walk-container-${Get.arguments['id']}',
@@ -66,7 +68,7 @@ class MapDetailView extends GetView<MapDetailController> {
                       isEvent: controller.isEvent,
                       eventMedalImagePath: controller.eventMedalImagePath,
                       walk: controller.targetWalk,
-                      detailHeight: Get.height - mapHeight,
+                      detailHeight: walkContainerHeight,
                     ),
                   );
                 }
@@ -75,6 +77,7 @@ class MapDetailView extends GetView<MapDetailController> {
           ],
         ),
       ),
+      bottomNavigationBar: const AppBottomNavigationBar(),
     );
   }
 }

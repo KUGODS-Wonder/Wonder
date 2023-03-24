@@ -120,9 +120,9 @@ class WalkTrackView extends GetView<WalkTrackController> {
                 ],
               ),
             ),
+            SizedBox(height: AppBottomNavigationBar.barHeight)
           ],
         ),
-        bottomNavigationBar: const AppBottomNavigationBar(),
       ),
     );
   }

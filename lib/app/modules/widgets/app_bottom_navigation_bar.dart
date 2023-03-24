@@ -6,6 +6,7 @@ import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 
 class AppBottomNavigationBar extends StatefulWidget {
+  static double barHeight = 90 + (GetPlatform.isIOS ? 15 : 0);
   // current Index 는 똑같은 화면으로 중복해서 navigation 하지 않기 위해 필요.
   // 오픈한 페이지의 index 를 저장해서 사용자가 클릭한 index 와 같으면 무시한다.
   final int currentIndex;
@@ -27,7 +28,7 @@ class _AppBottomNavigationBarState extends State<AppBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 90 + (GetPlatform.isIOS ? 15 : 0),
+      height: AppBottomNavigationBar.barHeight,
       child: BottomNavigationBar(
         iconSize: 30,
         items: const [
