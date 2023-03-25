@@ -92,22 +92,39 @@ class GoogleRegisterView extends GetView<RegisterController> {
                   SizedBox(
                     width: 15,
                   ),
-                  DropdownButton(
-                      hint: Text('Address'),
-                      onChanged: (newValue) {
-                        addressController.selected = newValue as String;
-                        addressController.update();
-                      },
-                      value: addressController.selected,
-                      items: [
-                        for (var data in dropdownText)
-                          DropdownMenuItem(
-                            child: new Text(
-                              data,
-                            ),
-                            value: data,
-                          )
-                      ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Address  ',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text('서울시'),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Obx(
+                        () => DropdownButton<String>(
+                          hint: Text('Address'),
+                          onChanged: (newValue) {
+                            addressController.setSelected(newValue!);
+                          },
+                          value: addressController.selected.value,
+                          items: addressController.listType.map((selectedType) {
+                            return DropdownMenuItem(
+                              child: new Text(
+                                selectedType,
+                              ),
+                              value: selectedType,
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 25),

@@ -79,7 +79,7 @@ class RegisterView extends GetView<RegisterController> {
                       width: 60,
                       height: 30,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: controller.onCheckPressed,
                         child: Text(
                           'check',
                           style: TextStyle(
@@ -141,26 +141,6 @@ class RegisterView extends GetView<RegisterController> {
                 ),
               ),
               const SizedBox(height: 25),
-              // SizedBox(
-              //   width: 250,
-              //   child: TextFormField(
-              //     key: controller.addressFormFieldKey,
-              //     controller: controller.addressTextController,
-              //     keyboardType: TextInputType.text,
-              //     decoration: InputDecoration(
-              //       isDense: true,
-              //       contentPadding: const EdgeInsets.symmetric(
-              //           vertical: 5.0, horizontal: 10.0),
-              //       hintText: '  Address',
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide: const BorderSide(
-              //             color: AppColors.middleGrey, width: 1.0),
-              //       ),
-              //     ),
-              //     validator: controller.validateAdress, //닉네임 인풋으로 바꿔야
-              //   ),
-              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -37,27 +37,6 @@ class LoginController extends GetxController {
 
   void onGooglePressed() async {
     _googleSignInProvider.handleGoogleSignIn();
-    // try {
-    //   getGoogleLogin(); //구글 로그인창 요청
-    //   var res = await _googleSignInProvider
-    //       .postGoogleSignInResponse()
-    //       .catchError((error) {
-    //     if (error is String) {
-    //       Get.snackbar('로그인 실패', error);
-    //     }
-    //     return null;
-    //   });
-    //   if (res != null) {
-    //     if (res.alreadyRegistered == false) {
-    //       _httProvider.setToken(res.googleToken);
-    //       Get.to(GoogleRegisterView());
-    //     }
-    //     _httProvider.setToken(res.googleToken);
-    //     Get.offAllNamed(Routes.HOME);
-    //   }
-    // } on Exception catch (_) {
-    //   Get.snackbar('로그인 실패', '서버와 연결 실패');
-    // }
   }
 
   void onSubmitPressed() async {
@@ -81,6 +60,25 @@ class LoginController extends GetxController {
         Get.snackbar('로그인 실패', '서버와 연결 실패');
       }
     }
+  }
+
+  String? validateEmail(String? value) {
+    if (value == null || value.length == 0) {
+      return '이메일을 입력해주세요';
+    }
+    if (!GetUtils.isEmail(value)) {
+      return '올바른 이메일 주소를 입력해주세요';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.length == 0) {
+      return '비밀번호를 입력해주세요';
+    } else if (value.length < 8 || value.length > 20) {
+      return '비밀번호는 8자리에서 20자리로 작성해주세요';
+    }
+    return null;
   }
 
   void navigateToRegister() {

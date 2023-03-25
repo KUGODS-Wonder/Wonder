@@ -3,19 +3,19 @@ import 'package:get/get.dart';
 import '../../../data/providers/sign_up_response_provider.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
+import '../../../data/providers/nickname_check_provider.dart';
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final emailFormFieldKey = GlobalKey<FormFieldState>();
   final nicknameFormFieldKey = GlobalKey<FormFieldState>();
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
-  //final addressFormFieldKey = GlobalKey<FormFieldState>();
   final passwordConfirmFormFieldKey = GlobalKey<FormFieldState>();
   final _addressController = Get.put(AddressController());
+
+  final _nicknameCheckProvider = Get.put(NicknameCheckProvider());
   final _signUpProvider = Get.find<SignUpResponseProvider>();
   final _httProvider = Get.find<HttpProvider>();
-
-  //final addressTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final nicknameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
@@ -63,13 +63,6 @@ class RegisterController extends GetxController {
     return null;
   }
 
-  String? validateAdress(String? value) {
-    if (value == null || value.length == 0) {
-      return '주소를 입력해주세요';
-    }
-    return null;
-  }
-
   String? validatePasswordConfirm(String? value) {
     if (value == null || value.length == 0) {
       return '비밀번호를 다시 입력해주세요';
@@ -77,6 +70,29 @@ class RegisterController extends GetxController {
       return '비밀번호와 일치하지 않습니다';
     }
     return null;
+  }
+
+  void onCheckPressed() async {
+    if (nicknameFormFieldKey.currentState!.validate()) {
+      try {
+        var res = await _nicknameCheckProvider
+            .postNickNameCheckResponse(nicknameTextController.text)
+            .catchError((error) {
+          if (error is String) {
+            Get.snackbar('닉네임 중복 확인 실패', error);
+          }
+          return null;
+        });
+
+        if (res != null) {
+          if (res.duplicated) {
+            Get.snackbar('닉네임 중복', '다른 닉네임을 입력해주세요');
+          }
+        }
+      } on Exception catch (_) {
+        Get.snackbar('닉네임 중복 확인 실패', '서버와 연결 실패');
+      }
+    }
   }
 
   void onSubmitPressed() async {
@@ -107,34 +123,6 @@ class RegisterController extends GetxController {
 
   void increment() => count.value++;
 }
-
-// List dropdownText = [
-//   '강동구',
-//   '송파구',
-//   '강남구',
-//   '서초구',
-//   '관악구',
-//   '동작구',
-//   '금천구',
-//   '영등포구',
-//   '구로구',
-//   '양천구',
-//   '강서구',
-//   '은평구',
-//   '마포구',
-//   '서대문구',
-//   '종로구',
-//   '용산구',
-//   '중구',
-//   '성동구',
-//   '동대문구',
-//   '성북구',
-//   '강북구',
-//   '도봉구',
-//   '노원구',
-//   '중랑구',
-//   '광진구'
-// ];
 
 class AddressController extends GetxController {
   final selected = "강동구".obs;

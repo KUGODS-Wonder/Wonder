@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/login_controller.dart';
+import 'package:wonder_flutter/app/common/values/app_colors.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({Key? key}) : super(key: key);
@@ -38,49 +39,51 @@ class LoginView extends GetView<LoginController> {
                             ),
                           ),
                           SizedBox(height: 20),
-                          Center(
-                            child: Container(
-                              width: 350,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: TextField(
-                                controller: controller.emailController,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: '  Email'), //박스모양
-                                keyboardType: TextInputType.emailAddress,
-                              ),
+                          //
+                          SizedBox(
+                            width: 250,
+                            child: TextFormField(
+                              key: controller.emailFormFieldKey,
+                              controller: controller.emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 10.0),
+                                hintText: '  Email',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.middleGrey, width: 1.0),
+                                ),
+                              ), //박스모양
+                              validator: controller.validateEmail,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
-                          Center(
-                            child: Container(
-                              height: 50,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: TextField(
+                          SizedBox(
+                            width: 250,
+                            child: TextFormField(
+                                key: controller.passwordFormFieldKey,
                                 controller: controller.passwordController,
                                 decoration: InputDecoration(
-                                  hintText: '  Password',
-                                  border: InputBorder.none,
-                                ),
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 10.0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: const BorderSide(
+                                          color: AppColors.middleGrey,
+                                          width: 1.0),
+                                    ),
+                                    hintText: '  Password'),
                                 keyboardType: TextInputType.text,
                                 obscureText: true,
-                              ),
-                            ),
+                                validator: controller.validatePassword),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10.0,
                           ),
                           Row(
