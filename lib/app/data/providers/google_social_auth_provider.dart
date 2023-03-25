@@ -14,7 +14,12 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
   @override
   void onInit() {
     super.onInit();
-    _googleSignIn = GoogleSignIn();
+    _googleSignIn = GoogleSignIn(
+      scopes: [
+      'email',
+      ],
+      serverClientId: Constants.googleServerClientId,
+    );
     _googleSignIn.isSignedIn().then((value) {
       if (value) {
         _googleSignIn.signOut();
@@ -27,9 +32,10 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
     try {
       var googleAccount = await _googleSignIn.signIn();
       var auth = await googleAccount?.authentication;
-      var accessToken = auth?.accessToken;
+      // var accessToken = auth?.accessToken;
+      var idToken = auth?.idToken;
 
-      if (accessToken != null && googleAccount != null) {
+      if (idToken != null && googleAccount != null) {
 
         var isEmailUsed = await isEmailAlreadyUsed(googleAccount.email);
         String? username = googleAccount.displayName;
@@ -48,7 +54,7 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
             return Future.error('Google Sign In Failed. User SignUp Info is null.');
           }
         }
-        return postGoogleSignIn(accessToken, googleAccount.email, username ?? '', address ?? '');
+        return postGoogleSignIn(idToken, googleAccount.email, username ?? '', address ?? '');
       } else {
         return Future.error('Google Sign In Failed. Could not receive access token from google.');
       }
@@ -65,17 +71,16 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
   }
 
   Future<SignInData?> postGoogleSignIn(
-      String accessToken, String email, String name, String address) async {
+      String idToken, String email, String name, String address) async {
     String? errorMessage;
 
     try {
-      _httpProvider.setHeader('GOOGLE-TOKEN', accessToken);
+      _httpProvider.setHeader('GOOGLE-TOKEN', idToken);
       var response = await _httpProvider.httpPost(Constants.googleSignInUrl, {
         'email': email,
         'name': name,
         'address': address,
       });
-      _httpProvider.removeHeader('GOOGLE-TOKEN');
 
       if (response.success) {
         return SignInData.fromJson(response.data);
@@ -90,6 +95,8 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
         errorMessage = error;
       }
       errorMessage ??= 'Google Sign In Failed.';
+    } finally {
+      _httpProvider.removeHeader('GOOGLE-TOKEN');
     }
 
     return Future.error(errorMessage);
