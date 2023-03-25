@@ -1,0 +1,10 @@
+{
+  "voluntaryWorkId": 2,
+  "walkId": 2,
+  "startDate": "2023-03-30",
+  "description": "테스트22",
+  "specificAddress": "주소주소주소",
+  "maxPeopleNumber": 3,
+  "currentPeopleNumber": 3,
+  "active": true
+}

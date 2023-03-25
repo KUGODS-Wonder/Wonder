@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
-import 'package:wonder_flutter/app/data/models/reservation_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/reservation_model.dart';
 
 class ReservationTile extends StatelessWidget {
   static const String canApplyText = '신청가능';
@@ -44,7 +45,7 @@ class ReservationTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(item.date,
+                      Text(item.date.formattedDate(),
                           style: AppTextStyle.commonItemTitleStyle),
                       Text('${item.timeStart} ~ ${item.timeEnd}',
                           style: AppTextStyle.commonItemDescriptionStyle),

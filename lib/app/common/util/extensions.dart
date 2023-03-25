@@ -50,7 +50,7 @@ extension HexColorExt on String {
 }
 
 extension DateTimeFormatterExt on DateTime {
-  String formatedDate({
+  String formattedDate({
     String dateFormat = 'yyyy-MM-dd',
   }) {
     final formatter = DateFormat(dateFormat);

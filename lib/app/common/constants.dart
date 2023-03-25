@@ -13,6 +13,9 @@ abstract class Constants {
   static const String profileUrl = '$apiVersion/members/profile';
   static const String bookmarkUrl = '$apiVersion/bookmarks';
   static const String bookmarkDeleteUrl = '$bookmarkUrl/delete';
+  static const String reservationUrl = '$apiVersion/reservations';
+  static const String reservationReadUrl = '$reservationUrl/mine';
+  static const String reservationDeleteUrl = '$reservationUrl/cancel';
 
   static const timeout = Duration(seconds: 5);
   static const splashTime = Duration(seconds: 2);
@@ -32,6 +35,7 @@ abstract class Constants {
   static int minWalkSpeedMeterPerMinute = 50; // 시속 3km/h
   static int maxWalkSpeedMeterPerMinute = 217; // 시속 13km/h
   static double distanceErrorMargin = 0.05;
+
 
 
 }

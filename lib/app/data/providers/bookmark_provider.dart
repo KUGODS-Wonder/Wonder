@@ -101,7 +101,7 @@ class BookmarkProvider extends GetLifeCycle {
     List<Future<Walk?>> futures = [];
 
     for (BookmarkData data in bookmarkDataList) {
-      futures.add(_walkProvider.getWalk(data.walkId, lat, lng));
+      futures.add(_walkProvider.getWalk(data.walkId));
     }
 
     var walks = await Future.wait(futures);

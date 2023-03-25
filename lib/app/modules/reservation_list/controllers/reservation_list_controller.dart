@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:wonder_flutter/app/data/models/reservation_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/reservation_model.dart';
 import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
 
 class ReservationListController extends GetxController {

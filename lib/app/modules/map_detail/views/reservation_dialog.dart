@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/animatable_list.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
-import 'package:wonder_flutter/app/data/models/reservation_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/reservation_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/colored_button.dart';
 import 'package:wonder_flutter/app/modules/widgets/reservation_tile.dart';
 

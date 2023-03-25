@@ -262,7 +262,7 @@ abstract class Utils {
           v.minute,
         );
 
-        onSelectTime(_dateTime.formatedDate(dateFormat: 'hh:mm aa'));
+        onSelectTime(_dateTime.formattedDate(dateFormat: 'hh:mm aa'));
       }
     });
   }

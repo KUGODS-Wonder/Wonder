@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/reservation_model.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/models/coordinate_model.dart';
 import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
@@ -99,12 +100,13 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
     );
 
     if (accepted != null && accepted) {
-      var chosenItem = await Get.dialog(ReservationDialog(
+      var chosenItem = await Get.dialog<Reservation?>(ReservationDialog(
         possibleReservations: await _reservationProvider.getReservations(),
         bottomMessage: Strings.readmeDialogDescription,
       ));
 
       if (chosenItem != null) {
+        _reservationProvider.postReservation(voluntaryWorkId: chosenItem.voluntaryWorkId);
         await Future.delayed(const Duration(milliseconds: 500));
 
         Random random = Random();
