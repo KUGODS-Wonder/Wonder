@@ -4,6 +4,8 @@ abstract class Constants {
   static const String signInUrl = '$apiVersion/auth/signin';
   static const String signUpUrl = '$apiVersion/auth/signup';
   static const String googleSignInUrl = '$apiVersion/auth/login';
+  static const String checkDupMemberUrl = '$apiVersion/auth/check-member';
+  static const String checkDupNameUrl = '$apiVersion/auth/check-name';
   static const String walkUrl = '$apiVersion/walk';
   static const String walkCompletionUrl = '$apiVersion/completions';
   static const String profileUrl = '$apiVersion/members/profile';
