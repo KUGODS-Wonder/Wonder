@@ -6,6 +6,7 @@ import 'package:wonder_flutter/app/modules/register/controllers/address_control_
 class RegisterSocialController extends GetxController with AddressControlMixin {
   final formKey = GlobalKey<FormState>();
   final nicknameFormFieldKey = GlobalKey<FormFieldState>();
+  final checkBoxFormFieldKey = GlobalKey<FormFieldState>();
   final nicknameTextController = TextEditingController();
   final isCheckBoxChecked = false.obs;
 
@@ -39,6 +40,13 @@ class RegisterSocialController extends GetxController with AddressControlMixin {
     return null;
   }
 
+  String? validateCheckBox(bool? value) {
+    if (value == null || value == false) {
+      return '약관에 동의해주세요';
+    }
+    return null;
+  }
+
   Future<bool> onPop() async {
     Get.back();
     return false;
@@ -52,6 +60,10 @@ class RegisterSocialController extends GetxController with AddressControlMixin {
   }
 
   void onSubmitPressed() {
+
+  }
+
+  void onTapTermsAndService() {
 
   }
 }

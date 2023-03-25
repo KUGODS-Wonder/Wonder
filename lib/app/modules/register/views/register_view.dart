@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
+import 'package:wonder_flutter/app/modules/widgets/checkbox_form_field.dart';
 import '../controllers/register_controller.dart';
 
 
@@ -138,26 +140,6 @@ class RegisterView extends GetView<RegisterController> {
                 ),
               ),
               const SizedBox(height: 25),
-              // SizedBox(
-              //   width: 250,
-              //   child: TextFormField(
-              //     key: controller.addressFormFieldKey,
-              //     controller: controller.addressTextController,
-              //     keyboardType: TextInputType.text,
-              //     decoration: InputDecoration(
-              //       isDense: true,
-              //       contentPadding: const EdgeInsets.symmetric(
-              //           vertical: 5.0, horizontal: 10.0),
-              //       hintText: '  Address',
-              //       border: OutlineInputBorder(
-              //         borderRadius: BorderRadius.circular(15.0),
-              //         borderSide: const BorderSide(
-              //             color: AppColors.middleGrey, width: 1.0),
-              //       ),
-              //     ),
-              //     validator: controller.validateAdress, //닉네임 인풋으로 바꿔야
-              //   ),
-              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -192,60 +174,39 @@ class RegisterView extends GetView<RegisterController> {
                 ],
               ),
               const SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //체크박스
-                  Obx(() {
-                      return SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Checkbox(
-                          checkColor: Colors.white,
-                          activeColor: Colors.red[200],
-                          value: controller.isCheckBoxChecked.value,
-                          onChanged: (val) {
-                            controller.isCheckBoxChecked.value = val!;
-                          },
+              SizedBox(
+                width: 250,
+                height: 100,
+                child: CheckBoxFormField(
+                  key: controller.checkBoxFormFieldKey,
+                  checkColor: Colors.white,
+                  activeColor: Colors.red[200],
+                  initialValue: controller.isCheckBoxChecked.value,
+                  validator: controller.validateCheckBox,
+                  trailing: RichText(
+                    text: TextSpan(
+                      children: [
+                        const TextSpan(
+                          text: 'By checking this box, you agree to our ',
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 15
+                          ),
                         ),
-                      );
-                    }
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'By checking this box, you agree',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(width: 45),
-                  Text(
-                    'to our',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  SizedBox(
-                    width: 6,
-                  ),
-                  SizedBox(
-                    child: TextButton(
-                      onPressed: () {},
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: Text(
-                        'Terms and Service',
-                        style: TextStyle(fontSize: 18, color: Colors.red[200]),
-                      ),
+                        TextSpan(
+                          text: 'Terms and Service',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.red[200],
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = controller.onTapTermsAndService,
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  )
+                ),
               ),
               const SizedBox(height: 25),
               SizedBox(

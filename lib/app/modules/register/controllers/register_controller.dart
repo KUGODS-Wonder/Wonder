@@ -11,6 +11,7 @@ class RegisterController extends GetxController with AddressControlMixin {
   final nicknameFormFieldKey = GlobalKey<FormFieldState>();
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
   final passwordConfirmFormFieldKey = GlobalKey<FormFieldState>();
+  final checkBoxFormFieldKey = GlobalKey<FormFieldState>();
   final _signUpProvider = Get.find<SignUpResponseProvider>();
   final _httProvider = Get.find<HttpProvider>();
 
@@ -96,32 +97,15 @@ class RegisterController extends GetxController with AddressControlMixin {
       }
     }
   }
-}
 
-// List dropdownText = [
-//   '강동구',
-//   '송파구',
-//   '강남구',
-//   '서초구',
-//   '관악구',
-//   '동작구',
-//   '금천구',
-//   '영등포구',
-//   '구로구',
-//   '양천구',
-//   '강서구',
-//   '은평구',
-//   '마포구',
-//   '서대문구',
-//   '종로구',
-//   '용산구',
-//   '중구',
-//   '성동구',
-//   '동대문구',
-//   '성북구',
-//   '강북구',
-//   '도봉구',
-//   '노원구',
-//   '중랑구',
-//   '광진구'
-// ];
+  String? validateCheckBox(bool? value) {
+    if (value == null || value == false) {
+      return '약관에 동의해주세요';
+    }
+    return null;
+  }
+
+  void onTapTermsAndService() {
+    // printInfo(info: 'TermsAndService tapped');
+  }
+}

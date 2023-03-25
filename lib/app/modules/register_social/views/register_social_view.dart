@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
+import 'package:wonder_flutter/app/modules/widgets/checkbox_form_field.dart';
 
 import '../controllers/register_social_controller.dart';
 
@@ -109,32 +111,39 @@ class RegisterSocialView extends GetView<RegisterSocialController> {
                   ],
                 ),
                 const SizedBox(height: 25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //체크박스
-                    SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Obx(() {
-                        return SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: Checkbox(
-                            checkColor: Colors.white,
-                            activeColor: Colors.red[200],
-                            value: controller.isCheckBoxChecked.value,
-                            onChanged: (val) {
-                              controller.isCheckBoxChecked.value = val!;
-                            },
-                          ),
-                        );
-                      }),
-                    ),
-                    const SizedBox(width: 20),
-                    const Text('By checking this box, you agree', style: TextStyle(fontSize: 15),
-                    ),
-                  ],
+                SizedBox(
+                  width: 250,
+                  height: 100,
+                  child: CheckBoxFormField(
+                      key: controller.checkBoxFormFieldKey,
+                      checkColor: Colors.white,
+                      activeColor: Colors.red[200],
+                      initialValue: controller.isCheckBoxChecked.value,
+                      validator: controller.validateCheckBox,
+                      trailing: RichText(
+                        text: TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'By checking this box, you agree to our ',
+                              style: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 15
+                              ),
+                            ),
+                            TextSpan(
+                              text: 'Terms and Service',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.red[200],
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = controller.onTapTermsAndService,
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
