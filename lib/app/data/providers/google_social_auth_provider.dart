@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/data/errors/api_error.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/data/models/sign_in_data_model.dart';
 import 'package:wonder_flutter/app/data/models/social_auth_required_fields_model.dart';
@@ -21,7 +22,8 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
     });
   }
 
-  Future<void> handleGoogleSignIn() async {
+  Future<SignInData?> handleGoogleSignIn() async {
+    String? errorMessage;
     try {
       var googleAccount = await _googleSignIn.signIn();
       var auth = await googleAccount?.authentication;
@@ -46,47 +48,50 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
             return Future.error('Google Sign In Failed. User SignUp Info is null.');
           }
         }
-        var signInData = await postGoogleSignIn(accessToken, googleAccount.email, username ?? '', address ?? '');
-        if (signInData != null) {
-          _httpProvider.setToken(signInData.token);
-          Get.offAllNamed(Routes.HOME);
-        } else {
-          return Future.error('Google Sign In Failed. Could not receive sign in data from server.');
-        }
+        return postGoogleSignIn(accessToken, googleAccount.email, username ?? '', address ?? '');
       } else {
         return Future.error('Google Sign In Failed. Could not receive access token from google.');
       }
+    } on ApiError catch (e) {
+      errorMessage = e.message;
     } catch (error) {
-      String? errorMessage;
       if (error is String) {
         errorMessage = error;
       }
       errorMessage ??= 'Google Sign In Failed.';
-      return Future.error(errorMessage);
     }
+
+    return Future.error(errorMessage);
   }
 
   Future<SignInData?> postGoogleSignIn(
       String accessToken, String email, String name, String address) async {
     String? errorMessage;
 
-    _httpProvider.setHeader('GOOGLE-TOKEN', accessToken);
-    var response = await _httpProvider.httpPost(Constants.googleSignInUrl, {
-      'email': email,
-      'name': name,
-      'address': address,
-    });
+    try {
+      _httpProvider.setHeader('GOOGLE-TOKEN', accessToken);
+      var response = await _httpProvider.httpPost(Constants.googleSignInUrl, {
+        'email': email,
+        'name': name,
+        'address': address,
+      });
+      _httpProvider.removeHeader('GOOGLE-TOKEN');
 
-    if (response.success) {
-      try {
-        _httpProvider.removeHeader('GOOGLE-TOKEN');
+      if (response.success) {
         return SignInData.fromJson(response.data);
-      } catch (e) {
-        errorMessage = 'parsing signInData failed.';
       }
+
+      errorMessage = response.message;
+
+    } on ApiError catch (e) {
+      errorMessage = e.message;
+    } catch (error) {
+      if (error is String) {
+        errorMessage = error;
+      }
+      errorMessage ??= 'Google Sign In Failed.';
     }
-    errorMessage = response.message;
-    _httpProvider.removeHeader('GOOGLE-TOKEN');
+
     return Future.error(errorMessage);
   }
 

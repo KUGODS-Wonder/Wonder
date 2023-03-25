@@ -16,7 +16,7 @@ class LoginController extends GetxController {
   final emailFormFieldKey = GlobalKey<FormFieldState>();
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
   final _signInProvider = Get.find<SignInResponseProvider>();
-  final _httProvider = Get.find<HttpProvider>();
+  final _httpProvider = Get.find<HttpProvider>();
   final _googleSignInProvider = Get.find<GoogleSocialAuthProvider>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -39,28 +39,21 @@ class LoginController extends GetxController {
   }
 
   void onGooglePressed() async {
-    _googleSignInProvider.handleGoogleSignIn();
-    // try {
-    //   getGoogleLogin(); //구글 로그인창 요청
-    //   var res = await _googleSignInProvider
-    //       .postGoogleSignInResponse()
-    //       .catchError((error) {
-    //     if (error is String) {
-    //       Get.snackbar('로그인 실패', error);
-    //     }
-    //     return null;
-    //   });
-    //   if (res != null) {
-    //     if (res.alreadyRegistered == false) {
-    //       _httProvider.setToken(res.googleToken);
-    //       Get.to(GoogleRegisterView());
-    //     }
-    //     _httProvider.setToken(res.googleToken);
-    //     Get.offAllNamed(Routes.HOME);
-    //   }
-    // } on Exception catch (_) {
-    //   Get.snackbar('로그인 실패', '서버와 연결 실패');
-    // }
+    String? errorMessage;
+    var signInData = await _googleSignInProvider.handleGoogleSignIn()
+      .catchError((error) {
+        if (error is String) {
+          errorMessage = error;
+        }
+        return null;
+      }
+    );
+    if (signInData != null) {
+      _httpProvider.setToken(signInData.token);
+      Get.offAllNamed(Routes.HOME);
+    } else {
+      Get.snackbar('로그인 실패', errorMessage ?? '서버와 연결 실패');
+    }
   }
 
   void onSubmitPressed() async {
@@ -76,7 +69,7 @@ class LoginController extends GetxController {
         });
         if (res != null) {
           // 토큰을 현재 HttpProvider 인스턴스에 저장.
-          _httProvider.setToken(res.token);
+          _httpProvider.setToken(res.token);
           // Home 화면으로 이동.
           Get.offAllNamed(Routes.HOME);
         }
