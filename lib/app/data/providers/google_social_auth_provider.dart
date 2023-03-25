@@ -54,7 +54,7 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
             return Future.error('Google Sign In Failed. User SignUp Info is null.');
           }
         }
-        return postGoogleSignIn(idToken, googleAccount.email, username ?? '', address ?? '');
+        return postGoogleSignIn(idToken, googleAccount.email, username ?? 'EMPTY', address ?? 'EMPTY');
       } else {
         return Future.error('Google Sign In Failed. Could not receive access token from google.');
       }
@@ -79,7 +79,7 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
       var response = await _httpProvider.httpPost(Constants.googleSignInUrl, {
         'email': email,
         'name': name,
-        'address': address,
+        'address': address
       });
 
       if (response.success) {
