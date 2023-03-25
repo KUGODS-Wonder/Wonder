@@ -20,6 +20,7 @@ class LoginController extends GetxController {
   final _googleSignInProvider = Get.find<GoogleSocialAuthProvider>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   @override
   void onInit() {
     super.onInit();
@@ -32,6 +33,8 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
     super.onClose();
   }
 

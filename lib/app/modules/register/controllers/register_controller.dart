@@ -20,6 +20,15 @@ class RegisterController extends GetxController with AddressControlMixin {
   final passwordConfirmTextController = TextEditingController();
   final isCheckBoxChecked = false.obs;
 
+  @override
+  void onClose() {
+    emailTextController.dispose();
+    nicknameTextController.dispose();
+    passwordTextController.dispose();
+    passwordConfirmTextController.dispose();
+    super.onClose();
+  }
+
   String? validateEmail(String? value) {
     if (value == null || value.length == 0) {
       return '이메일을 입력해주세요';

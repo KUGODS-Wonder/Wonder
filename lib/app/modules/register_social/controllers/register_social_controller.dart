@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/data/models/social_auth_required_fields_model.dart';
 import 'package:wonder_flutter/app/modules/register/controllers/address_control_mixin.dart';
 
 class RegisterSocialController extends GetxController with AddressControlMixin {
@@ -8,18 +9,26 @@ class RegisterSocialController extends GetxController with AddressControlMixin {
   final nicknameTextController = TextEditingController();
   final isCheckBoxChecked = false.obs;
 
+  late String email;
+
   @override
   void onInit() {
     super.onInit();
+    if (Get.arguments['email'] == null) {
+      throw Exception('email is null. Are you trying to navigate to this page from pages other than register page?');
+    }
+    email = Get.arguments['email'];
   }
 
   @override
   void onReady() {
     super.onReady();
+    nicknameTextController.text = Get.arguments['name'];
   }
 
   @override
   void onClose() {
+    nicknameTextController.dispose();
     super.onClose();
   }
 
@@ -30,8 +39,19 @@ class RegisterSocialController extends GetxController with AddressControlMixin {
     return null;
   }
 
-  Future<bool> onPop() {
+  Future<bool> onPop() async {
     Get.back();
-    return Future.value(false);
+    return false;
+  }
+
+  void submitRegister() {
+    if (formKey.currentState!.validate()) {
+      Get.back(result: SocialAuthRequiredFields(
+          email, nicknameTextController.text, selectedAddressItem.value));
+    }
+  }
+
+  void onSubmitPressed() {
+
   }
 }

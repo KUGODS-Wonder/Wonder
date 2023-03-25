@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/data/models/sign_in_data_model.dart';
+import 'package:wonder_flutter/app/data/models/social_auth_required_fields_model.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class GoogleSocialAuthProvider extends GetLifeCycle {
@@ -38,7 +39,7 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
             'name': googleAccount.displayName,
           });
 
-          if (userSignUpInfo is SocialAuthRequiredAdditionalFields) {
+          if (userSignUpInfo is SocialAuthRequiredFields) {
             username = userSignUpInfo.name;
             address = userSignUpInfo.address;
           } else {
@@ -95,7 +96,7 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
         'email': email,
       });
       if (response.success) {
-        return response.data['isRegistered'];
+        return response.data['registered'];
       } else {
         return false;
       }
@@ -108,12 +109,4 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
       return Future.error(errorMessage);
     }
   }
-}
-
-class SocialAuthRequiredAdditionalFields {
-  String email;
-  String name;
-  String address;
-
-  SocialAuthRequiredAdditionalFields(this.email, this.name, this.address);
 }
