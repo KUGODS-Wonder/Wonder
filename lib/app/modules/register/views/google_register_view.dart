@@ -92,19 +92,17 @@ class GoogleRegisterView extends GetView<RegisterController> {
                   SizedBox(
                     width: 15,
                   ),
-                  DropdownButton(
+                  DropdownButton<String>(
                       hint: Text('Address'),
                       onChanged: (newValue) {
-                        addressController.selected = newValue as String;
+                        addressController.selected.value = newValue as String;
                         addressController.update();
                       },
-                      value: addressController.selected,
+                      value: addressController.selected.value,
                       items: [
-                        for (var data in dropdownText)
+                        for (var data in addressController.listType)
                           DropdownMenuItem(
-                            child: new Text(
-                              data,
-                            ),
+                            child: Text(data),
                             value: data,
                           )
                       ]),
