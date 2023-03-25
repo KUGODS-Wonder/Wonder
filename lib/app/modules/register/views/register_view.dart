@@ -175,25 +175,25 @@ class RegisterView extends GetView<RegisterController> {
                   SizedBox(
                     width: 15,
                   ),
-                  DropdownButton(
+                  Obx(
+                    () => DropdownButton<String>(
                       hint: Text('Address'),
                       onChanged: (newValue) {
-                        addressController.selected = newValue as String;
-                        addressController.update();
+                        addressController.setSelected(newValue!);
                       },
-                      value: addressController.selected,
-                      items: [
-                        for (var data in dropdownText)
-                          DropdownMenuItem(
-                            child: new Text(
-                              data,
-                            ),
-                            value: data,
-                          )
-                      ]),
+                      value: addressController.selected.value,
+                      items: addressController.listType.map((selectedType) {
+                        return DropdownMenuItem(
+                          child: new Text(
+                            selectedType,
+                          ),
+                          value: selectedType,
+                        );
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
-
               const SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
