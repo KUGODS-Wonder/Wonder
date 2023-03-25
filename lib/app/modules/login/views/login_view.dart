@@ -80,51 +80,55 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          SizedBox(height: 10.0),
+                          Stack(
                             children: [
-                              SizedBox(
-                                width: 70,
-                              ),
-                              Text(
-                                'New user?',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              ButtonTheme(
-                                child: TextButton(
-                                  onPressed: controller.navigateToRegister,
-                                  child: Text(
-                                    'Sign Up',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 20,
+                              Align(
+                                alignment: Alignment.center,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'New user?',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                  ),
-                                  style: TextButton.styleFrom(
-                                      foregroundColor: Color(0xffFF5E5E)),
+                                    ButtonTheme(
+                                      child: TextButton(
+                                        onPressed: controller.navigateToRegister,
+                                        child: Text(
+                                          'Sign Up',
+                                          style: TextStyle(
+                                            decoration: TextDecoration.underline,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        style: TextButton.styleFrom(
+                                            foregroundColor: Color(0xffFF5E5E)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              ElevatedButton(
-                                onPressed: controller.onSubmitPressed,
-                                child: Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.white,
-                                  size: 38,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: ElevatedButton(
+                                  onPressed: controller.onSubmitPressed,
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: 38,
                                   ),
-                                  fixedSize: Size(38, 58),
-                                  backgroundColor: Colors.red[300],
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    fixedSize: Size(38, 58),
+                                    backgroundColor: Colors.red[300],
+                                  ),
                                 ),
-                              ),
+                              )
                             ],
                           ),
                           SizedBox(
