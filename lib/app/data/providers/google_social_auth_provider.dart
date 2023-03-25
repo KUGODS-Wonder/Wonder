@@ -28,14 +28,9 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
       // print(auth?.accessToken);
 
       if (accessToken != null && googleAccount != null) {
-
         // TODO: 추가로 ADDRESS를 받는 로직과, display name이 null 일때 이름도 받는 로직 필요.
-        postGoogleSignIn(
-          accessToken,
-          googleAccount.email,
-          googleAccount.displayName ?? 'NO NAME',
-          'address');
-
+        postGoogleSignIn(accessToken, googleAccount.email,
+            googleAccount.displayName ?? 'NO NAME', 'address');
       } else {
         return Future.error('Google Sign In Failed');
       }
@@ -57,7 +52,7 @@ class GoogleSocialAuthProvider extends GetLifeCycle {
     var response = await _httpProvider.httpPost(Constants.googleSignInUrl, {
       'email': email,
       'name': name,
-      'address' : address,
+      'address': address,
     });
 
     if (response.success) {

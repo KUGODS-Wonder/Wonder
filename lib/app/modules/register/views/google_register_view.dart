@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/modules/register/controllers/register_controller.dart';
 
-final RxInt selected = 0.obs;
+final addressController = Get.put(AddressController());
+final selected = "".obs;
+//final RxInt selected = 0.obs;
 
 class GoogleRegisterView extends GetView<RegisterController> {
   const GoogleRegisterView({Key? key}) : super(key: key);
@@ -76,25 +78,37 @@ class GoogleRegisterView extends GetView<RegisterController> {
                 ),
               ),
               const SizedBox(height: 25),
-              SizedBox(
-                width: 250,
-                child: TextFormField(
-                  key: controller.addressFormFieldKey,
-                  controller: controller.addressTextController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    isDense: true,
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 5.0, horizontal: 10.0),
-                    hintText: '  Address',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                          color: AppColors.middleGrey, width: 1.0),
-                    ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Address  ',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold),
                   ),
-                  validator: controller.validateAdress, //닉네임 인풋으로 바꿔야
-                ),
+                  Text('서울시'),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  DropdownButton(
+                      hint: Text('Address'),
+                      onChanged: (newValue) {
+                        addressController.selected = newValue as String;
+                        addressController.update();
+                      },
+                      value: addressController.selected,
+                      items: [
+                        for (var data in dropdownText)
+                          DropdownMenuItem(
+                            child: new Text(
+                              data,
+                            ),
+                            value: data,
+                          )
+                      ]),
+                ],
               ),
               const SizedBox(height: 25),
               Row(
