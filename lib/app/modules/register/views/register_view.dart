@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
-import 'package:wonder_flutter/app/modules/widgets/custom_dropdown_textfield.dart';
 import '../controllers/register_controller.dart';
 
-final addressController = Get.put(AddressController());
-final selected = "".obs;
 
 class RegisterView extends GetView<RegisterController> {
   const RegisterView({Key? key}) : super(key: key);
@@ -179,10 +176,10 @@ class RegisterView extends GetView<RegisterController> {
                     () => DropdownButton<String>(
                       hint: Text('Address'),
                       onChanged: (newValue) {
-                        addressController.setSelected(newValue!);
+                        controller.setSelected(newValue!);
                       },
-                      value: addressController.selected.value,
-                      items: addressController.listType.map((selectedType) {
+                      value: controller.selectedAddressItem.value,
+                      items: controller.listType.map((selectedType) {
                         return DropdownMenuItem(
                           child: new Text(
                             selectedType,
@@ -199,24 +196,20 @@ class RegisterView extends GetView<RegisterController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //체크박스
-                  Obx(
-                    () => SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CheckboxListTile(
-                        checkColor: Colors.white,
-                        activeColor: Colors.red[200],
-                        controlAffinity: ListTileControlAffinity.leading,
-                        checkboxShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                        value: controller.selected.value == 1,
-                        onChanged: (val) {
-                          val ?? true
-                              ? controller.selected.value = 1
-                              : controller.selected.value = 0;
-                        },
-                      ),
-                    ),
+                  Obx(() {
+                      return SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Checkbox(
+                          checkColor: Colors.white,
+                          activeColor: Colors.red[200],
+                          value: controller.isCheckBoxChecked.value,
+                          onChanged: (val) {
+                            controller.isCheckBoxChecked.value = val!;
+                          },
+                        ),
+                      );
+                    }
                   ),
                   SizedBox(
                     width: 20,
