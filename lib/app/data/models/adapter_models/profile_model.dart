@@ -48,7 +48,7 @@ class Profile {
       hoursWalked: data.totalWalkingTime ~/ 3600,
       totalDistanceWalked: (data.totalDistance * 1000).round(),
       leaderboardInfo: LeaderboardInfo(
-        location: 'Singapore',
+        location: data.address,
         month: 0,
         week: 0,
         myRank: data.myRanking,

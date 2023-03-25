@@ -3,10 +3,6 @@ import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/modules/register/controllers/register_controller.dart';
 
-final addressController = Get.put(AddressController());
-final selected = "".obs;
-//final RxInt selected = 0.obs;
-
 class GoogleRegisterView extends GetView<RegisterController> {
   const GoogleRegisterView({Key? key}) : super(key: key);
   @override
@@ -95,15 +91,15 @@ class GoogleRegisterView extends GetView<RegisterController> {
                   DropdownButton<String>(
                       hint: Text('Address'),
                       onChanged: (newValue) {
-                        addressController.selected.value = newValue as String;
-                        addressController.update();
+                        controller.selectedAddressItem.value = newValue as String;
+                        controller.update();
                       },
-                      value: addressController.selected.value,
+                      value: controller.selectedAddressItem.value,
                       items: [
-                        for (var data in addressController.listType)
+                        for (var data in controller.listType)
                           DropdownMenuItem(
-                            child: Text(data),
                             value: data,
+                            child: Text(data),
                           )
                       ]),
                 ],
@@ -113,31 +109,22 @@ class GoogleRegisterView extends GetView<RegisterController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //체크박스
-                  Obx(
-                    () => SizedBox(
-                      width: 20,
-                      //height: 20,
-                      child: CheckboxListTile(
-                        checkColor: Colors.white,
-                        activeColor: Colors.red[200],
-                        controlAffinity: ListTileControlAffinity.leading,
-                        checkboxShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5)),
-                        value: controller.selected.value == 1,
-                        onChanged: (val) {
-                          val ?? true
-                              ? controller.selected.value = 1
-                              : controller.selected.value = 0;
-                        },
-                      ),
-                    ),
-                  ),
                   SizedBox(
-                    width: 20,
+                  width: 20,
+                  height: 20,
+                  child: CheckboxListTile(
+                    checkColor: Colors.white,
+                    activeColor: Colors.red[200],
+                    controlAffinity: ListTileControlAffinity.leading,
+                    checkboxShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    value: controller.isCheckBoxChecked.value,
+                    onChanged: (val) {
+                      controller.isCheckBoxChecked.value = val!;
+                    }),
                   ),
-                  Text(
-                    'By checking this box, you agree',
-                    style: TextStyle(fontSize: 15),
+                  const SizedBox(width: 20),
+                  const Text('By checking this box, you agree', style: TextStyle(fontSize: 15),
                   ),
                 ],
               ),

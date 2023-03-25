@@ -1,39 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/modules/register/controllers/address_control_mixin.dart';
 import '../../../data/providers/sign_up_response_provider.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
-class RegisterController extends GetxController {
+class RegisterController extends GetxController with AddressControlMixin {
   final formKey = GlobalKey<FormState>();
   final emailFormFieldKey = GlobalKey<FormFieldState>();
   final nicknameFormFieldKey = GlobalKey<FormFieldState>();
   final passwordFormFieldKey = GlobalKey<FormFieldState>();
-  //final addressFormFieldKey = GlobalKey<FormFieldState>();
   final passwordConfirmFormFieldKey = GlobalKey<FormFieldState>();
-  final _addressController = Get.put(AddressController());
+  final checkBoxFormFieldKey = GlobalKey<FormFieldState>();
   final _signUpProvider = Get.find<SignUpResponseProvider>();
   final _httProvider = Get.find<HttpProvider>();
 
-  //final addressTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final nicknameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final passwordConfirmTextController = TextEditingController();
-  final count = 0.obs;
-  final RxInt selected = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
+  final isCheckBoxChecked = false.obs;
 
   @override
   void onClose() {
+    emailTextController.dispose();
+    nicknameTextController.dispose();
+    passwordTextController.dispose();
+    passwordConfirmTextController.dispose();
     super.onClose();
   }
 
@@ -87,7 +80,7 @@ class RegisterController extends GetxController {
                 emailTextController.text,
                 passwordTextController.text,
                 nicknameTextController.text,
-                _addressController.selected.value)
+                selectedAddressItem.value)
             .catchError((error) {
           if (error is String) {
             Get.snackbar('회원가입 실패', error);
@@ -105,67 +98,14 @@ class RegisterController extends GetxController {
     }
   }
 
-  void increment() => count.value++;
-}
+  String? validateCheckBox(bool? value) {
+    if (value == null || value == false) {
+      return '약관에 동의해주세요';
+    }
+    return null;
+  }
 
-// List dropdownText = [
-//   '강동구',
-//   '송파구',
-//   '강남구',
-//   '서초구',
-//   '관악구',
-//   '동작구',
-//   '금천구',
-//   '영등포구',
-//   '구로구',
-//   '양천구',
-//   '강서구',
-//   '은평구',
-//   '마포구',
-//   '서대문구',
-//   '종로구',
-//   '용산구',
-//   '중구',
-//   '성동구',
-//   '동대문구',
-//   '성북구',
-//   '강북구',
-//   '도봉구',
-//   '노원구',
-//   '중랑구',
-//   '광진구'
-// ];
-
-class AddressController extends GetxController {
-  final selected = "강동구".obs;
-  final listType = [
-    '강동구',
-    '송파구',
-    '강남구',
-    '서초구',
-    '관악구',
-    '동작구',
-    '금천구',
-    '영등포구',
-    '구로구',
-    '양천구',
-    '강서구',
-    '은평구',
-    '마포구',
-    '서대문구',
-    '종로구',
-    '용산구',
-    '중구',
-    '성동구',
-    '동대문구',
-    '성북구',
-    '강북구',
-    '도봉구',
-    '노원구',
-    '중랑구',
-    '광진구'
-  ];
-  void setSelected(String value) {
-    selected.value = value;
+  void onTapTermsAndService() {
+    // printInfo(info: 'TermsAndService tapped');
   }
 }

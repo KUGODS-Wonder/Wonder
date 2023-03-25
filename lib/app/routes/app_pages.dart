@@ -12,6 +12,8 @@ import '../modules/map_detail/bindings/map_detail_binding.dart';
 import '../modules/map_detail/views/map_detail_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/register_social/bindings/register_social_binding.dart';
+import '../modules/register_social/views/register_social_view.dart';
 import '../modules/reservation_list/bindings/reservation_list_binding.dart';
 import '../modules/reservation_list/views/reservation_list_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
@@ -72,6 +74,11 @@ abstract class AppPages {
       name: _Paths.WALK_TRACK,
       page: () => const WalkTrackView(),
       binding: WalkTrackBinding(),
+    ),
+    GetPage(
+      name: _Paths.REGISTER_SOCIAL,
+      page: () => const RegisterSocialView(),
+      binding: RegisterSocialBinding(),
     ),
   ];
 }
