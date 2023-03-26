@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -107,9 +106,7 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
       if (chosenItem != null) {
         await Future.delayed(const Duration(milliseconds: 500));
 
-        Random random = Random();
-        var x = random.nextBool();
-        if (x) {
+        if (true) {
           Get.snackbar(Strings.reservationSuccessTitle, Strings.reservationSuccessMessage);
           Get.offNamed(Routes.RESERVATION_LIST);
         } else {

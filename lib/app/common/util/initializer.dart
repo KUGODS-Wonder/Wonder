@@ -7,6 +7,7 @@ import 'package:wonder_flutter/app/data/api_helper_impl.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/data/http_provider_dio_impl.dart';
 import 'package:wonder_flutter/app/data/interface_controller/api_interface_controller.dart';
+import 'package:wonder_flutter/app/data/providers/bookmark_provider.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/widgets/custom_error_widget.dart';
 import 'package:get/get.dart';
@@ -65,6 +66,7 @@ class InitialBindings extends Bindings {
 
     Get.put<HttpProvider>(HttpProviderDioImpl());
     Get.put<WalkProvider>(WalkProvider());
+    Get.put<BookmarkProvider>(BookmarkProvider());
 
     Get.lazyPut<ApiInterfaceController>(
       () => ApiInterfaceController(),
