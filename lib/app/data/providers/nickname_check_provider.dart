@@ -10,10 +10,9 @@ class NicknameCheckProvider extends GetLifeCycle {
     super.onInit();
   }
 
-  Future<NicknameCheckData?> postNickNameCheckResponse(String name) async {
-    var response = await httpProvider.httpPost(Constants.nicknameCheckUrl, {
-      'name': name,
-    });
+  Future<NicknameCheckData?> getNickNameCheckResponse(String name) async {
+    var response = await httpProvider
+        .httpGet(Constants.nicknameCheckUrl, queryParameters: {'name': name});
 
     if (response.success) {
       try {

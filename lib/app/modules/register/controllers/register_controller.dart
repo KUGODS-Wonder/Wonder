@@ -76,7 +76,7 @@ class RegisterController extends GetxController {
     if (nicknameFormFieldKey.currentState!.validate()) {
       try {
         var res = await _nicknameCheckProvider
-            .postNickNameCheckResponse(nicknameTextController.text)
+            .getNickNameCheckResponse(nicknameTextController.text)
             .catchError((error) {
           if (error is String) {
             Get.snackbar('닉네임 중복 확인 실패', error);
@@ -87,6 +87,8 @@ class RegisterController extends GetxController {
         if (res != null) {
           if (res.duplicated) {
             Get.snackbar('닉네임 중복', '다른 닉네임을 입력해주세요');
+          } else {
+            Get.snackbar('닉네임 사용 가능', res.inputName); //수정
           }
         }
       } on Exception catch (_) {

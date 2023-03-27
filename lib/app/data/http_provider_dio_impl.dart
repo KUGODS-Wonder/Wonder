@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as getx;
 import 'package:wonder_flutter/app/common/constants.dart';
@@ -25,23 +27,17 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
   }
 
   @override
-  Future<HttpResponse> httpGet(String path, Map<String, dynamic> queryParameters) async {
-
+  Future<HttpResponse> httpGet(String path,
+      {Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? body}) async {
     try {
-      var res = await dio.get(path, queryParameters: queryParameters);
-      return res.data as HttpResponse;
+      var res =
+          await dio.get(path, queryParameters: queryParameters, data: body);
+      return HttpResponse.fromJson(res.data);
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        return e.response!.data;
-      } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        throw ApiError(
-          type: ErrorType.noConnection,
-          error: e.message,
-        );
-      }
+      throw _handleError(e);
     }
   }
 
@@ -51,17 +47,20 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
       var res = await dio.post(path, data: body);
       return HttpResponse.fromJson(res.data);
     } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        return HttpResponse.fromJson(e.response!.data);
-      } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        throw ApiError(
-          type: ErrorType.noConnection,
-          error: e.message,
-        );
-      }
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<HttpResponse> httpDelete(String path,
+      {Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? body}) async {
+    try {
+      var res =
+          await dio.delete(path, data: body, queryParameters: queryParameters);
+      return HttpResponse.fromJson(res.data);
+    } on DioError catch (e) {
+      throw _handleError(e);
     }
   }
 
@@ -78,5 +77,45 @@ class HttpProviderDioImpl extends getx.GetLifeCycle with HttpProvider {
   @override
   void removeHeader(String key) {
     dio.options.headers.remove(key);
+  }
+
+  ApiError _handleError(DioError e) {
+    if (e.response != null) {
+      switch (e.response!.statusCode) {
+        case 401:
+          return const ApiError(
+            type: ErrorType.unauthorize,
+            error: 'Invalid authentication.',
+          );
+        case 404:
+          Map<String, dynamic> data = e.response!.data;
+
+          if (data['path'] != null) {
+            return ApiError(
+              type: ErrorType.response,
+              error: '${data['error']} ${data['path']}',
+            );
+          }
+
+          return ApiError(
+            type: ErrorType.response,
+            error: e.response!.data,
+          );
+        default:
+          return ApiError(
+            type: ErrorType.response,
+            error: e.response!.data,
+          );
+      }
+    } else {
+      String? message = e.message;
+      if (e.error is SocketException) {
+        message = (e.error as SocketException).message;
+      }
+      return ApiError(
+        type: ErrorType.noConnection,
+        error: message,
+      );
+    }
   }
 }
