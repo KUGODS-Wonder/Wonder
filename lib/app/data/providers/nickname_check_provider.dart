@@ -11,8 +11,8 @@ class NicknameCheckProvider extends GetLifeCycle {
   }
 
   Future<NicknameCheckData?> getNickNameCheckResponse(String name) async {
-    var response = await httpProvider
-        .httpGet('${Constants.nicknameCheckUrl}/name');
+    var response =
+        await httpProvider.httpGet('${Constants.nicknameCheckUrl}/${name}');
 
     if (response.success) {
       try {

@@ -17,8 +17,7 @@ class RegisterController extends GetxController {
   final _signUpProvider = Get.find<SignUpResponseProvider>();
   final _httProvider = Get.find<HttpProvider>();
   final emailTextController = TextEditingController();
-  final nicknameTextController
-  = TextEditingController();
+  final nicknameTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final passwordConfirmTextController = TextEditingController();
   final count = 0.obs;
@@ -89,7 +88,7 @@ class RegisterController extends GetxController {
           if (res.duplicated) {
             Get.snackbar('닉네임 중복', '다른 닉네임을 입력해주세요');
           } else {
-            Get.snackbar('닉네임 사용 가능', res.inputName); //수정
+            Get.snackbar('닉네임 사용 가능', '이 닉네임은 사용가능합니다'); //수정
           }
         }
       } on Exception catch (_) {
