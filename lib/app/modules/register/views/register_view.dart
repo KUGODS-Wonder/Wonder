@@ -78,7 +78,7 @@ class RegisterView extends GetView<RegisterController> {
                       width: 60,
                       height: 30,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: controller.onCheckPressed,
                         child: Text(
                           'check',
                           style: TextStyle(

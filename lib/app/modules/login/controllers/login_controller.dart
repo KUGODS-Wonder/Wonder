@@ -79,6 +79,25 @@ class LoginController extends GetxController {
     }
   }
 
+  String? validateEmail(String? value) {
+    if (value == null || value.length == 0) {
+      return '이메일을 입력해주세요';
+    }
+    if (!GetUtils.isEmail(value)) {
+      return '올바른 이메일 주소를 입력해주세요';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? value) {
+    if (value == null || value.length == 0) {
+      return '비밀번호를 입력해주세요';
+    } else if (value.length < 8 || value.length > 20) {
+      return '비밀번호는 8자리에서 20자리로 작성해주세요';
+    }
+    return null;
+  }
+
   void navigateToRegister() {
     Get.toNamed(Routes.REGISTER);
   }

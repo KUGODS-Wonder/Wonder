@@ -38,47 +38,47 @@ class LoginView extends GetView<LoginController> {
                             ),
                           ),
                           SizedBox(height: 20),
-                          Center(
-                            child: Container(
-                              width: 350,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                  ),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: TextField(
-                                controller: controller.emailController,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: '  Email'), //박스모양
-                                keyboardType: TextInputType.emailAddress,
-                              ),
+                          SizedBox(
+                            width: 250,
+                            child: TextFormField(
+                              key: controller.emailFormFieldKey,
+                              controller: controller.emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 5.0, horizontal: 10.0),
+                                hintText: '  Email',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide: const BorderSide(
+                                      color: AppColors.middleGrey, width: 1.0),
+                                ),
+                              ), //박스모양
+                              validator: controller.validateEmail,
                             ),
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          Center(
-                            child: Container(
-                              height: 50,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: TextField(
+                          SizedBox(
+                            width: 250,
+                            child: TextFormField(
+                                key: controller.passwordFormFieldKey,
                                 controller: controller.passwordController,
                                 decoration: InputDecoration(
-                                  hintText: '  Password',
-                                  border: InputBorder.none,
-                                ),
+                                    isDense: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 10.0),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15.0),
+                                      borderSide: const BorderSide(
+                                          color: AppColors.middleGrey, width: 1.0),
+                                    ),
+                                    hintText: '  Password'),
                                 keyboardType: TextInputType.text,
                                 obscureText: true,
-                              ),
-                            ),
+                                validator: controller.validatePassword),
                           ),
                           SizedBox(height: 10.0),
                           Stack(
@@ -138,73 +138,79 @@ class LoginView extends GetView<LoginController> {
                       ),
                     )),
               ),
-              Container(
-                height: 25,
-                decoration: BoxDecoration(
-                  color: Color(0xffCCCCCC),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+              SizedBox(
+                child: Container(
+                  height: 25,
+                  decoration: BoxDecoration(
+                    color: Color(0xffCCCCCC),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    ),
                   ),
                 ),
               ),
-              Container(
-                width: double.infinity,
-                color: Color(0xffCCCCCC),
-                child: Column(
-                  children: [
-                    Text(
-                      'OR',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      width: 250,
-                      height: 40,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          controller.onGooglePressed();
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/google_logo.jpg'),
+              SizedBox(
+                child: Container(
+                  width: double.infinity,
+                  color: Color(0xffCCCCCC),
+                  child: Column(
+                    children: [
+                      Text(
+                        'OR',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        width: 250,
+                        height: 40,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            controller.onGooglePressed();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/google_logo.jpg'),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Text(
-                              '  Sign in with google',
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 17),
-                            ),
-                          ],
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                              Text(
+                                '  Sign in with google',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 17),
+                              ),
+                            ],
                           ),
-                          backgroundColor: Colors.white,
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                width: double.infinity,
-                height: 167,
-                color: Color(0xffCCCCCC),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
+              SizedBox(
+                child: Container(
+                  width: double.infinity,
+                  height: 167,
+                  color: Color(0xffCCCCCC),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                  ),
                 ),
               )
             ],
