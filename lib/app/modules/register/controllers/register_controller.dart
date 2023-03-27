@@ -17,7 +17,8 @@ class RegisterController extends GetxController {
   final _signUpProvider = Get.find<SignUpResponseProvider>();
   final _httProvider = Get.find<HttpProvider>();
   final emailTextController = TextEditingController();
-  final nicknameTextController = TextEditingController();
+  final nicknameTextController
+  = TextEditingController();
   final passwordTextController = TextEditingController();
   final passwordConfirmTextController = TextEditingController();
   final count = 0.obs;
