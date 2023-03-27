@@ -78,7 +78,7 @@ class LocationPermissionGuard {
     var status = await Permission.locationAlways.status;
 
     if (status == PermissionStatus.permanentlyDenied && GetPlatform.isIOS) {
-      await openAppSettings();
+      // await openAppSettings();
       if (await Permission.locationAlways.status != PermissionStatus.granted) {
         Get.dialog(iOSPermanentlyDeniedDialog);
         return true;
