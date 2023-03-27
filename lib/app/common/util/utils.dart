@@ -461,33 +461,40 @@ abstract class Utils {
   }
 
   static convertHoursToString(int hours) {
-    var date = DateTime.fromMillisecondsSinceEpoch(hours * 3600000);
-    var items = [
-      {'text': 'year', 'value': date.year - 1970},
-      {'text': 'month', 'value': date.month - 1},
-      {'text': 'day', 'value': date.day - 1},
-      {'text': 'hr', 'value': date.hour},
-    ];
-    var str = '';
-    for (var item in items) {
-      if (item['value'] != 0) {
-        str += '${item['value']} ${item['text']}';
-        if (item['value'] as int > 1) {
-          str += 's ';
-        } else {
-          str += ' ';
-        }
-      }
-    }
+    // var date = DateTime.fromMillisecondsSinceEpoch(hours * 3600000);
+    //
+    // bool hourOverflowFlag = false;
+    // if (date.hour < 9) {
+    //   hourOverflowFlag = true;
+    // }
+    // var items = [
+    //   {'text': 'year', 'value': date.year - 1970},
+    //   {'text': 'month', 'value': date.month - 1},
+    //   {'text': 'day', 'value': date.day },
+    //   {'text': 'hr', 'value': date.hour },
+    // ];
+    // var str = '';
+    // for (var item in items) {
+    //   if (item['value'] != 0) {
+    //     str += '${item['value']} ${item['text']}';
+    //     if (item['value'] as int > 1) {
+    //       str += 's ';
+    //     } else {
+    //       str += ' ';
+    //     }
+    //   }
+    // }
+    //
+    // if (str.isEmpty) {
+    //   str = '0 hr';
+    // }
+    //
+    // return str;
 
-    if (str.isEmpty) {
-      str = '0 hr';
-    }
-
-    return str;
+    return '$hours hr${hours > 0 ? 's' : ''}';
   }
 
-  static convertDistanceToKm(int meters) {
+  static String convertDistanceToKm(int meters) {
     var km = meters ~/ 1000;
     var metersLeft = meters % 1000;
     String str;

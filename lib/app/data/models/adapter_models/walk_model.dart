@@ -9,7 +9,6 @@ class Walk {
   String theme;
   List<Tag> tags;
   int ratingUp;
-  int requiredWalksLeft;
   int distance;
   int time;
   List<Coordinate> coordinate;
@@ -21,7 +20,6 @@ class Walk {
     required this.theme,
     required this.tags,
     required this.ratingUp,
-    required this.requiredWalksLeft,
     required this.distance,
     required this.time,
     required this.coordinate});
@@ -34,7 +32,6 @@ class Walk {
       theme: json['theme'],
       tags: (json['tags'] as List).map((i) => Tag.fromJson(i)).toList(),
       ratingUp: json['ratingUp'],
-      requiredWalksLeft: json['requiredWalksLeft'],
       distance: json['distance'],
       time: json['time'],
       coordinate: (json['coordinate'] as List)
@@ -56,9 +53,8 @@ class Walk {
       theme: data.theme,
       tags: data.tagList,
       ratingUp: data.point,
-      requiredWalksLeft: 0,
       distance: (data.pathDistance * 1000).round(),
-      time: data.requiredTime ~/ 60,
+      time: data.requiredTime ~/ 3600,
       coordinate: coordinates,
     );
   }

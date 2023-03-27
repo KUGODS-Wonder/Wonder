@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
+import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
 import 'package:wonder_flutter/app/data/errors/api_error.dart';
 import 'package:wonder_flutter/app/data/http_provider.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/voluntary_walk_model.dart';
@@ -7,22 +8,47 @@ import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/models/voluntary_walk_data_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 
-class VoluntaryWalkProvider extends GetConnect {
+class VoluntaryWalkProvider extends GetLifeCycle {
 
+  static const Map<String, WalkType> themeToWalkTypeMap = {
+    '도시락 배달 봉사': WalkType.elderlyDeliverWalk,
+    '유기견 산책': WalkType.dogWalk,
+  };
   static VoluntaryWalkProvider get to => Get.find();
 
   final HttpProvider _httpProvider = Get.find<HttpProvider>();
   final WalkProvider _walkProvider = Get.find<WalkProvider>();
-  bool _hasPendingRequest = false;
-  bool _hasPendingDeleteRequest = false;
+  Future<List<VoluntaryWalk>>? pendingRequest;
+  bool _hasPendingPostRequest = false;
 
   @override
   void onInit() {
   }
 
-  Future<List<VoluntaryWalk>?> getVoluntaryWalks() async {
-    if (_hasPendingRequest) return null;
-    _hasPendingRequest = true;
+
+  Future<Map<WalkType, List<VoluntaryWalk>>> getVoluntaryWalksClassifiedByType() async {
+    var voluntaryWalks = await getVoluntaryWalks().catchError(((error) {
+      return <VoluntaryWalk>[];
+    }));
+    Map<WalkType, List<VoluntaryWalk>> voluntaryWalksByType = {};
+    for (String theme in themeToWalkTypeMap.keys) {
+      voluntaryWalksByType[themeToWalkTypeMap[theme]!] = <VoluntaryWalk>[];
+    }
+
+    for (VoluntaryWalk walk in voluntaryWalks) {
+      var type = themeToWalkTypeMap[walk.theme] ?? WalkType.unknown;
+      if (!voluntaryWalksByType.containsKey(type)) {
+        voluntaryWalksByType[type] = <VoluntaryWalk>[];
+      }
+      voluntaryWalksByType[type]?.add(walk);
+    }
+
+    return voluntaryWalksByType;
+  }
+
+  Future<List<VoluntaryWalk>> getVoluntaryWalks() async {
+    // if (_hasPendingRequest) return Future.error('Request is already in progress.');
+    // _hasPendingRequest = true;
     String? errorMessage;
 
     try {
@@ -31,7 +57,7 @@ class VoluntaryWalkProvider extends GetConnect {
         var voluntaryDataList = response.data.map<VoluntaryWalkData>((json) => VoluntaryWalkData.fromJson(json)).toList();
         var bookmarkList = await _parseVoluntaryData(voluntaryDataList);
 
-        _hasPendingRequest = false;
+        // _hasPendingRequest = false;
         return bookmarkList;
       } else {
         errorMessage = response.message.isNotEmpty ? response.message : null;
@@ -42,20 +68,20 @@ class VoluntaryWalkProvider extends GetConnect {
       errorMessage = 'Unknown Error.';
     }
 
-    _hasPendingRequest = false;
+    // _hasPendingRequest = false;
     return Future.error(errorMessage ?? 'Unknown Error.');
   }
 
-  Future<bool> deleteVoluntaryReservation({required int voluntaryWorkId}) async {
+  Future<int?> requestReservation({required int voluntaryWorkId}) async {
     String? errorMessage;
-    if (_hasPendingDeleteRequest) return false;
-    _hasPendingDeleteRequest = true;
+    if (_hasPendingPostRequest) return null;
+    _hasPendingPostRequest = true;
 
     try {
-      var response = await _httpProvider.httpDelete('${Constants.reservationDeleteUrl}/$voluntaryWorkId');
+      var response = await _httpProvider.httpPost('${Constants.reservationUrl}/$voluntaryWorkId', {});
       if (response.success) {
-        _hasPendingDeleteRequest = false;
-        return true;
+        _hasPendingPostRequest = false;
+        return response.data['reservationId'];
       } else {
         errorMessage = response.message.isNotEmpty ? response.message : null;
       }
@@ -65,7 +91,7 @@ class VoluntaryWalkProvider extends GetConnect {
       errorMessage = 'Unknown Error.';
     }
 
-    _hasPendingDeleteRequest = false;
+    _hasPendingPostRequest = false;
     return Future.error(errorMessage ?? 'Unknown Error.');
   }
 

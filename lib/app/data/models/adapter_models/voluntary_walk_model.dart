@@ -4,20 +4,30 @@ import 'package:wonder_flutter/app/data/models/tag_model.dart';
 import 'package:wonder_flutter/app/data/models/voluntary_walk_data_model.dart';
 
 class VoluntaryWalk extends Walk {
+  final int voluntaryWorkId;
+  final DateTime startDate;
+  final String startTime;
+  final String endTime;
+  final String specificAddress;
+  final String institution;
+
   VoluntaryWalk({
     required int id,
-    required int voluntaryWorkId,
+    required this.voluntaryWorkId,
     required String name,
     required String location,
     required String theme,
-    required String institution,
-    required String specificAddress,
+    required this.institution,
+    required this.specificAddress,
     required List<Tag> tags,
     required int ratingUp,
-    required int requiredWalksLeft,
     required int distance,
     required int time,
-    required List<Coordinate> coordinate})
+    required List<Coordinate> coordinate,
+    required this.startDate,
+    required this.startTime,
+    required this.endTime,
+  })
       : super(
       id: id,
       name: name,
@@ -25,7 +35,6 @@ class VoluntaryWalk extends Walk {
       theme: theme,
       tags: tags,
       ratingUp: ratingUp,
-      requiredWalksLeft: requiredWalksLeft,
       distance: distance,
       time: time,
       coordinate: coordinate
@@ -40,9 +49,11 @@ class VoluntaryWalk extends Walk {
         theme: data.specialTheme,
         institution: data.institution,
         specificAddress: data.specificAddress,
+        startDate: DateTime.tryParse(data.startDate)!,
+        startTime: data.startTime,
+        endTime: data.endTime,
         tags: walk.tags,
         ratingUp: walk.ratingUp,
-        requiredWalksLeft: walk.requiredWalksLeft,
         distance: walk.distance,
         time: walk.time,
         coordinate: walk.coordinate

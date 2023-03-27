@@ -124,7 +124,7 @@ class EventView extends GetView<EventController> {
                         children: controller.eventTabs.map(
                                 (eventTab) {
                               return ApiFetchFutureBuilder<List<Walk>>(
-                                  future: controller.fetchWalksByEventWalkType(eventTab.walkType),
+                                  future: controller.getWalksByType(eventTab.walkType),
                                   builder: (context, data) {
                                     return Column(
                                       children: [

@@ -14,7 +14,7 @@ abstract class AppWalkThemeStyle {
       color: AppColors.foodTourColor,
       iconPath: 'assets/images/walk_theme_food_tour.png',
     ),
-    '도시락 전달': const WalkThemeStyleModel(
+    '도시락 배달 봉사': const WalkThemeStyleModel(
       color: AppColors.kPrimary80,
       iconPath: 'assets/images/elderly_icon.png',
       eventCardPath: 'assets/images/event_cards/help_elderly_event_card.jpg',

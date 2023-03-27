@@ -2,5 +2,5 @@
 enum WalkType {
   walk,
   elderlyDeliverWalk,
-  dogWalk,
+  dogWalk, unknown,
 }

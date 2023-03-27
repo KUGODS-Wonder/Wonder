@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
+import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/walk_tag.dart';
 
 
@@ -12,6 +14,7 @@ class SmallWalkContainer extends StatelessWidget {
   final Walk walk;
   final Function() onStartButtonPressed;
   final Function() onSaveButtonPressed;
+  final Future<int> requiredWalkLeft;
   final WalkThemeStyleModel themeStyle;
   final bool isDetailMode;
   final bool isEvent;
@@ -21,6 +24,7 @@ class SmallWalkContainer extends StatelessWidget {
   SmallWalkContainer({
     Key? key,
     required this.walk,
+    required this.requiredWalkLeft,
     required this.onStartButtonPressed,
     required this.onSaveButtonPressed,
     this.isDetailMode = false,
@@ -150,11 +154,16 @@ class SmallWalkContainer extends StatelessWidget {
                                 left: isDetailMode ? 90.0 : 41.0,
                                 top: isDetailMode ? 12.0 : 50.0,
                                 duration: _animateDuration,
-                                child: Text(
-                                  '${walk.requiredWalksLeft}',
-                                  style: AppTextStyle.walkIconItemStyle.copyWith(
-                                    color: AppColors.reward100,
-                                  ),
+                                child: ApiFetchFutureBuilder<int>(
+                                  future: requiredWalkLeft,
+                                  builder: (context, requiredWalksLeft) {
+                                    return Text(
+                                      '${requiredWalksLeft ?? '?'}',
+                                      style: AppTextStyle.walkIconItemStyle.copyWith(
+                                        color: AppColors.reward100,
+                                      ),
+                                    );
+                                  }
                                 ),
                               ),
                             ],
@@ -167,9 +176,14 @@ class SmallWalkContainer extends StatelessWidget {
                         child: AnimatedOpacity(
                           opacity: isDetailMode ? 1.0 : 0.0,
                           duration: _animateDuration,
-                          child: Text(
-                            '이 산책로를 앞으로 총 ${walk.requiredWalksLeft}번 걸으면 랭크 업!',
-                            style: AppTextStyle.rewardDescription,
+                          child: ApiFetchFutureBuilder(
+                            future: requiredWalkLeft,
+                            builder: (context, requiredWalksLeft) {
+                              return Text(
+                                '이 산책로를 앞으로 총 ${requiredWalksLeft ?? '?'}번 걸으면 랭크 업!',
+                                style: AppTextStyle.rewardDescription,
+                              );
+                            }
                           ),
                         ),
                       ),
@@ -177,7 +191,8 @@ class SmallWalkContainer extends StatelessWidget {
                         eventMedalImagePath ?? 'assets/images/medals/medal.png',
                         isDetailMode: isDetailMode,
                         left: 160.0,
-                        detailLeft: 0.0,
+                        // detailLeft: 0.0,
+                        detailLeft: 50.0,
                         top: 0.0,
                         detailTop: 140.0,
                         isOnlyIcon: true,
@@ -186,7 +201,8 @@ class SmallWalkContainer extends StatelessWidget {
                       ) : const SizedBox.shrink(),
                       isEvent ? Positioned(
                         top: 147.0,
-                        left: 88.0,
+                        // left: 88.0,
+                        left: 140.0,
                         right: 0.0,
                         child: AnimatedOpacity(
                           opacity: isDetailMode ? 1.0 : 0.0,
@@ -255,7 +271,7 @@ class SmallWalkContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${walk.distance} m',
+                  Utils.convertDistanceToKm(walk.distance),
                   style: AppTextStyle.walkDescription,
                 ),
                 Text(
