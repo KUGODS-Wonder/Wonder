@@ -85,7 +85,10 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
   }
 
   void onStartButtonPressed() async {
-    if (isEvent && !_hasPendingRequest) {
+    if (isEvent) {
+      if (_hasPendingRequest) {
+        return;
+      }
       _hasPendingRequest = true;
       _cancelableOperation = CancelableOperation.fromFuture(_onEventButtonPressed());
       await _cancelableOperation!.valueOrCancellation(null);

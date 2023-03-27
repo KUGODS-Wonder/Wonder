@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -13,131 +14,125 @@ class LoginView extends GetView<LoginController> {
           key: controller.formKey,
           child: Column(
             children: [
-              Padding(padding: EdgeInsets.only(top: 50)),
-              Form(
-                child: Theme(
-                    data: ThemeData(
-                        primaryColor: Colors.grey,
-                        inputDecorationTheme: InputDecorationTheme(
-                            labelStyle:
-                                TextStyle(color: Colors.grey, fontSize: 20.0))),
-                    child: Container(
-                      padding: EdgeInsets.all(40.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 250.0,
-                          ),
-                          Center(
-                            child: Text(
-                              'LOGIN',
-                              style: TextStyle(
-                                color: Color(0xffFF5E5E),
-                                fontSize: 32.0,
-                              ),
+              const Padding(padding: EdgeInsets.only(top: 50)),
+              Theme(
+                  data: ThemeData(
+                      primaryColor: Colors.grey,
+                      inputDecorationTheme: const InputDecorationTheme(
+                          labelStyle:
+                              TextStyle(color: Colors.grey, fontSize: 20.0))),
+                  child: Container(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 250.0),
+                        const Center(
+                          child: Text(
+                            'LOGIN',
+                            style: TextStyle(
+                              color: Color(0xffFF5E5E),
+                              fontSize: 32.0,
                             ),
                           ),
-                          SizedBox(height: 20),
-                          SizedBox(
-                            width: 250,
-                            child: TextFormField(
-                              key: controller.emailFormFieldKey,
-                              controller: controller.emailController,
-                              keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: 250,
+                          child: TextFormField(
+                            key: controller.emailFormFieldKey,
+                            controller: controller.emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 10.0),
+                              hintText: '  Email',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide: const BorderSide(
+                                    color: AppColors.middleGrey, width: 1.0),
+                              ),
+                            ), //박스모양
+                            validator: controller.validateEmail,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: 250,
+                          child: TextFormField(
+                              key: controller.passwordFormFieldKey,
+                              controller: controller.passwordController,
                               decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 5.0, horizontal: 10.0),
-                                hintText: '  Email',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide: const BorderSide(
-                                      color: AppColors.middleGrey, width: 1.0),
-                                ),
-                              ), //박스모양
-                              validator: controller.validateEmail,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: TextFormField(
-                                key: controller.passwordFormFieldKey,
-                                controller: controller.passwordController,
-                                decoration: InputDecoration(
-                                    isDense: true,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 5.0, horizontal: 10.0),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                      borderSide: const BorderSide(
-                                          color: AppColors.middleGrey, width: 1.0),
+                                  isDense: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 5.0, horizontal: 10.0),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    borderSide: const BorderSide(
+                                        color: AppColors.middleGrey, width: 1.0),
+                                  ),
+                                  hintText: '  Password'),
+                              keyboardType: TextInputType.text,
+                              obscureText: true,
+                              validator: controller.validatePassword),
+                        ),
+                        SizedBox(height: 10.0),
+                        Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'New user?',
+                                    style: TextStyle(
+                                      fontSize: 18,
                                     ),
-                                    hintText: '  Password'),
-                                keyboardType: TextInputType.text,
-                                obscureText: true,
-                                validator: controller.validatePassword),
-                          ),
-                          SizedBox(height: 10.0),
-                          Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'New user?',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    ButtonTheme(
-                                      child: TextButton(
-                                        onPressed: controller.navigateToRegister,
-                                        child: Text(
-                                          'Sign Up',
-                                          style: TextStyle(
-                                            decoration: TextDecoration.underline,
-                                            fontSize: 18,
-                                          ),
+                                  ),
+                                  ButtonTheme(
+                                    child: TextButton(
+                                      onPressed: controller.navigateToRegister,
+                                      child: Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 18,
                                         ),
-                                        style: TextButton.styleFrom(
-                                            foregroundColor: Color(0xffFF5E5E)),
                                       ),
+                                      style: TextButton.styleFrom(
+                                          foregroundColor: Color(0xffFF5E5E)),
                                     ),
-                                  ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: ElevatedButton(
+                                onPressed: controller.onSubmitPressed,
+                                child: Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                  size: 38,
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  fixedSize: Size(38, 58),
+                                  backgroundColor: Colors.red[300],
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: ElevatedButton(
-                                  onPressed: controller.onSubmitPressed,
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
-                                    size: 38,
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    fixedSize: Size(38, 58),
-                                    backgroundColor: Colors.red[300],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 80,
-                          ),
-                        ],
-                      ),
-                    )),
-              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 80,
+                        ),
+                      ],
+                    ),
+                  )),
               SizedBox(
                 child: Container(
                   height: 25,
