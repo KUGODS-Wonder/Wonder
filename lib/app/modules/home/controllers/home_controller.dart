@@ -3,13 +3,14 @@ import 'package:wonder_flutter/app/common/storage/storage.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/profile_model.dart';
-import 'package:wonder_flutter/app/data/providers/profile_provider.dart';
+import 'package:wonder_flutter/app/data/providers/state_providers/profile_state_provider.dart';
+
 
 class HomeController extends GetxController with GetSingleTickerProviderStateMixin{
 
   static const Duration _circularAnimationDuration = Duration(milliseconds: 1500);
 
-  final ProfileProvider _profileProvider = ProfileProvider.to;
+  final ProfileStateProvider _profileProvider = ProfileStateProvider.to;
 
   late Future<bool> initFuture;
 
@@ -60,7 +61,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   Future<bool> fetchProfile() async {
 
     try {
-      var profileFuture = _profileProvider.getProfile();
+      var profileFuture = _profileProvider.refreshProfile();
 
       profile = await profileFuture;
       leaderboard = profile.leaderboardInfo;

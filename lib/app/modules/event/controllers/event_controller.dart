@@ -1,27 +1,26 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/values/app_colors.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
 import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/voluntary_walk_model.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
-import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
+import 'package:wonder_flutter/app/data/providers/voluntary_walk_provider.dart';
 import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class EventController extends GetxController with GetTickerProviderStateMixin {
 
-  static const specialEventsThemeKeys = [
-    '도시락 전달',
-    '유기견 산책'
-  ];
+  final VoluntaryWalkProvider _voluntaryWalkProvider = VoluntaryWalkProvider.to;
+
   static const specialEventsThemeColors = [
     AppColors.elderCardThemeColor,
     AppColors.reward80,
   ];
 
-  final WalkProvider _walkProvider = WalkProvider.to;
   late final TabController tabController;
 
-  final List<WalkThemeStyleModel> eventTabs = specialEventsThemeKeys.map((theme) {
+  final List<WalkThemeStyleModel> eventTabs = VoluntaryWalkProvider.themeToWalkTypeMap.keys.map((theme) {
     return AppWalkThemeStyle.getStyle(theme);
   }).toList();
   final _colorTween = TweenSequence(
@@ -36,6 +35,7 @@ class EventController extends GetxController with GetTickerProviderStateMixin {
   );
 
   int tabIndex = 0;
+  CancelableOperation<Map<WalkType, List<VoluntaryWalk>>>? _fetchVoluntaryWorkOperation;
 
   late AnimationController _animationController;
   late Animation<Color?> colorAnimation;
@@ -43,6 +43,7 @@ class EventController extends GetxController with GetTickerProviderStateMixin {
   @override
   void onInit() {
     super.onInit();
+    _fetchVoluntaryWorkOperation = CancelableOperation.fromFuture(getVoluntaryWalksClassifiedByType());
 
     tabController = TabController(vsync: this, length: eventTabs.length);
     tabController.addListener(() {
@@ -61,14 +62,20 @@ class EventController extends GetxController with GetTickerProviderStateMixin {
   void onClose() {
     tabController.dispose();
     _animationController.dispose();
+    _fetchVoluntaryWorkOperation?.cancel();
     super.onClose();
   }
 
-  Future<List<Walk>> fetchWalksByEventWalkType(WalkType walkType) async {
-    var targetEventWalkList = <Walk>[];
-    targetEventWalkList.addAll(await _walkProvider.getWalksByType(walkType));
+  Future<Map<WalkType, List<VoluntaryWalk>>> getVoluntaryWalksClassifiedByType() async {
+    return await _voluntaryWalkProvider.getVoluntaryWalksClassifiedByType();
+  }
 
-    return targetEventWalkList;
+  Future<List<Walk>> getWalksByType(WalkType walkType) async {
+    var map = await _fetchVoluntaryWorkOperation?.value;
+    if (map != null) {
+      return map[walkType] ?? [];
+    }
+    return [];
   }
 
   void onReservationButtonPressed() {

@@ -1,0 +1,12 @@
+{
+  "voluntaryWorkId": 1,
+  "reservationId": 7,
+  "walkId": 1,
+  "startDate": "2023-03-30",
+  "startTime": "12:00:00",
+  "endTime": "14:00:00",
+  "specificAddress": "ㅁㄴㅇㅁㄴㅇ",
+  "maxPeopleNumber": 3,
+  "currentPeopleNumber": 3,
+  "active": true
+}

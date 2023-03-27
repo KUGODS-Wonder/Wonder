@@ -35,8 +35,4 @@ class ProfileProvider extends GetConnect {
 
     return Future.error(errorMessage ?? 'Failed to load profile');
   }
-
-  Future<Response<Profile>> postProfile(Profile profile) async =>
-      await post('profile', profile);
-  Future<Response> deleteProfile(int id) async => await delete('profile/$id');
 }

@@ -1,14 +1,16 @@
 import 'dart:async';
-
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/exports.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_walk_theme_style.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/voluntary_walk_model.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/models/coordinate_model.dart';
-import 'package:wonder_flutter/app/data/providers/reservation_provider.dart';
+import 'package:wonder_flutter/app/data/providers/state_providers/profile_state_provider.dart';
+import 'package:wonder_flutter/app/data/providers/voluntary_walk_provider.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/bookmark_save_control_mixin.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/readme_dialog.dart';
 import 'package:wonder_flutter/app/modules/map_detail/views/reservation_dialog.dart';
@@ -16,11 +18,14 @@ import 'package:wonder_flutter/app/routes/app_pages.dart';
 
 class MapDetailController extends GetxController with BookmarkSaveControlMixin {
   static const Duration _waitTime = Duration(milliseconds: 300);
-  final ReservationProvider _reservationProvider = ReservationProvider.to;
+  final VoluntaryWalkProvider _voluntaryWalkProvider = VoluntaryWalkProvider.to;
+  final ProfileStateProvider _profileStateProvider = ProfileStateProvider.to;
   GoogleMapController? _mapController;
   double zoomVal = Constants.initialZoomLevel;
   bool isEvent = false;
+  bool _hasPendingRequest = false;
   Completer<Set<Polyline>> getPolyLineCompleter = Completer<Set<Polyline>>();
+  CancelableOperation? _cancelableOperation;
 
   var isDetailMode = false.obs;
 
@@ -62,6 +67,7 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
 
   @override
   void onClose() {
+    _cancelableOperation?.cancel();
     super.onClose();
   }
 
@@ -79,8 +85,11 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
   }
 
   void onStartButtonPressed() async {
-    if (isEvent) {
-      _onEventButtonPressed();
+    if (isEvent && !_hasPendingRequest) {
+      _hasPendingRequest = true;
+      _cancelableOperation = CancelableOperation.fromFuture(_onEventButtonPressed());
+      await _cancelableOperation!.valueOrCancellation(null);
+      _hasPendingRequest = false;
     } else {
       Get.toNamed(Routes.WALK_TRACK, arguments: {
         'walk': targetWalk,
@@ -89,7 +98,7 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
     }
   }
 
-  void _onEventButtonPressed() async {
+  Future _onEventButtonPressed() async {
     var accepted = await Get.dialog<bool>(
         const ReadmeDialog(
           message: Strings.readmeDialogDescription,
@@ -98,20 +107,24 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
     );
 
     if (accepted != null && accepted) {
-      var chosenItem = await Get.dialog(ReservationDialog(
-        possibleReservations: await _reservationProvider.getReservations(),
+      var map = await _voluntaryWalkProvider.getVoluntaryWalksClassifiedByType();
+      var chosenItem = await Get.dialog<VoluntaryWalk?>(ReservationDialog(
+        possibleReservations: map[VoluntaryWalkProvider.themeToWalkTypeMap[targetWalk.theme]!]!,
         bottomMessage: Strings.readmeDialogDescription,
       ));
 
       if (chosenItem != null) {
-        await Future.delayed(const Duration(milliseconds: 500));
-
-        if (true) {
-          Get.snackbar(Strings.reservationSuccessTitle, Strings.reservationSuccessMessage);
-          Get.offNamed(Routes.RESERVATION_LIST);
-        } else {
+        var reservationId = await _voluntaryWalkProvider.requestReservation(voluntaryWorkId: chosenItem.voluntaryWorkId).catchError((error) {
           Get.snackbar(Strings.reservationFailTitle, Strings.reservationFailMessage);
+          return null;
+        });
+
+        if (reservationId == null) {
+          return;
         }
+
+        Get.snackbar(Strings.reservationSuccessTitle, Strings.reservationSuccessMessage);
+        Get.offNamed(Routes.RESERVATION_LIST);
       }
     }
   }
@@ -147,5 +160,12 @@ class MapDetailController extends GetxController with BookmarkSaveControlMixin {
         Get.snackbar('북마크 저장 성공', '북마크가 저장되었습니다.');
       },
     );
+  }
+
+  Future<int> getRequiredWalkLeft() async {
+    var profile = await _profileStateProvider.profile;
+    var ratingLeft = profile.ratingToNextRank - profile.currentRating;
+
+    return ratingLeft ~/ targetWalk.ratingUp + (ratingLeft % targetWalk.ratingUp != 0 ? 1 : 0);
   }
 }

@@ -60,11 +60,11 @@ class WalkProvider extends GetConnect {
     }
   }
 
-  Future<Walk?> getWalk(int walkId, double lat, double lng, {String path = 'assets/walks.json'}) async {
+  Future<Walk?> getWalk(int walkId, {double lat = 127.0, double lng = 37.0, String path = 'assets/walks.json'}) async {
     try {
       var response = await httpProvider.httpGet('${Constants.walkUrl}/$walkId', body: {
-        'latitude': 127.00,
-        'longitude': 37.00
+        'latitude': lat,
+        'longitude': lng
       });
       if (response.success) {
         var walkData = WalkData.fromJson(response.data);

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
-import 'package:wonder_flutter/app/data/models/reservation_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/reservation_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/api_fetch_future_builder.dart';
 import 'package:wonder_flutter/app/modules/widgets/app_bottom_navigation_bar.dart';
 import 'package:wonder_flutter/app/modules/widgets/colored_button.dart';

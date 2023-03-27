@@ -10,6 +10,7 @@ import 'package:wonder_flutter/app/common/util/utils.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/bookmark_model.dart';
 import 'package:wonder_flutter/app/data/models/adapter_models/walk_model.dart';
 import 'package:wonder_flutter/app/data/providers/bookmark_provider.dart';
+import 'package:wonder_flutter/app/data/providers/state_providers/profile_state_provider.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/bookmark_save_control_mixin.dart';
 import 'package:wonder_flutter/app/modules/map/controllers/swipe_page_controller_mixin.dart';
@@ -27,6 +28,7 @@ class MapController extends GetxController
 
   final _walkProvider = WalkProvider.to;
   final _bookmarkProvider = BookmarkProvider.to;
+  final _profileStateProvider = ProfileStateProvider.to;
 
   final bookmarkPanelController = SlidingUpPanelController(duration: _slidingDuration);
 
@@ -274,5 +276,12 @@ class MapController extends GetxController
 
       isMapMovedFromPageReset = false;
     }
+  }
+
+  Future<int> getRequiredWalkLeft(Walk walk) async {
+    var profile = await _profileStateProvider.profile;
+    var ratingLeft = profile.ratingToNextRank - profile.currentRating;
+
+    return ratingLeft ~/ walk.ratingUp + (ratingLeft % walk.ratingUp != 0 ? 1 : 0);
   }
 }

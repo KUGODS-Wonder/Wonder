@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:wonder_flutter/app/common/constants.dart';
 import 'package:wonder_flutter/app/common/util/animatable_list.dart';
 import 'package:wonder_flutter/app/common/values/styles/app_text_style.dart';
-import 'package:wonder_flutter/app/data/models/reservation_model.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/voluntary_walk_model.dart';
 import 'package:wonder_flutter/app/modules/widgets/colored_button.dart';
 import 'package:wonder_flutter/app/modules/widgets/reservation_tile.dart';
 
@@ -11,7 +11,7 @@ class ReservationDialog extends StatefulWidget {
   static const int maxDisplays = 3;
   static const String areYouSureText = '정말 해당 시간으로 신청하시겠습니까?';
 
-  final List<Reservation> possibleReservations;
+  final List<VoluntaryWalk> possibleReservations;
   final String bottomMessage;
 
 
@@ -37,14 +37,14 @@ class _ReservationDialogState extends State<ReservationDialog> with SingleTicker
   late Tween<double> _expandTween;
   late Animation<double> _shrinkListSizeAnimation;
   late Animation<double> _expandAnimation;
-  late AnimatableList<Reservation> _animatableList;
+  late AnimatableList<VoluntaryWalk> _animatableList;
   bool isAreYouSureMode = false;
 
   @override
   void initState() {
     super.initState();
     _initAnimations();
-    _animatableList = AnimatableList<Reservation>(
+    _animatableList = AnimatableList<VoluntaryWalk>(
       listKey: _listKey,
       removedItemBuilder: (item, context, animation) {
         return FadeTransition(
@@ -166,7 +166,7 @@ class _ReservationDialogState extends State<ReservationDialog> with SingleTicker
 
 
   Widget _buildListItem(
-      Reservation item,
+      VoluntaryWalk item,
       Animation<double> animation,
       void Function() onTap,
       double height

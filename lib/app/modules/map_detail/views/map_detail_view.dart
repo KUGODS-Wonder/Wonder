@@ -72,6 +72,7 @@ class MapDetailView extends GetView<MapDetailController> {
                           eventMedalImagePath: controller.eventMedalImagePath,
                           walk: controller.targetWalk,
                           detailHeight: walkContainerHeight,
+                          requiredWalkLeft: controller.getRequiredWalkLeft(),
                         ),
                       );
                     }

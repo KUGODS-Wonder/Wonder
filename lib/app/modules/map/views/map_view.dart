@@ -125,6 +125,7 @@ class MapView extends GetView<MapController> {
                             child: SmallWalkContainer(
                               onSaveButtonPressed: controller.showSaveBookmarkPanel,
                               onStartButtonPressed: controller.navigateToMapDetailPage,
+                              requiredWalkLeft: controller.getRequiredWalkLeft(controller.walks[i]),
                               walk: controller.walks[i],
                             ),
                           ),
