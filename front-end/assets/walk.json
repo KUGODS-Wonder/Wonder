@@ -1,0 +1,36 @@
+{
+    "id": 1,
+    "name": "우리 동네 걷기좋은 길",
+    "location": "서울특별시 성북구",
+    "theme": "일반 테마",
+    "tags": [
+      {
+        "name": "칼로리 소모"
+      },
+      {
+        "name": "반려견 산책"
+      }
+    ],
+    "ratingUp": 23,
+    "requiredWalksLeft": 5,
+    "distance": 1200,
+    "time": 20,
+    "coordinate": 
+    [
+      {
+        "id": 1,
+        "latitude": 37.5973002,
+        "longitude": 127.02599
+      },
+      {
+        "id": 1,
+        "latitude": 37.5967359,
+        "longitude": 127.0259207
+      },
+      {
+        "id": 1,
+        "latitude": 37.5959424,
+        "longitude": 127.0266755
+      }
+    ]
+  }

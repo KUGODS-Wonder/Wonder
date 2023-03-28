@@ -1,0 +1,14 @@
+[
+  {
+    "bookmarkId": 5,
+    "walkId": 2,
+    "title": "test_bookmark",
+    "contents": "test_contents"
+  },
+  {
+    "bookmarkId": 6,
+    "walkId": 1,
+    "title": "test_bookmark",
+    "contents": "test_contents"
+  }
+]

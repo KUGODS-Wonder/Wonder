@@ -1,0 +1,36 @@
+{
+  "walkId": 2,
+  "title": "우리 동네 맛집 투어",
+  "pathDistance": 0.73,
+  "requiredTime": 25,
+  "address": "서울특별시 성북구",
+  "theme": "동네 맛집 투어",
+  "originLatitude": 37.5889938,
+  "originLongitude": 127.0292206,
+  "destinationLatitude": 37.582958,
+  "destinationLongitude": 127.0284832,
+  "point": 25,
+  "distanceToUser": 491.65784217489164,
+  "intermediateLocationList": [
+    {
+      "intermediateLocationId": 1,
+      "latitude": 37.5835906,
+      "longitude": 127.029465
+    },
+    {
+      "intermediateLocationId": 1,
+      "latitude": 37.5836027,
+      "longitude": 127.0288657
+    }
+  ],
+  "tagList": [
+    {
+      "tagId": 1,
+      "name": "칼로리 소모"
+    },
+    {
+      "tagId": 3,
+      "name": "가벼운 산책"
+    }
+  ]
+}

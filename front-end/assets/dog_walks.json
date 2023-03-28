@@ -1,0 +1,85 @@
+[
+  {
+    "id": 21,
+    "name": "강아지들과 함께 산책하기",
+    "location": "서울특별시 성북구",
+    "theme": "유기견 산책",
+    "tags": [
+      {
+        "name": "칼로리 소모"
+      },
+      {
+        "name": "반려견 산책"
+      },
+      {
+        "name": "봉사활동"
+      }
+    ],
+    "ratingUp": 23,
+    "requiredWalksLeft": 5,
+    "distance": 1200,
+    "time": 20,
+    "coordinate":
+    [
+      {
+        "id": 1,
+        "latitude": 37.5973002,
+        "longitude": 127.02599
+      },
+      {
+        "id": 1,
+        "latitude": 37.5967359,
+        "longitude": 127.0259207
+      },
+      {
+        "id": 1,
+        "latitude": 37.5959424,
+        "longitude": 127.0266755
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "name": "강아지들과 함께 산책하기",
+    "location": "서울특별시 성북구",
+    "theme": "유기견 산책",
+    "tags": [
+      {
+        "name": "칼로리 소모"
+      },
+      {
+        "name": "반려견 산책"
+      },
+      {
+        "name": "봉사활동"
+      }
+    ],
+    "ratingUp": 46,
+    "requiredWalksLeft": 3,
+    "distance": 2500,
+    "time": 40,
+    "coordinate":
+    [
+      {
+        "id": 1,
+        "latitude": 37.5889938,
+        "longitude": 127.0292206
+      },
+      {
+        "id": 1,
+        "latitude": 37.5835906,
+        "longitude": 127.029465
+      },
+      {
+        "id": 1,
+        "latitude": 37.5836027,
+        "longitude": 127.0288657
+      },
+      {
+        "id": 1,
+        "latitude": 37.582958,
+        "longitude": 127.0284832
+      }
+    ]
+  }
+]
