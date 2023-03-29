@@ -9,13 +9,16 @@ Chanho Park                     | Keo Kim    | Boyoung Kim | SeoKyung Baek |
 | - Lead <br/> - Backend | - Frontend | - Frontend  | - AI          |
 
 # Target UN-SDGs
-<img src="https://user-images.githubusercontent.com/83508073/228183331-9a51e851-0ae2-474e-8511-6ae086b67a1d.png">| <img src="https://user-images.githubusercontent.com/37448765/228551445-7a976c72-e653-494b-b6cd-2a3de9ade465.png" width="143"> |
-|---------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| Good Health and Well-Being | Reduced Inequailties                                                                                                         |
 
-[//]: # (## Goal 3. Good Health and Well-Being)
+[//]: # (<img src="https://user-images.githubusercontent.com/83508073/228183331-9a51e851-0ae2-474e-8511-6ae086b67a1d.png">| <img src="https://user-images.githubusercontent.com/37448765/228551445-7a976c72-e653-494b-b6cd-2a3de9ade465.png" width="143"> |)
 
-[//]: # (<img src="https://user-images.githubusercontent.com/83508073/228183331-9a51e851-0ae2-474e-8511-6ae086b67a1d.png">)
+[//]: # (|---------------------------------|------------------------------------------------------------------------------------------------------------------------------|)
+
+[//]: # (| Good Health and Well-Being | Reduced Inequailties                                                                                                         |)
+
+## Goal 3. Good Health and Well-Being
+
+<img src="https://user-images.githubusercontent.com/83508073/228183331-9a51e851-0ae2-474e-8511-6ae086b67a1d.png">
 
 # About our solution
 The lack of physical activity among modern people has been a serious problem in many nations. The wonder app tries to fix this problem with our unique approach to walking exercises.
