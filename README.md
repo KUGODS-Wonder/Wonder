@@ -56,7 +56,7 @@ In addition, there is a function that connects volunteer organizations and users
 [Gitbook](https://cksgh1735.gitbook.io/wonder/)
 
 ### 4. ERD
-![image](https://user-images.githubusercontent.com/83508073/226541680-70d95739-e328-4c81-8edf-c94f08548b5f.png)
+![image](https://user-images.githubusercontent.com/83508073/228537441-d65cff0d-369f-4986-acd2-ecf30f97fce2.png)
 
 
 ## Frontend
