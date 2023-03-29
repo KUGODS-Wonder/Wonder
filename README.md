@@ -60,3 +60,72 @@ In addition, there is a function that connects volunteer organizations and users
 
 
 ## Frontend
+### 1. Tech Stack
+- Dart 2.19.2
+- Flutter 3.7.5
+- Flutter ScreenUtil 5.7.0
+- Get 4.6.5
+- Dio 5.0.3
+- Google Maps Flutter 2.2.5
+- Google Login 5.5.3
+
+
+### 2. Architecture
+```aidl
+app
+    ├── common
+    │   ├── util
+    │   └── values
+    │       └── styles
+    ├── data
+    │   ├── enums
+    │   ├── errors
+    │   ├── models
+    │   └── providers
+    ├── modules
+    │   ├── event
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── home
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── login
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── map
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── map_detail
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── register
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── reservation_list
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── splash
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   ├── walk_track
+    │   │   ├── bindings
+    │   │   ├── controllers
+    │   │   └── views
+    │   └── widgets
+    └── routes
+```
+- We chose MVC pattern as an architecture.
+  - Every feature is divided into modules, and each module has its own controller, view, and binding.
+- The data layer is divided into models and providers. 
+  - The models are used to store data, and the providers are used to communicate with the backend.
+- GetX is used as a state management and navigation tool. 
+  - In exchange for less flexible page transitions, GetX allowed us to quickly implement the app's core features.
+- We used the Google Maps Flutter plugin to implement the map feature. We also used the Google Login plugin to implement the login feature.
