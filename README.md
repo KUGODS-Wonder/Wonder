@@ -4,21 +4,25 @@
 Project to participate in 2023 google solution challenge
 
 # Member
- Chanho Park                     | Keo Kim    | Boyoung Kim | SeoKyung Baek |
+Chanho Park                     | Keo Kim    | Boyoung Kim | SeoKyung Baek |
 |------------------------|------------|-------------|---------------|
 | - Lead <br/> - Backend | - Frontend | - Frontend  | - AI          |
 
-# UN-SDGs that our solution solving for
-## Goal 3. Good Health and Well-Being
-<img src="https://user-images.githubusercontent.com/83508073/228183331-9a51e851-0ae2-474e-8511-6ae086b67a1d.png">
+# Target UN-SDGs
+<img src="https://user-images.githubusercontent.com/83508073/228183331-9a51e851-0ae2-474e-8511-6ae086b67a1d.png">| <img src="https://user-images.githubusercontent.com/37448765/228551445-7a976c72-e653-494b-b6cd-2a3de9ade465.png" width="143"> |
+|---------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| Good Health and Well-Being | Reduced Inequailties                                                                                                         |
 
+[//]: # (## Goal 3. Good Health and Well-Being)
+
+[//]: # (<img src="https://user-images.githubusercontent.com/83508073/228183331-9a51e851-0ae2-474e-8511-6ae086b67a1d.png">)
 
 # About our solution
-Our service is designed to solve the problem of the lack of physical activity of modern people. We tried to solve this problem through walking exercises that anyone can start easily and lightly. 
- 
-So we added several gamification techniques to help users enjoy walking in their daily lives. The user can make a habit of doing walking exercises and be motivated by watching his or her tier rise.
+The lack of physical activity among modern people has been a serious problem in many nations. The wonder app tries to fix this problem with our unique approach to walking exercises.
 
-In addition, there is a function that connects volunteer organizations and users so that they can participate in various volunteer activities that can be done while walking. For example, there are volunteer activities to take a walk with dogs at an abandoned dog shelter or lunch box delivery services for the elderly living alone.
+We added some gamification feature to help users enjoy walking in their daily lives. The user is encouraged to walk on daily basis, through various motivations and game-like mechanics we provide.
+
+In addition, we connect local volunteering organizations with users so that they can participate in various volunteer activities that involves some 'walking' in the progress. For example, there are volunteer activities to take a walk with dogs at a dog shelter or lunch box delivery services for the elderly living alone. This way, walking is not just a daily experience, but also a way to help others and contribute to society.
 
 
 # App Demo
@@ -43,13 +47,13 @@ In addition, there is a function that connects volunteer organizations and users
 
 ### 2. Architecture
 ![wonder server architecture](https://user-images.githubusercontent.com/83508073/223980536-cc1bd254-3910-43e4-a545-abeb4459b5b5.png)
-- I deploy my Spring server application with Docker and Docker Compose.
-- First, I create a Dockerfile to build an image of my application.
-- Then, I build an image of my application and push to the DockerHub.
-- I also create a docker-compose.yml file with information about my spring application from the hub and Nginx and certbot.
+- Spring server application is deployed through Docker and Docker Compose.
+- First, I created a Dockerfile to build an image of my application.
+- Then, I built an image of my application and pushed it to the DockerHub.
+- I also created a docker-compose.yml file with information about my spring application from the hub and Nginx and certbot.
   [related issue](https://github.com/KUGODS-Wonder/Wonder-Backend/issues/8)
-- Nginx was used to implement the reverse proxy, and certbot was used to use the https protocol.
-- Finally, I can start my app with Docker compose by running a command like "docker-compose up". This starts containers for my app.
+- I used Nginx to implement the reverse proxy, and certbot for the https protocol.
+- Finally, I can start my app with Docker compose by running a command like "docker-compose up". This starts containers for the app.
 
 
 ### 3. Api Docs
@@ -71,7 +75,7 @@ In addition, there is a function that connects volunteer organizations and users
 
 
 ### 2. Architecture
-```aidl
+```
 app
     ├── common
     │   ├── util
