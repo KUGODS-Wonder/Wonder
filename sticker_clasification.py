@@ -1,5 +1,4 @@
 import os
-from shutil import copy2
 import csv
 import tensorflow as tf
 import os
